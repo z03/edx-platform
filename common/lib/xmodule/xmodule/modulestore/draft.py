@@ -13,17 +13,6 @@ def as_draft(location):
     return Location(location)._replace(revision=DRAFT)
 
 
-def wrap_draft(item):
-    """
-    Sets `item.metadata['is_draft']` to `True` if the item is a
-    draft, and false otherwise. Sets the item's location to the
-    non-draft location in either case
-    """
-    item.metadata['is_draft'] = item.location.revision == DRAFT
-    item.location = item.location._replace(revision=None)
-    return item
-
-
 class DraftModuleStore(ModuleStoreBase):
     """
     This mixin modifies a modulestore to give it draft semantics.
@@ -34,6 +23,25 @@ class DraftModuleStore(ModuleStoreBase):
     This module also includes functionality to promote DRAFT modules (and optionally
     their children) to published modules.
     """
+
+    def _wrap_draft(self, item):
+        """
+        Sets `item.metadata['is_draft']` to `True` if the item is a
+        draft, and false otherwise. Sets the item's location to the
+        non-draft location in either case.
+
+        Also computes the inheritance for this item by getting the
+        parent item and inheriting its metadata
+        """
+        item.metadata['is_draft'] = item.location.revision == DRAFT
+        item.location = item.location._replace(revision=None)
+
+        parent_loc = self.get_parent_locations(item.location, None)
+        if parent_loc:
+            parent = self.get_item(parent_loc[0])
+            item.inherit_metadata(parent.metadata)
+
+        return item
 
     def get_item(self, location, depth=0):
         """
@@ -55,9 +63,9 @@ class DraftModuleStore(ModuleStoreBase):
             get_children() to cache. None indicates to cache all descendents
         """
         try:
-            return wrap_draft(super(DraftModuleStore, self).get_item(as_draft(location), depth))
+            return self._wrap_draft(super(DraftModuleStore, self).get_item(as_draft(location), depth))
         except ItemNotFoundError:
-            return wrap_draft(super(DraftModuleStore, self).get_item(location, depth))
+            return self._wrap_draft(super(DraftModuleStore, self).get_item(location, depth))
 
     def get_instance(self, course_id, location, depth=0):
         """
@@ -65,9 +73,9 @@ class DraftModuleStore(ModuleStoreBase):
         TODO (vshnayder): this may want to live outside the modulestore eventually
         """
         try:
-            return wrap_draft(super(DraftModuleStore, self).get_instance(course_id, as_draft(location), depth=depth))
+            return self._wrap_draft(super(DraftModuleStore, self).get_instance(course_id, as_draft(location), depth=depth))
         except ItemNotFoundError:
-            return wrap_draft(super(DraftModuleStore, self).get_instance(course_id, location, depth=depth))
+            return self._wrap_draft(super(DraftModuleStore, self).get_instance(course_id, location, depth=depth))
 
     def get_items(self, location, depth=0):
         """
@@ -93,14 +101,18 @@ class DraftModuleStore(ModuleStoreBase):
             if (item.location.revision != DRAFT
                 and item.location._replace(revision=None) not in draft_locs_found)
         ]
-        return [wrap_draft(item) for item in draft_items + non_draft_items]
+        return [self._wrap_draft(item) for item in draft_items + non_draft_items]
 
     def clone_item(self, source, location):
         """
         Clone a new item that is a copy of the item at the location `source`
         and writes it to `location`
         """
-        return wrap_draft(super(DraftModuleStore, self).clone_item(source, as_draft(location)))
+        return self._wrap_draft(super(DraftModuleStore, self).clone_item(
+            source,
+            as_draft(location),
+            trigger_inheritance=False
+        ))
 
     def update_item(self, location, data):
         """
@@ -130,7 +142,7 @@ class DraftModuleStore(ModuleStoreBase):
         if not draft_item.metadata['is_draft']:
             self.clone_item(location, draft_loc)
 
-        return super(DraftModuleStore, self).update_children(draft_loc, children)
+        return super(DraftModuleStore, self).update_children(draft_loc, children, trigger_inheritance=False)
 
     def update_metadata(self, location, metadata):
         """
@@ -149,7 +161,7 @@ class DraftModuleStore(ModuleStoreBase):
         if 'is_draft' in metadata:
             del metadata['is_draft']
 
-        return super(DraftModuleStore, self).update_metadata(draft_loc, metadata)
+        return super(DraftModuleStore, self).update_metadata(draft_loc, metadata, trigger_inheritance=False)
 
     def delete_item(self, location):
         """

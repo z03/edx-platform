@@ -6,6 +6,7 @@ from bson.son import SON
 from fs.osfs import OSFS
 from itertools import repeat
 from path import path
+from collections import defaultdict
 
 from importlib import import_module
 from xmodule.errortracker import null_error_tracker, exc_info_to_str
@@ -65,7 +66,9 @@ class CachingDescriptorSystem(MakoDescriptorSystem):
             # always load an entire course.  We're punting on this until after launch, and then
             # will build a proper course policy framework.
             try:
-                return XModuleDescriptor.load_from_json(json_data, self, self.default_class)
+                descriptor = XModuleDescriptor.load_from_json(json_data, self, self.default_class)
+                descriptor.inherit_metadata(json_data.get('inherited_metadata', {}))
+                return descriptor
             except:
                 return ErrorDescriptor.from_json(
                     json_data,
@@ -287,7 +290,7 @@ class MongoModuleStore(ModuleStoreBase):
 
         return self._load_items(list(items), depth)
 
-    def clone_item(self, source, location):
+    def clone_item(self, source, location, trigger_inheritance=True):
         """
         Clone a new item that is a copy of the item at the location `source`
         and writes it to `location`
@@ -296,6 +299,10 @@ class MongoModuleStore(ModuleStoreBase):
             source_item = self.collection.find_one(location_to_query(source))
             source_item['_id'] = Location(location).dict()
             self.collection.insert(source_item)
+
+            if trigger_inheritance:
+                self._inherit_metadata(location)
+
             item = self._load_items([source_item])[0]
 
             # VS[compat] cdodge: This is a hack because static_tabs also have references from the course module, so
@@ -367,7 +374,7 @@ class MongoModuleStore(ModuleStoreBase):
 
         self._update_single_item(location, {'definition.data': data})
 
-    def update_children(self, location, children):
+    def update_children(self, location, children, trigger_inheritance=True):
         """
         Set the children for the item specified by the location to
         children
@@ -378,7 +385,10 @@ class MongoModuleStore(ModuleStoreBase):
 
         self._update_single_item(location, {'definition.children': children})
 
-    def update_metadata(self, location, metadata):
+        if trigger_inheritance:
+            self._inherit_metadata(location)
+
+    def update_metadata(self, location, metadata, trigger_inheritance=True):
         """
         Set the metadata for the item specified by the location to
         metadata
@@ -402,6 +412,86 @@ class MongoModuleStore(ModuleStoreBase):
 
         self._update_single_item(location, {'metadata': metadata})
 
+        if trigger_inheritance:
+            self._inherit_metadata(location)
+
+    def _inherit_metadata(self, location):
+        loc = Location(location)
+
+        def children(item):
+            return list(item.get('definition', {}).get('children', []))
+
+        current_item = self.collection.find_one(
+            location_to_query(loc),
+            ['definition.children', 'metadata']
+        )
+        if current_item is None:
+            return
+
+        own_metadata = current_item.get('metadata', {})
+
+        parent = self.collection.find_one(
+            {'definition.children': loc.url()},
+            ['metadata', 'inherited_metadata']
+        )
+        inherited_metadata = {}
+        if parent is not None:
+            inherited_metadata.update(parent.get('inherited_metadata', {}))
+            inherited_metadata.update(parent.get('metadata', {}))
+
+        module_class = XModuleDescriptor.load_class(loc.category)
+        keys_to_load = ['metadata.' + key for key in module_class.inheritable_metadata]
+
+        def load_items(locs, fields):
+            return self.collection.find(
+                {'_id': {'$in': [namedtuple_to_son(Location(loc)) for loc in locs]}},
+                fields
+            )
+
+        # Load the actually specified metadata that could be inherited for all descendents
+        # into memory.
+        working_set = children(current_item)
+        loaded_data = {}
+        while working_set:
+            grand_children = []
+            for child in load_items(working_set, ['definition.children'] + keys_to_load):
+                loaded_data[Location(child['_id']).url()] = child
+                grand_children.extend(children(child))
+            working_set = grand_children
+
+        # Walk the tree for each inheritable metadata key to figure out which items to update
+        # (terminate the walk if a child has that key already specified as actual metadata)
+        to_update = defaultdict(list)
+        for key in module_class.inheritable_metadata:
+            working_set = children(current_item)
+            while working_set:
+                item = working_set.pop()
+
+                # If something is referencing an object that doesn't exist, just skip it
+                if item not in loaded_data:
+                    continue
+
+                if key not in loaded_data[item].get('metadata', {}):
+                    to_update[key].append(item)
+                    working_set.extend(children(loaded_data[item]))
+
+        # Atomically write the new inherited metadata to all of the descendents that
+        # aren't shadowed
+        for key, items in to_update.items():
+            if key in own_metadata:
+                update = {'$set': {'inherited_metadata.' + key: own_metadata[key]}}
+            elif key in inherited_metadata:
+                update = {'$set': {'inherited_metadata.' + key: inherited_metadata[key]}}
+                # Update the current object with the same inherited metadata
+                items.append(loc.url())
+            else:
+                update = {'$unset': {'inherited_metadata.' + key: True}}
+                # Update the current object with the same inherited metadata
+                items.append(loc.url())
+            item_query = {'_id': {'$in': [namedtuple_to_son(Location(item)) for item in items]}}
+
+            self.collection.update(item_query, update, multi=True)
+
 
     def delete_item(self, location):
         """
@@ -423,7 +513,7 @@ class MongoModuleStore(ModuleStoreBase):
 
 
     def get_parent_locations(self, location, course_id):
-        '''Find all locations that are the parents of this location in this 
+        '''Find all locations that are the parents of this location in this
         course.  Needed for path_to_location().
         '''
         location = Location.ensure_fully_specified(location)
