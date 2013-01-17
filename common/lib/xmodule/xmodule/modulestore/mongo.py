@@ -134,7 +134,10 @@ class MongoModuleStore(ModuleStoreBase):
         # Force mongo to maintain an index over _id.* that is in the same order
         # that is used when querying by a location
         self.collection.ensure_index(
-            zip(('_id.' + field for field in Location._fields), repeat(1)))
+            zip(('_id.' + field for field in Location._fields), repeat(pymongo.ASCENDING)))
+
+        # Index for get_parent_id
+        self.collection.ensure_index('definition.children')
 
         if default_class is not None:
             module_path, _, class_name = default_class.rpartition('.')
