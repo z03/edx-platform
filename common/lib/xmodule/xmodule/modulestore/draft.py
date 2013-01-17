@@ -63,9 +63,9 @@ class DraftModuleStore(ModuleStoreBase):
             get_children() to cache. None indicates to cache all descendents
         """
         try:
-            return self._wrap_draft(super(DraftModuleStore, self).get_item(as_draft(location), depth))
+            return self._wrap_draft(super(DraftModuleStore, self).get_item(as_draft(location), depth=0))
         except ItemNotFoundError:
-            return self._wrap_draft(super(DraftModuleStore, self).get_item(location, depth))
+            return self._wrap_draft(super(DraftModuleStore, self).get_item(location, depth=0))
 
     def get_instance(self, course_id, location, depth=0):
         """
@@ -73,9 +73,9 @@ class DraftModuleStore(ModuleStoreBase):
         TODO (vshnayder): this may want to live outside the modulestore eventually
         """
         try:
-            return self._wrap_draft(super(DraftModuleStore, self).get_instance(course_id, as_draft(location), depth=depth))
+            return self._wrap_draft(super(DraftModuleStore, self).get_instance(course_id, as_draft(location), depth=0))
         except ItemNotFoundError:
-            return self._wrap_draft(super(DraftModuleStore, self).get_instance(course_id, location, depth=depth))
+            return self._wrap_draft(super(DraftModuleStore, self).get_instance(course_id, location, depth=0))
 
     def get_items(self, location, depth=0):
         """
@@ -91,8 +91,8 @@ class DraftModuleStore(ModuleStoreBase):
             get_children() to cache. None indicates to cache all descendents
         """
         draft_loc = as_draft(location)
-        draft_items = super(DraftModuleStore, self).get_items(draft_loc, depth)
-        items = super(DraftModuleStore, self).get_items(location, depth)
+        draft_items = super(DraftModuleStore, self).get_items(draft_loc, depth=0)
+        items = super(DraftModuleStore, self).get_items(location, depth=0)
 
         draft_locs_found = set(item.location._replace(revision=None) for item in draft_items)
         non_draft_items = [
