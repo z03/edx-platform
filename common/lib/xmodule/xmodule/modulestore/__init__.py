@@ -371,12 +371,6 @@ class ModuleStore(object):
         '''
         raise NotImplementedError
 
-    def get_course(self, course_id):
-        '''
-        Look for a specific course id.  Returns the course descriptor, or None if not found.
-        '''
-        raise NotImplementedError
-
     def get_parent_locations(self, location, course_id):
         '''Find all locations that are the parents of this location in this
         course.  Needed for path_to_location().
@@ -401,6 +395,12 @@ class ModuleStore(object):
 
         return courses
 
+    def get_errored_courses(self):
+        """
+        This function doesn't make sense for the mongo modulestore, as courses
+        are loaded on demand, rather than up front
+        """
+        raise NotImplementedError
 
 
 class ModuleStoreBase(ModuleStore):
