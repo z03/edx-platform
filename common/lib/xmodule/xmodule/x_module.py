@@ -759,19 +759,22 @@ class XModuleDescriptor(Plugin, HTMLSnippet, ResourceTemplates):
 
     # =============================== BUILTIN METHODS ==========================
     def __eq__(self, other):
-        checkers = [
-            checker for checker in self.equality_attributes if callable(checker)
-        ] + [
-            lambda i: getattr(i, attr, None) for attr in self.equality_attributes if not callable(attr)
-        ]
+        checkers = []
+        for attr in self.equality_attributes:
+            if callable(attr):
+                checkers.append(attr)
+            else:
+                def checker(item, attr=attr):
+                    return getattr(item, attr, None)
+                checkers.append(checker)
+
         eq = (all(checker(self) == checker(other)
                     for checker in checkers))
 
         if not eq:
             for checker in checkers:
-                pprint((checker(self),
-                        checker(other),
-                        checker(self) == checker(other)))
+                if checker(self) != checker(other):
+                    pprint(("XModuleDescriptor differs", checker(self), checker(other)))
 
         return eq
 
