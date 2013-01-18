@@ -451,9 +451,14 @@ class XModuleDescriptor(Plugin, HTMLSnippet, ResourceTemplates):
     system_metadata_fields = ['data_dir', 'published_date', 'published_by', 'is_draft']
 
     # A list of descriptor attributes that must be equal for the descriptors to
-    # be equal
-    equality_attributes = ('definition', 'metadata', 'location',
-                           'shared_state_key', '_inherited_metadata')
+    # be equal. These can either be strings, in which case they will be accessed as attributes,
+    # or functions which will be called to get the data to check
+    equality_attributes = (
+        lambda i: i.__class__,
+        lambda i: i.definition.get('children'),
+        lambda i: i.definition.get('data'),
+        'metadata', 'location',
+        'shared_state_key', '_inherited_metadata')
 
     # Name of resource directory to load templates from
     template_dir_name = "default"
@@ -754,15 +759,19 @@ class XModuleDescriptor(Plugin, HTMLSnippet, ResourceTemplates):
 
     # =============================== BUILTIN METHODS ==========================
     def __eq__(self, other):
-        eq = (self.__class__ == other.__class__ and
-                all(getattr(self, attr, None) == getattr(other, attr, None)
-                    for attr in self.equality_attributes))
+        checkers = [
+            checker for checker in self.equality_attributes if callable(checker)
+        ] + [
+            lambda i: getattr(i, attr, None) for attr in self.equality_attributes if not callable(attr)
+        ]
+        eq = (all(checker(self) == checker(other)
+                    for checker in checkers))
 
         if not eq:
-            for attr in self.equality_attributes:
-                pprint((getattr(self, attr, None),
-                       getattr(other, attr, None),
-                       getattr(self, attr, None) == getattr(other, attr, None)))
+            for checker in checkers:
+                pprint((checker(self),
+                        checker(other),
+                        checker(self) == checker(other)))
 
         return eq
 
