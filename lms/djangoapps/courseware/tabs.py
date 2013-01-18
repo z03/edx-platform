@@ -86,6 +86,16 @@ def _wiki(tab, user, course, active_page):
     return []
 
 
+<<<<<<< HEAD
+=======
+def _external_discussion(tab, user, course, active_page):
+    """
+    This tab format supports external discussion services
+    """
+    return [CourseTab('Discussion', tab['link'], active_page == 'discussion')]
+
+
+>>>>>>> Move default tab definition to course_module
 def _discussion(tab, user, course, active_page):
     """
     This tab format only supports the new Berkeley discussion forums.
@@ -102,6 +112,14 @@ def _external_link(tab, user, course, active_page):
     return [CourseTab(tab['name'], tab['link'], False)]
 
 
+<<<<<<< HEAD
+=======
+def _syllabus(tab, user, course, active_page):
+    link = reverse('syllabus', args=[course.id])
+    return [CourseTab('Syllabus', link, active_page == 'syllabus')]
+
+
+>>>>>>> Move default tab definition to course_module
 def _static_tab(tab, user, course, active_page):
     link = reverse('static_tab', args=[course.id, tab['url_slug']])
     active_str = 'static_tab_{0}'.format(tab['url_slug'])
@@ -205,6 +223,7 @@ VALID_TAB_TYPES = {
     'courseware': TabImpl(null_validator, _courseware),
     'course_info': TabImpl(need_name, _course_info),
     'wiki': TabImpl(need_name, _wiki),
+    'external_discussion': TabImpl(key_checker(['link']), _external_discussion),
     'discussion': TabImpl(need_name, _discussion),
     'external_link': TabImpl(key_checker(['name', 'link']), _external_link),
     'textbooks': TabImpl(null_validator, _textbooks),
@@ -214,6 +233,7 @@ VALID_TAB_TYPES = {
     'peer_grading': TabImpl(null_validator, _peer_grading),
     'staff_grading': TabImpl(null_validator, _staff_grading),
     'open_ended': TabImpl(null_validator, _combined_open_ended_grading),
+    'syllabus': TabImpl(null_validator, _syllabus),
     }
 
 
@@ -257,9 +277,12 @@ def get_course_tabs(user, course, active_page):
     """
     Return the tabs to show a particular user, as a list of CourseTab items.
     """
+<<<<<<< HEAD
     if not hasattr(course, 'tabs') or not course.tabs:
         return get_default_tabs(user, course, active_page)
 
+=======
+>>>>>>> Move default tab definition to course_module
     # TODO (vshnayder): There needs to be a place to call this right after course
     # load, but not from inside xmodule, since that doesn't (and probably
     # shouldn't) know about the details of what tabs are supported, etc.
@@ -281,6 +304,7 @@ def get_course_tabs(user, course, active_page):
     return tabs
 
 
+<<<<<<< HEAD
 def get_default_tabs(user, course, active_page):
 
     # When calling the various _tab methods, can omit the 'type':'blah' from the
@@ -317,6 +341,8 @@ def get_default_tabs(user, course, active_page):
     return tabs
 
 
+=======
+>>>>>>> Move default tab definition to course_module
 def get_static_tab_by_slug(course, tab_slug):
     """
     Look for a tab with type 'static_tab' and the specified 'tab_slug'.  Returns

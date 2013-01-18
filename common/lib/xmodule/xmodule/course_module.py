@@ -144,6 +144,33 @@ class CourseDescriptor(SequenceDescriptor):
                     log.error(msg)
                     continue
 
+        if self.tabs is None:
+            # When calling the various _tab methods, can omit the 'type':'blah' from the
+            # first arg, since that's only used for dispatch
+            tabs = []
+            tabs.append({'type': 'courseware'})
+            tabs.append({'type': 'course_info', 'name': 'Course Info'})
+
+            if self.syllabus_present:
+                tabs.append({'type': 'syllabus'})
+
+            tabs.append({'type': 'textbooks'})
+
+            ## If they have a discussion link specified, use that even if we feature
+            ## flag discussions off. Disabling that is mostly a server safety feature
+            ## at this point, and we don't need to worry about external sites.
+            if self.discussion_link:
+                tabs.append({'type': 'external_discussion', 'link': self.discussion_link})
+            else:
+                tabs.append({'type': 'discussion', 'name': 'Discussion'})
+
+            tabs.append({'type': 'wiki', 'name': 'Wiki'})
+
+            if not self.hide_progress_tab:
+                tabs.append({'type': 'progress', 'name': 'Progress'})
+
+            self.tabs = tabs
+
     def defaut_grading_policy(self):
         """
         Return a dict which is a copy of the default grading policy

@@ -139,6 +139,7 @@ def import_from_xml(store, data_dir, course_dirs=None,
 
                 module = remap_namespace(module, target_location_namespace)
 
+<<<<<<< HEAD
                 # cdodge: more hacks (what else). Seems like we have a problem when importing a course (like 6.002) which
                 # does not have any tabs defined in the policy file. The import goes fine and then displays fine in LMS,
                 # but if someone tries to add a new tab in the CMS, then the LMS barfs because it expects that -
@@ -151,6 +152,9 @@ def import_from_xml(store, data_dir, course_dirs=None,
 
 
                 store.update_item(course_id, module.location, module.definition['data'])
+=======
+                store.update_item(module.location, module.definition['data'])
+>>>>>>> Move default tab definition to course_module
                 if 'children' in module.definition:
                     store.update_children(course_id, module.location, module.definition['children'])
                 store.update_metadata(course_id, module.location, dict(module.own_metadata))
