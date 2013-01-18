@@ -5,7 +5,7 @@ import os
 
 from functools import partial
 from lxml import etree
-from pprint import pprint
+from pprint import pformat
 from collections import namedtuple
 from pkg_resources import resource_listdir, resource_string, resource_isdir
 
@@ -774,7 +774,11 @@ class XModuleDescriptor(Plugin, HTMLSnippet, ResourceTemplates):
         if not eq:
             for checker in checkers:
                 if checker(self) != checker(other):
-                    pprint(("XModuleDescriptor differs", checker(self), checker(other)))
+                    log.info(
+                        "XModuleDescriptor differs: %s != %s",
+                        pformat(checker(self)),
+                        pformat(checker(other))
+                    )
 
         return eq
 
