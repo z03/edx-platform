@@ -502,7 +502,7 @@ class XMLModuleStore(ModuleStoreBase):
         except KeyError:
             raise ItemNotFoundError(location)
 
-    def has_item(self, location):
+    def has_item(self, course_id, location):
         """
         Returns True if location exists in this ModuleStore.
         """
@@ -524,7 +524,7 @@ class XMLModuleStore(ModuleStoreBase):
         raise NotImplementedError("XMLModuleStores can't guarantee that definitions"
                                   " are unique. Use get_instance.")
 
-    def get_items(self, location, course_id=None, depth=0):
+    def get_items(self, course_id, location, depth=0):
         items = []
 
         def _add_get_items(self, location, modules):
@@ -543,12 +543,18 @@ class XMLModuleStore(ModuleStoreBase):
         return items
 
 
-    def get_courses(self, depth=0):
+    def get_courses(self, org=None, course=None, run=None):
         """
         Returns a list of course descriptors.  If there were errors on loading,
         some of these may be ErrorDescriptors instead.
         """
-        return self.courses.values()
+        return (
+            course for course in self.courses.values()
+            if ((org is None or course.location.org == org) and
+                (course is None or course.location.course == course) and
+                (run is None or course.location.name == run))
+        )
+
 
     def get_errored_courses(self):
         """
@@ -557,18 +563,19 @@ class XMLModuleStore(ModuleStoreBase):
         """
         return dict((k, self.errored_courses[k].errors) for k in self.errored_courses)
 
-    def update_item(self, location, data):
+    def update_item(self, course_id, location, data):
         """
         Set the data in the item specified by the location to
         data
 
+        course_id: Id of the course this item is in
         location: Something that can be passed to Location
         data: A nested dictionary of problem data
         """
         raise NotImplementedError("XMLModuleStores are read-only")
 
 
-    def update_children(self, location, children):
+    def update_children(self, course_id, location, children):
         """
         Set the children for the item specified by the location to
         data
@@ -579,7 +586,7 @@ class XMLModuleStore(ModuleStoreBase):
         raise NotImplementedError("XMLModuleStores are read-only")
 
 
-    def update_metadata(self, location, metadata):
+    def update_metadata(self, course_id, location, metadata):
         """
         Set the metadata for the item specified by the location to
         metadata
@@ -589,7 +596,7 @@ class XMLModuleStore(ModuleStoreBase):
         """
         raise NotImplementedError("XMLModuleStores are read-only")
 
-    def get_parent_locations(self, location, course_id):
+    def get_parent_locations(self, course_id, location):
         '''Find all locations that are the parents of this location in this
         course.  Needed for path_to_location().
 
