@@ -5,9 +5,8 @@ from lxml.html import rewrite_links as lxml_rewrite_links
 from path import path
 
 from .xml import XMLModuleStore
-from .exceptions import DuplicateItemError
 from xmodule.modulestore import Location
-from xmodule.contentstore.content import StaticContent, XASSET_SRCREF_PREFIX
+from xmodule.contentstore.content import StaticContent
 
 log = logging.getLogger(__name__)
 
@@ -151,10 +150,10 @@ def import_from_xml(store, data_dir, course_dirs=None,
                         {"type": "wiki", "name": "Wiki"}]  # note, add 'progress' when we can support it on Edge
 
 
-                store.update_item(module.location, module.definition['data'])
+                store.update_item(course_id, module.location, module.definition['data'])
                 if 'children' in module.definition:
-                    store.update_children(module.location, module.definition['children'])
-                store.update_metadata(module.location, dict(module.own_metadata))
+                    store.update_children(course_id, module.location, module.definition['children'])
+                store.update_metadata(course_id, module.location, dict(module.own_metadata))
 
                 # a bit of a hack, but typically the "course image" which is shown on marketing pages is hard coded to /images/course_image.jpg
                 # so let's make sure we import in case there are no other references to it in the modules
@@ -203,22 +202,22 @@ def import_from_xml(store, data_dir, course_dirs=None,
                     # no good, so we have to do this kludge
                     if isinstance(module_data, str) or isinstance(module_data, unicode):   # some module 'data' fields are non strings which blows up the link traversal code
                         lxml_rewrite_links(module_data, lambda link: verify_content_links(module, course_data_path,
-                            static_content_store, link, remap_dict))                     
-
+                            static_content_store, link, remap_dict))
+                        
                         for key in remap_dict.keys():
                             module_data = module_data.replace(key, remap_dict[key])
 
                 except Exception, e:
                     logging.exception("failed to rewrite links on {0}. Continuing...".format(module.location))
 
-                store.update_item(module.location, module_data)
+                store.update_item(course_id, module.location, module_data)
 
             if 'children' in module.definition:
-                store.update_children(module.location, module.definition['children'])
+                store.update_children(course_id, module.location, module.definition['children'])
 
             # NOTE: It's important to use own_metadata here to avoid writing
             # inherited metadata everywhere.
-            store.update_metadata(module.location, dict(module.own_metadata))
+            store.update_metadata(course_id, module.location, dict(module.own_metadata))
 
     return module_store, course_items
 
@@ -274,7 +273,7 @@ def validate_category_hierarchy(module_store, course_id, parent_category, expect
 def validate_data_source_path_existence(path, is_err=True, extra_msg=None):
     _cnt = 0
     if not os.path.exists(path):
-        print ("{0}: Expected folder at {1}. {2}".format('ERROR' if is_err == True else 'WARNING', path, extra_msg if 
+        print ("{0}: Expected folder at {1}. {2}".format('ERROR' if is_err == True else 'WARNING', path, extra_msg if
             extra_msg is not None else ''))
         _cnt = 1
     return _cnt
@@ -352,3 +351,4 @@ def perform_xlint(data_dir, course_dirs,
         print "This course can be imported, but some errors may occur during the run of the course. It is recommend that you fix your courseware before importing"
     else:
         print "This course can be imported successfully."
+
