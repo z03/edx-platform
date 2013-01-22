@@ -425,7 +425,7 @@ class MongoModuleStore(ModuleStoreBase):
 
 
     def get_parent_locations(self, location, course_id):
-        '''Find all locations that are the parents of this location in this 
+        '''Find all locations that are the parents of this location in this
         course.  Needed for path_to_location().
         '''
         location = Location.ensure_fully_specified(location)
