@@ -128,10 +128,6 @@ class MongoModuleStore(ModuleStoreBase):
         # Force mongo to report errors, at the expense of performance
         self.collection.safe = True
 
-        # Force mongo to maintain an index over _id.* that is in the same order
-        # that is used when querying by a location
-        self.collection.ensure_index(
-            zip(('_id.' + field for field in Location._fields), repeat(1)))
 
         if default_class is not None:
             module_path, _, class_name = default_class.rpartition('.')
@@ -142,6 +138,12 @@ class MongoModuleStore(ModuleStoreBase):
         self.fs_root = path(fs_root)
         self.error_tracker = error_tracker
         self.render_template = render_template
+
+    def create_indices(self):
+        # Force mongo to maintain an index over _id.* that is in the same order
+        # that is used when querying by a location
+        self.collection.ensure_index(
+            zip(('_id.' + field for field in Location._fields), repeat(1)))
 
     def _clean_item_data(self, item):
         """
