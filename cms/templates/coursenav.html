@@ -3,10 +3,11 @@
 <%block name="title">UX Example - Course Nav</%block>
 
 <%block name="content">
-<div class="wrapper-header">
-  <header class="primary" role="banner">
-    <div class="masthead">
-      <h1><a href="#">edX Studio</a></h1>
+
+<div class="optionA">
+  <div class="wrapper-header wrapper">
+    <header class="primary" role="banner">
+      <h1 class="branding"><a href="#">edX Studio</a></h1>
 
       <div class="info-course">
         <h2 class="sr">Current Course:</h2>
@@ -21,8 +22,10 @@
         <span class="account-username"><i class="ss-icon ss-symbolicons-standard">&#x1F464;</i> Kate</span>
         <a href="#" class="action action-logout">logout</a>
       </div>
-    </div>
+    </header>
+  </div>
 
+  <div class="wrapper-nav wrapper">
     <nav class="nav-course primary" role="navigation">
       <h2 class="sr">PH207x's Navigation:</h2>
 
@@ -64,8 +67,73 @@
           </div>
         </li>
       </ol>
-    </nav>
-  </header>
+    </nav>  
+  </div>
+</div>
+
+<div class="optionB">
+  <div class="wrapper-header wrapper">
+    <header class="primary" role="banner">
+      <h1 class="branding"><a href="#">edX Studio</a></h1>
+
+      <div class="info-course">
+        <h2 class="sr">Current Course:</h2>
+        <a href="#">
+        <span class="course-number">PH207x:</span>
+        <span class="course-title">Health in Numbers: Quantitative Methods in Clinical & Public Health Research</span>
+        </a>
+      </div>
+
+      <nav class="nav-course primary" role="navigation">
+        <h2 class="sr">PH207x's Navigation:</h2>
+
+        <ol>
+          <li class="nav-item nav-course-courseware">
+            <a href="#" class="title">Course Content <i class="ss-icon ss-symbolicons-block">&#x25BE;</i></a>
+            
+            <div class="nav-sub">
+              <ul>
+                <li><a href="#">Outline</a></li>
+                <li><a href="#">Updates</a></li>
+                <li><a href="#">Pages/Tabs</a></li>
+                <li><a href="#">Media</a></li>
+              </ul>
+            </div>
+          </li>
+
+          <li class="nav-item nav-course-settings">
+            <a href="#" class="title">Course Settings <i class="ss-icon ss-symbolicons-block">&#x25BE;</i></a>
+            
+            <div class="nav-sub">
+              <ul>
+                <li><a href="#">Schedule &amp; Details</a></li>
+                <li><a href="#">Grading</a></li>
+                <li><a href="#">Course Team</a></li>
+                <li><a href="#">Advanced Settings</a></li>
+              </ul>
+            </div>
+          </li>
+
+          <li class="nav-item nav-course-tools">
+            <a href="#" class="title">Tools <i class="ss-icon ss-symbolicons-block">&#x25BE;</i></a>
+            
+            <div class="nav-sub">
+              <ul>
+                <li><a href="#">Import</a></li>
+                <li><a href="#">Export</a></li>
+              </ul>
+            </div>
+          </li>
+        </ol>
+      </nav>
+
+      <div class="info-account">
+        <h2 class="sr">Currently logged in as:</h2>
+        <span class="account-username"><i class="ss-icon ss-symbolicons-standard">&#x1F464;</i> Kate</span>
+        <a href="#" class="action action-logout">logout</a>
+      </div>
+    </header>
+  </div>
 </div>
 
 <div class="content-wrapper">
