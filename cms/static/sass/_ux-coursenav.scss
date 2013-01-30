@@ -1,7 +1,11 @@
 // prototype - UX Course Nav Fiddling
 $baseline: 20px;
 
-.optionA, .optionB {
+body {
+  min-width: 980px;
+}
+
+.optionA, .optionB, .optionC {
   margin: 0 0 ($baseline*3) 0;
 }
 
@@ -120,46 +124,71 @@ $baseline: 20px;
 
 // =====
 
-.optionB {
-
+.optionC {
+  
   .wrapper {
-    @include clearfix();
     @include box-sizing(border-box);
     width: 100%;
+    @include clearfix();
+  }
+
+  header.primary, .nav-course {
+    max-width: 1280px;
+    margin: 0 auto;
   }
 
   // header
   .wrapper-header {
     background: $black;
-    padding: $baseline;
+    padding: $baseline $baseline ($baseline/2) $baseline;
   }
 
-  .header {
-    width: flex-grid(12);
-    margin: 0 auto;
+  header.primary {
     color: $lightGrey;
+
+    .branding {
+      float: left;
+      width: 150px;
+      margin: 0 flex-gutter() 0 0;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .info-course {
+      float: left;
+      width: 500px;
+      overflow: hidden;
+      margin: 0 flex-gutter() 0 0;
+      font-size: 14px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .info-account {
+      float: right;
+      width: 200px;
+      font-size: 14px;
+      text-align: right;
+
+      .account-username, .action {
+        display: inline-block;
+      }
+
+      .action-logout {
+        margin-left: ($baseline/4);
+        font-size: 12px;
+      }
+    }
   }
 
-  .branding {
-    float: left;
-    width: flex-grid(2,12);
-    margin: 0 flex-gutter() 0 0;
-    font-size: 18px;
-  }
-
-  .info-course {
-    float: left;
-    width: flex-grid(4,12);
-    margin: 0 flex-gutter() 0 0;
-    font-size: 14px;
+  // nav layer
+  .wrapper-nav {
+    background: $black;
+    padding: ($baseline/2) $baseline;
   }
 
   .nav-course {
     @include clearfix();
-    float: left;
-    width: flex-grid(4,12);
-    margin: 0 flex-gutter() 0 0;
-    font-size: 14px;
 
     a {
 
@@ -211,10 +240,108 @@ $baseline: 20px;
       }
     }
   }
+}
+
+// =====
+
+.optionB {
+
+  .wrapper {
+    @include clearfix();
+    @include box-sizing(border-box);
+    width: 100%;
+  }
+
+  // header
+  .wrapper-header {
+    background: $black;
+    padding: $baseline;
+  }
+
+  .header {
+    max-width: 1280px;
+    margin: 0 auto;
+    color: $lightGrey;
+  }
+
+  .branding {
+    float: left;
+    width: 100px;
+    margin: 0 $baseline 0 0;
+    font-size: 18px;
+  }
+
+  .info-course {
+    float: left;
+    width: 360px;
+    margin: 0 $baseline 0 0;
+    font-size: 14px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .nav-course {
+    @include clearfix();
+    float: left;
+    width: 330px;
+    margin: 0 $baseline 0 0;
+    font-size: 14px;
+
+    a {
+
+      &:hover, &:active {
+        color: $white;
+      }
+    }
+
+    .nav-item {
+      position: relative;
+      float: left;
+      margin: 0 ($baseline*0.75) 0 0;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      .title {
+        display: block;
+        font-weight: 600;
+
+        .ss-icon {
+         
+        }
+
+        &.is-selected {
+          color: $white;
+        }
+      }
+
+      .nav-sub {
+        @include border-radius(2px);
+        width: ($baseline*7.5);
+        border-top: 1px solid $offBlack;
+        position: absolute;
+        top: 30px;
+        left: -10px;
+        padding: ($baseline/2);
+        background: $black;
+
+        li {
+          margin: 0 15px 0 0;
+          font-size: 14px;
+
+          a {
+            display: block;
+          }
+        }
+      }
+    }
+  }
 
   .info-account {
     float: left;
-    width: flex-grid(2,12);
+    width: 100px;
     font-size: 14px;
     text-align: right;
 
