@@ -1,0 +1,136 @@
+// prototype - UX Course Nav Fiddling
+$baseline: 20px;
+
+.wrapper-header {
+  background: $black;
+  padding: $baseline;
+
+  header.primary {
+    width: flex-grid(12);
+    margin: 0 auto;
+    color: $lightGrey;
+  }
+}
+
+.masthead {
+  @include clearfix();
+  margin: 0 0 ($baseline/2) 0;
+  border-bottom: 1px solid $offBlack;
+  padding: 0 0 ($baseline/2) 0;
+
+  h1 {
+    float: left;
+    width: flex-grid(2,12);
+    margin: 0 flex-gutter() 0 0;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .info-course {
+    float: left;
+    width: flex-grid(8,12);
+    margin: 0 flex-gutter() 0 0;
+    font-size: 14px;
+  }
+
+  .info-account {
+    float: right;
+    width: flex-grid(2,12);
+    font-size: 14px;
+    text-align: right;
+
+    .account-username, .action {
+      display: inline-block;
+    }
+
+    .action-logout {
+      margin-left: ($baseline/4);
+      font-size: 12px;
+    }
+  }
+}
+
+.nav-course {
+  @include clearfix();
+
+  a {
+
+    &:hover, &:active {
+      color: $white;
+    }
+  }
+
+  .nav-item {
+    position: relative;
+    float: left;
+    margin: 0 ($baseline*2) 0 0;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    .title {
+      display: block;
+      font-weight: 600;
+
+      .ss-icon {
+        margin-left: ($baseline/4);
+      }
+
+      &.is-selected {
+        color: $white;
+      }
+    }
+
+    .nav-sub {
+      @include border-radius(2px);
+      width: ($baseline*7.5);
+      border-top: 1px solid $offBlack;
+      position: absolute;
+      top: 30px;
+      left: -10px;
+      padding: ($baseline/2);
+      background: $black;
+
+      li {
+        margin: 0 0 ($baseline/2) 0;
+        font-size: 14px;
+
+        a {
+          display: block;
+        }
+      }
+    }
+  }
+
+  // specifics
+  .nav-course-courseware, .nav-course-settings, .nav-course-tools {
+
+  }
+}
+
+// js enabled 
+.js {
+
+  .nav-sub {
+    @include transition (opacity 1.0s ease-in-out 0s);
+    opacity: 0;
+
+    &.is-shown {
+      opacity: 1.0;
+    }
+  }
+
+
+}
+
+.sr {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
