@@ -73,7 +73,7 @@ urlpatterns = ('',
 
 # User creation and updating views
 urlpatterns += (
-    url(r'^testpage$', 'contentstore.views.testpage', name='testpage'),
+    url(r'^coursenav$', 'contentstore.views.coursenav', name='coursenav'),
     url(r'^signup$', 'contentstore.views.signup', name='signup'),
 
     url(r'^create_account$', 'student.views.create_account'),
