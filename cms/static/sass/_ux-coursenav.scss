@@ -9,6 +9,10 @@ body {
   margin: 0 0 ($baseline*3) 0;
 }
 
+.optionA, .optionC {
+  display: none;
+}
+
 .optionA {
   
   .wrapper {
@@ -273,7 +277,7 @@ body {
 
   .info-course {
     float: left;
-    width: 360px;
+    width: 250px;
     margin: 0 $baseline 0 0;
     font-size: 14px;
     overflow: hidden;
@@ -339,20 +343,11 @@ body {
     }
   }
 
-  .info-account {
-    float: left;
-    width: 100px;
+  .nav-account {
+    float: right;
+    width: 180px;
     font-size: 14px;
     text-align: right;
-
-    .account-username, .action {
-      display: inline-block;
-    }
-
-    .action-logout {
-      margin-left: ($baseline/4);
-      font-size: 12px;
-    }
   }
 }
 
