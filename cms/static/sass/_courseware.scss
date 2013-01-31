@@ -648,11 +648,26 @@ input.courseware-unit-search-input {
 // sort/drag and drop
 .ui-droppable {
   min-height: 20px;
+}
 
-  &.dropover {
-    padding-top: 10px;
-    padding-bottom: 10px;
-  }
+// sort/drag and drop - make room
+.ui-dragging-pushup {
+	@include transition (margin-top 0.5s ease-in-out 0s);
+	margin-top: 15px;
+}
+
+.ui-dragging-pushdown {
+	@include transition (margin-bottom 0.5s ease-in-out 0s);
+	margin-bottom: 15px;
+}
+
+.ui-draggable-dragging {
+	@include box-shadow(0 1px 2px rgba(0, 0, 0, .3));
+	border: 1px solid $darkGrey;
+
+	.section-item {
+		background: $yellow !important;
+	}
 }
 
 ol.ui-droppable .branch:first-child .section-item {
