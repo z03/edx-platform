@@ -151,12 +151,12 @@
         </a>
       </div>
 
-      <nav class="nav-course primary" role="navigation">
+      <nav class="nav-course primary nav-dropdown" role="navigation">
         <h2 class="sr">PH207x's Navigation:</h2>
 
         <ol>
           <li class="nav-item nav-course-courseware">
-            <a href="#" class="title">Course Content <i class="ss-icon ss-symbolicons-block">&#x25BE;</i></a>
+            <a href="#" class="title">Content <i class="ss-icon ss-symbolicons-block">&#x25BE;</i></a>
             
             <div class="nav-sub">
               <ul>
@@ -169,7 +169,7 @@
           </li>
 
           <li class="nav-item nav-course-settings">
-            <a href="#" class="title">Course Settings <i class="ss-icon ss-symbolicons-block">&#x25BE;</i></a>
+            <a href="#" class="title">Settings <i class="ss-icon ss-symbolicons-block">&#x25BE;</i></a>
             
             <div class="nav-sub">
               <ul>
@@ -194,12 +194,15 @@
         </ol>
       </nav>
 
-      <nav class="nav-account">
+      <nav class="nav-account  nav-dropdown">
         <h2 class="sr">Currently logged in as:</h2>
         <ol>
-          <li class="nav-item nav-course-tools">
-            <a href="#" class="title"><span class="account-name">
-              <i class="ss-icon ss-symbolicons-standard">&#x1F464;</i> ReallyLongUserName</span>
+          <li class="nav-item nav-account-username">
+            <a href="#" class="title">
+              <span class="account-username">
+                <i class="ss-icon ss-symbolicons-standard">&#x1F464;</i> 
+                ReallyLongUserName
+              </span>
               <i class="ss-icon ss-symbolicons-block">&#x25BE;</i>
             </a>
 
@@ -229,10 +232,10 @@
     
     $('body').addClass('js');
 
-    $('.nav-course .nav-item a').click(function(e){
+    $('.nav-dropdown .nav-item a').click(function(e){
         e.preventDefault();
-        $('.nav-course .nav-item .title').removeClass('is-selected');
-        $('.nav-course .nav-item .nav-sub').removeClass('is-shown');
+        $('.nav-dropdown .nav-item .title').removeClass('is-selected');
+        $('.nav-dropdown .nav-item .nav-sub').removeClass('is-shown');
         $(this).parent().find('.title').toggleClass('is-selected');
         $(this).parent().find('.nav-sub').toggleClass('is-shown');
       });
