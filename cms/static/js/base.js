@@ -336,25 +336,29 @@ function generateCheckHoverState(selectorsToOpen, selectorsToShove) {
 	$(selectorsToShove).each(function() {
 	    var intersectsBottom = computeIntersection(this, ui.helper, (draggable.positionAbs || draggable.position.absolute).top);
 	    
-	    if (intersectsBottom) {
+	    if ($(this).hasClass('ui-dragging-pushup')) {
+	        if (!intersectsBottom) {
+	             console.log('not up', $(this).data('id'));
+	             $(this).removeClass('ui-dragging-pushup');
+	         }
+	    }
+	    else if (intersectsBottom) {
 	        console.log('up', $(this).data('id'));
 	        $(this).addClass('ui-dragging-pushup');
-	    }
-	    else {
-	        if ($(this).hasClass('ui-dragging-pushup')) console.log('not up', $(this).data('id'));
-	        $(this).removeClass('ui-dragging-pushup');
 	    }
 	    
 	    var intersectsTop = computeIntersection(this, ui.helper, 
 	            (draggable.positionAbs || draggable.position.absolute).top + draggable.helperProportions.height);
 	    
-	    if (intersectsTop) {
+	    if ($(this).hasClass('ui-dragging-pushdown')) {
+	        if (!intersectsTop) {
+	            console.log('not down', $(this).data('id'));
+	            $(this).removeClass('ui-dragging-pushdown');
+	        }
+	    }
+	    else if (intersectsTop) {
 	        console.log('down', $(this).data('id'));
 	        $(this).addClass('ui-dragging-pushdown');
-	    }
-	    else {
-	        if ($(this).hasClass('ui-dragging-pushdown')) console.log('not down', $(this).data('id'));
-	        $(this).removeClass('ui-dragging-pushdown');
 	    }
 	    
 	});
@@ -363,6 +367,8 @@ function generateCheckHoverState(selectorsToOpen, selectorsToShove) {
 
 function removeHesitate(event, ui) {
 	$('.collapsed').off('dragEnter', CMS.HesitateEvent.toggleXpandHesitation.trigger);
+	$('.ui-dragging-pushdown').removeClass('ui-dragging-pushdown');
+	$('.ui-dragging-pushup').removeClass('ui-dragging-pushup');
 	CMS.HesitateEvent.toggleXpandHesitation = null;
 }
 

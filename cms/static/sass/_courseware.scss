@@ -651,12 +651,12 @@ input.courseware-unit-search-input {
 }
 
 // sort/drag and drop - make room
-.ui-dragging-pushup {
+.ui-dragging-pushdown {
 	@include transition (margin-top 0.5s ease-in-out 0s);
 	margin-top: 15px;
 }
 
-.ui-dragging-pushdown {
+.ui-dragging-pushup {
 	@include transition (margin-bottom 0.5s ease-in-out 0s);
 	margin-bottom: 15px;
 }
@@ -664,9 +664,12 @@ input.courseware-unit-search-input {
 .ui-draggable-dragging {
 	@include box-shadow(0 1px 2px rgba(0, 0, 0, .3));
 	border: 1px solid $darkGrey;
-
-	.section-item {
-		background: $yellow !important;
+    opacity : 0.2;
+    &:hover {
+        opacity : 1.0;    
+    	.section-item {
+    		background: $yellow !important;
+    	}
 	}
 }
 
