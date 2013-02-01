@@ -89,7 +89,7 @@ $(document).ready(function() {
     	handle: '.drag-handle',
     	zIndex: 999,  
     	start: initiateHesitate,
-    	drag: generateCheckHoverState('.collapsed', '.unit'),
+    	drag: generateCheckHoverState('.collapsed', ''), // '.unit'),
     	stop: removeHesitate,
     	revert: "invalid"
     });
@@ -100,7 +100,7 @@ $(document).ready(function() {
     	handle: '.section-item .drag-handle',
     	zIndex: 999,  
     	start: initiateHesitate,
-    	drag: generateCheckHoverState('.courseware-section.collapsed', '.id-holder'),
+    	drag: generateCheckHoverState('.courseware-section.collapsed', ''), //'.id-holder'),
     	stop: removeHesitate,
     	revert: "invalid"
     });
