@@ -8,218 +8,228 @@ body {
   background: $m-gray-l;
 }
 
-.optionA, .optionB, .optionC {
-  margin: 0 0 ($baseline*3) 0;
-}
-
-.optionA, .optionC {
-  display: none;
-}
-
 // =====
 
-.optionB {
+.wrapper {
+  @include clearfix();
+  @include box-sizing(border-box);
+  width: 100%;
+}
 
-  .wrapper {
-    @include clearfix();
-    @include box-sizing(border-box);
-    width: 100%;
+// header
+.wrapper-header {
+  padding: $baseline;
+  border-bottom: 1px solid tint($m-gray, 50%);
+  @include box-shadow(0 1px 5px 0 rgba(0,0,0, 0.1));
+  background: $white;
+  height: 76px;
+  position: relative;
+  width: 100%;
+  z-index: 10;
+
+  a {
+    color: $baseFontColor;
+    display: block;
+
+    &:hover, &:active {
+      color: $blue;
+    }
+  }
+}
+
+.header {
+  @include clearfix();
+  max-width: 1280px;
+  margin: 0 auto;
+  color: $lightGrey;
+}
+
+.branding, .info-course, .nav-course, .nav-account {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.branding, .info-course, .nav-course {
+  float: left;
+  margin: 0 ($baseline*0.75) 0 0;
+}
+
+.branding {
+  position: relative;
+  padding-right: 15px;
+
+  a {
+    @include hide-text();
+    display: block;
+    width: 164px;
+    height: 32px;
+    background: transparent url('../img/logo-edx-studio.png') 0 0 no-repeat;
   }
 
-  // header
-  .wrapper-header {
-    padding: $baseline;
-    border-bottom: 1px solid tint($m-gray, 50%);
-    @include box-shadow(0 1px 5px 0 rgba(0,0,0, 0.1));
-    background: $white;
-    height: 76px;
-    position: relative;
-    width: 100%;
-    z-index: 10;
+  &:before {
+    @extend .faded-vertical-divider;
+    content: "";
+    display: block;
+    height: 50px;
+    position: absolute;
+    right: 1px;
+    top: -8px;
+    width: 1px;
+  }
 
-    a {
-      color: $baseFontColor;
+  &:after {
+    @extend .faded-vertical-divider-light;
+    content: "";
+    display: block;
+    height: 50px;
+    position: absolute;
+    right: 0px;
+    top: -12px;
+    width: 1px;
+  }
+}
+
+.info-course {
+  position: relative;
+  max-width: 500px;
+  min-width: 200px;
+  width: 25%;
+  padding-right: 15px;
+  font-size: 14px;
+
+  &:before {
+    @extend .faded-vertical-divider;
+    content: "";
+    display: block;
+    height: 50px;
+    position: absolute;
+    right: 1px;
+    top: -8px;
+    width: 1px;
+  }
+
+  &:after {
+    @extend .faded-vertical-divider-light;
+    content: "";
+    display: block;
+    height: 50px;
+    position: absolute;
+    right: 0px;
+    top: -12px;
+    width: 1px;
+  }
+
+  > a {
+    margin-top: -2px;
+  }
+
+  .course-number, .course-title {
+    display: block;
+  }
+
+  .course-number {
+    font-size: 12px;
+  }
+
+  .course-title {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 16px;
+    font-weight: 600;
+
+  }
+}
+
+.nav-course {
+  width: 270px;
+  font-size: 14px;
+
+  ol {
+    @include clearfix();
+  }
+
+  a {
+
+    &:hover, &:active {
+
+    }
+  }
+
+  .nav-item {
+    float: left;
+    margin: 0 ($baseline/2) 0 0;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    .title {
       display: block;
+      padding: 5px;
+      text-transform: uppercase;
 
       &:hover, &:active {
+
+      }
+
+      .label-prefix {
+        display: block;
+        font-size: 11px;
+      }
+
+      .ss-icon {
+       
+      }
+
+      &.is-selected {
         color: $blue;
       }
     }
-  }
 
-  .header {
-    @include clearfix();
-    max-width: 1280px;
-    margin: 0 auto;
-    color: $lightGrey;
-  }
-
-  .branding, .info-course, .nav-course, .nav-account {
-    display: inline-block;
-    vertical-align: middle;
-  }
-
-  .branding, .info-course, .nav-course {
-    float: left;
-    margin: 0 ($baseline*0.75) 0 0;
-  }
-
-  .branding {
-    position: relative;
-    padding-right: 15px;
-
-    a {
-      @include hide-text();
-      display: block;
-      width: 164px;
-      height: 32px;
-      background: transparent url('../img/logo-edx-studio.png') 0 0 no-repeat;
-    }
-
-    &:before {
-      @extend .faded-vertical-divider;
-      content: "";
-      display: block;
-      height: 50px;
-      position: absolute;
-      right: 1px;
-      top: -8px;
-      width: 1px;
-    }
-
-    &:after {
-      @extend .faded-vertical-divider-light;
-      content: "";
-      display: block;
-      height: 50px;
-      position: absolute;
-      right: 0px;
-      top: -12px;
-      width: 1px;
-    }
-  }
-
-  .info-course {
-    position: relative;
-    width: 250px;
-    padding-right: 15px;
-    font-size: 14px;
-
-    &:before {
-      @extend .faded-vertical-divider;
-      content: "";
-      display: block;
-      height: 50px;
-      position: absolute;
-      right: 1px;
-      top: -8px;
-      width: 1px;
-    }
-
-    &:after {
-      @extend .faded-vertical-divider-light;
-      content: "";
-      display: block;
-      height: 50px;
-      position: absolute;
-      right: 0px;
-      top: -12px;
-      width: 1px;
-    }
-
-    > a {
-      margin-top: -2px;
-    }
-
-    .course-number, .course-title {
-      display: block;
-    }
-
-    .course-number {
-      font-size: 12px;
-    }
-
-    .course-title {
-      width: 100%;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      font-size: 16px;
-      font-weight: 600;
-
-    }
-  }
-
-  .nav-course {
-    width: 275px;
-    margin-top: 5px;
-    font-size: 14px;
-
-    ol {
-      @include clearfix();
-    }
-
-    a {
-
-      &:hover, &:active {
-
-      }
-    }
-
-    .nav-item {
-      float: left;
-      margin: 0 ($baseline*0.75) 0 0;
-
-      &:last-child {
-        margin-right: 0;
-      }
+    // current state
+    &.is-current {
 
       .title {
-        display: block;
-        padding: 5px;
-        text-transform: uppercase;
-
-        &:hover, &:active {
-
-        }
-
-        .ss-icon {
-         
-        }
-
-        &.is-selected {
-          color: $blue;
-        }
+        color: $blue;
       }
+    }
 
-      // current state
-      &.is-current {
+    // specific nav items
+    &.nav-course-courseware {
+      margin-top: -8px;
+    }
 
-        .title {
-          color: $blue;
-        }
-      }
+    &.nav-course-settings {
+      margin-top: -8px;
+    }
+
+    &.nav-course-tools {
+      margin-top: 9px;
     }
   }
+}
 
-  .nav-account {
-    float: right;
-    width: 175px;
-    margin-top: 10px;
-    font-size: 14px;
-    text-align: right;
+.nav-account {
+  float: right;
+  max-width: 300px;
+  min-width: 175px;
+  width: 20%;
+  margin-top: 10px;
+  font-size: 14px;
+  text-align: right;
 
-    .nav-account-username {
+  .nav-account-username {
 
-    }
+  }
 
-    .account-username {
-      display: inline-block;
-      width: 80%;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
+  .account-username {
+    display: inline-block;
+    width: 80%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }
 
@@ -234,18 +244,108 @@ body {
     @include border-radius(2px);
     position: absolute;
     top: 30px;
-    left: -10px;
-    width: ($baseline*7.5);
-    border: 1px solid rgb(67,67,67);
-    padding: ($baseline/2);
+    width: 125px;
+    border: 1px solid tint($m-gray, 50%);
+    padding: ($baseline/4) ($baseline/2);
+    @include box-shadow(0 1px 5px 0 rgba(0,0,0, 0.1));
     background: $white;
+    pointer-events: none;
 
     li {
-      margin: 0 15px 0 0;
-      font-size: 14px;
+      margin: 0 0 ($baseline/4) 0;
+      border-bottom: 1px solid tint($m-gray, 75%);
+      padding: 0 0($baseline/4) 0;
+      font-size: 13px;
+
+      &:last-child {
+        margin-bottom: 0;
+        border-bottom: none;
+        padding-bottom: 0;
+      }
 
       a {
         display: block;
+      }
+    }
+
+    // arrows
+    &:after, &:before {
+
+    }
+
+    &:after {
+
+    }
+
+    &:before {
+
+    }
+  }
+
+  // vendor
+  .arrow_box {
+    position: relative;
+    background: #fff;
+    border: 1px solid #a1a1a1;
+  }
+  .arrow_box:after, .arrow_box:before {
+    bottom: 100%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+  }
+
+  .arrow_box:after {
+    border-color: rgba(255, 255, 255, 0);
+    border-bottom-color: #fff;
+    border-width: 10px;
+    left: 50%;
+    margin-left: -10px;
+  }
+  .arrow_box:before {
+    border-color: rgba(161, 161, 161, 0);
+    border-bottom-color: #a1a1a1;
+    border-width: 11px;
+    left: 50%;
+    margin-left: -11px;
+  }
+
+  // specific navs
+  &.nav-account {
+
+    .nav-sub {
+      right: 0;
+      text-align: left;
+    }
+  }
+
+  &.nav-course {
+
+    .nav-sub {
+      left: -5px;
+    }
+
+    .nav-course-courseware {
+
+      .nav-sub {
+        top: 50px;
+      }
+    }
+
+    .nav-course-settings {
+
+      .nav-sub {
+        top: 50px;
+      }
+    }
+
+    .nav-course-tools {
+
+      .nav-sub {
+      
       }
     }
   }
@@ -260,6 +360,7 @@ body {
 
     &.is-shown {
       opacity: 1.0;
+      pointer-events: auto;
     }
   }
 }
@@ -275,236 +376,3 @@ body {
   position: absolute;
   width: 1px;
 }
-
-// .optionA {
-  
-//   .wrapper {
-//     @include box-sizing(border-box);
-//     width: 100%;
-//     @include clearfix();
-//   }
-
-//   // header
-//   .wrapper-header {
-//     background: $black;
-//     padding: $baseline $baseline ($baseline/2) $baseline;
-//   }
-
-//   header.primary {
-//     width: flex-grid(12);
-//     margin: 0 auto;
-//     color: $lightGrey;
-
-//     .branding {
-//       float: left;
-//       width: flex-grid(2,12);
-//       margin: 0 flex-gutter() 0 0;
-//       font-size: 18px;
-//       font-weight: 600;
-//     }
-
-//     .info-course {
-//       float: left;
-//       width: flex-grid(8,12);
-//       margin: 0 flex-gutter() 0 0;
-//       font-size: 14px;
-//     }
-
-//     .info-account {
-//       float: right;
-//       width: flex-grid(2,12);
-//       font-size: 14px;
-//       text-align: right;
-
-//       .account-username, .action {
-//         display: inline-block;
-//       }
-
-//       .action-logout {
-//         margin-left: ($baseline/4);
-//         font-size: 12px;
-//       }
-//     }
-//   }
-
-//   // nav layer
-//   .wrapper-nav {
-//     background: $black;
-//     padding: ($baseline/2) $baseline;
-//   }
-
-//   .nav-course {
-//     width: flex-grid(12);
-//     @include clearfix();
-
-//     a {
-
-//       &:hover, &:active {
-//         color: $white;
-//       }
-//     }
-
-//     .nav-item {
-//       position: relative;
-//       float: left;
-//       margin: 0 ($baseline*2) 0 0;
-
-//       &:last-child {
-//         margin-right: 0;
-//       }
-
-//       .title {
-//         display: block;
-//         font-weight: 600;
-
-//         .ss-icon {
-//           margin-left: ($baseline/4);
-//         }
-
-//         &.is-selected {
-//           color: $white;
-//         }
-//       }
-
-//       .nav-sub {
-//         @include border-radius(2px);
-//         width: ($baseline*7.5);
-//         border-top: 1px solid $offBlack;
-//         position: absolute;
-//         top: 30px;
-//         left: -10px;
-//         padding: ($baseline/2);
-//         background: $black;
-
-//         li {
-//           margin: 0 0 ($baseline/2) 0;
-//           font-size: 14px;
-
-//           a {
-//             display: block;
-//           }
-//         }
-//       }
-//     }
-//   }
-// }
-
-// =====
-
-// .optionC {
-  
-//   .wrapper {
-//     @include box-sizing(border-box);
-//     width: 100%;
-//     @include clearfix();
-//   }
-
-//   header.primary, .nav-course {
-//     max-width: 1280px;
-//     margin: 0 auto;
-//   }
-
-//   // header
-//   .wrapper-header {
-//     background: $black;
-//     padding: $baseline $baseline ($baseline/2) $baseline;
-//   }
-
-//   header.primary {
-//     color: $lightGrey;
-
-//     .branding {
-//       float: left;
-//       width: 150px;
-//       margin: 0 flex-gutter() 0 0;
-//       font-size: 18px;
-//       font-weight: 600;
-//     }
-
-//     .info-course {
-//       float: left;
-//       width: 500px;
-//       overflow: hidden;
-//       margin: 0 flex-gutter() 0 0;
-//       font-size: 14px;
-//       text-overflow: ellipsis;
-//       white-space: nowrap;
-//     }
-
-//     .info-account {
-//       float: right;
-//       width: 200px;
-//       font-size: 14px;
-//       text-align: right;
-
-//       .account-username, .action {
-//         display: inline-block;
-//       }
-
-//       .action-logout {
-//         margin-left: ($baseline/4);
-//         font-size: 12px;
-//       }
-//     }
-//   }
-
-//   // nav layer
-//   .wrapper-nav {
-//     background: $black;
-//     padding: ($baseline/2) $baseline;
-//   }
-
-//   .nav-course {
-//     @include clearfix();
-
-//     a {
-
-//       &:hover, &:active {
-//         color: $white;
-//       }
-//     }
-
-//     .nav-item {
-//       position: relative;
-//       float: left;
-//       margin: 0 ($baseline*2) 0 0;
-
-//       &:last-child {
-//         margin-right: 0;
-//       }
-
-//       .title {
-//         display: block;
-//         font-weight: 600;
-
-//         .ss-icon {
-//           margin-left: ($baseline/4);
-//         }
-
-//         &.is-selected {
-//           color: $white;
-//         }
-//       }
-
-//       .nav-sub {
-//         @include border-radius(2px);
-//         width: ($baseline*7.5);
-//         border-top: 1px solid $offBlack;
-//         position: absolute;
-//         top: 30px;
-//         left: -10px;
-//         padding: ($baseline/2);
-//         background: $black;
-
-//         li {
-//           margin: 0 0 ($baseline/2) 0;
-//           font-size: 14px;
-
-//           a {
-//             display: block;
-//           }
-//         }
-//       }
-//     }
-//   }
-// }

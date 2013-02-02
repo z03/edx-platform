@@ -4,34 +4,24 @@
 
 <%block name="content">
 
-<div class="optionA">
-  <div class="wrapper-header wrapper">
-    <header class="primary" role="banner">
-      <h1 class="branding"><a href="#">edX Studio</a></h1>
+<div class="wrapper-header wrapper">
+  <header class="primary" role="banner">
+    <h1 class="branding"><a href="#">edX Studio</a></h1>
 
-      <div class="info-course">
-        <h2 class="sr">Current Course:</h2>
-        <a href="#">
-        <span class="course-number">PH207x:</span>
-        <span class="course-title">Health in Numbers: Quantitative Methods in Clinical & Public Health Research</span>
-        </a>
-      </div>
+    <div class="info-course">
+      <h2 class="sr">Current Course:</h2>
+      <a href="#">
+      <span class="course-number">PH207x:</span>
+      <span class="course-title">Health in Numbers: Quantitative Methods in Clinical & Public Health Research</span>
+      </a>
+    </div>
 
-      <div class="info-account">
-        <h2 class="sr">Currently logged in as:</h2>
-        <span class="account-username"><i class="ss-icon ss-symbolicons-standard">&#x1F464;</i> Kate</span>
-        <a href="#" class="action action-logout">logout</a>
-      </div>
-    </header>
-  </div>
-
-  <div class="wrapper-nav wrapper">
-    <nav class="nav-course primary" role="navigation">
+    <nav class="nav-course primary nav-dropdown" role="navigation">
       <h2 class="sr">PH207x's Navigation:</h2>
 
       <ol>
         <li class="nav-item nav-course-courseware">
-          <a href="#" class="title">Course Content <i class="ss-icon ss-symbolicons-block">&#x25BE;</i></a>
+          <a href="#" class="title"><span class="label-prefix">Course </span>Content <i class="ss-icon ss-symbolicons-block">&#x25BE;</i></a>
           
           <div class="nav-sub">
             <ul>
@@ -44,7 +34,7 @@
         </li>
 
         <li class="nav-item nav-course-settings">
-          <a href="#" class="title">Course Settings <i class="ss-icon ss-symbolicons-block">&#x25BE;</i></a>
+          <a href="#" class="title"><span class="label-prefix">Course </span>Settings <i class="ss-icon ss-symbolicons-block">&#x25BE;</i></a>
           
           <div class="nav-sub">
             <ul>
@@ -67,156 +57,30 @@
           </div>
         </li>
       </ol>
-    </nav>  
-  </div>
-</div>
+    </nav>
 
-<div class="optionC">
-  <div class="wrapper-header wrapper">
-    <header class="primary" role="banner">
-      <h1 class="branding"><a href="#">edX Studio</a></h1>
-
-      <div class="info-course">
-        <h2 class="sr">Current Course:</h2>
-        <a href="#">
-        <span class="course-number">PH207x:</span>
-        <span class="course-title">Health in Numbers: Quantitative Methods in Clinical & Public Health Research</span>
-        </a>
-      </div>
-
-      <div class="info-account">
-        <h2 class="sr">Currently logged in as:</h2>
-        <span class="account-username"><i class="ss-icon ss-symbolicons-standard">&#x1F464;</i> Kate</span>
-        <a href="#" class="action action-logout">logout</a>
-      </div>
-    </header>
-  </div>
-
-  <div class="wrapper-nav wrapper">
-    <nav class="nav-course primary" role="navigation">
-      <h2 class="sr">PH207x's Navigation:</h2>
-
+    <nav class="nav-account  nav-dropdown">
+      <h2 class="sr">Currently logged in as:</h2>
       <ol>
-        <li class="nav-item nav-course-courseware">
-          <a href="#" class="title">Course Content <i class="ss-icon ss-symbolicons-block">&#x25BE;</i></a>
-          
-          <div class="nav-sub">
-            <ul>
-              <li><a href="#">Outline</a></li>
-              <li><a href="#">Updates</a></li>
-              <li><a href="#">Pages/Tabs</a></li>
-              <li><a href="#">Media</a></li>
-            </ul>
-          </div>
-        </li>
+        <li class="nav-item nav-account-username">
+          <a href="#" class="title">
+            <span class="account-username">
+              <i class="ss-icon ss-symbolicons-standard">&#x1F464;</i> 
+              BrianTalbot
+            </span>
+            <i class="ss-icon ss-symbolicons-block">&#x25BE;</i>
+          </a>
 
-        <li class="nav-item nav-course-settings">
-          <a href="#" class="title">Course Settings <i class="ss-icon ss-symbolicons-block">&#x25BE;</i></a>
-          
           <div class="nav-sub">
             <ul>
-              <li><a href="#">Schedule &amp; Details</a></li>
-              <li><a href="#">Grading</a></li>
-              <li><a href="#">Course Team</a></li>
-              <li><a href="#">Advanced Settings</a></li>
-            </ul>
-          </div>
-        </li>
-
-        <li class="nav-item nav-course-tools">
-          <a href="#" class="title">Tools <i class="ss-icon ss-symbolicons-block">&#x25BE;</i></a>
-          
-          <div class="nav-sub">
-            <ul>
-              <li><a href="#">Import</a></li>
-              <li><a href="#">Export</a></li>
+              <li><a href="#">Help</a></li>
+              <li><a class="action action-logout" href="#">Logout</a></li>
             </ul>
           </div>
         </li>
       </ol>
-    </nav>  
-  </div>
-</div>
-
-<div class="optionB">
-  <div class="wrapper-header wrapper">
-    <header class="primary" role="banner">
-      <h1 class="branding"><a href="#">edX Studio</a></h1>
-
-      <div class="info-course">
-        <h2 class="sr">Current Course:</h2>
-        <a href="#">
-        <span class="course-number">PH207x:</span>
-        <span class="course-title">Health in Numbers: Quantitative Methods in Clinical & Public Health Research</span>
-        </a>
-      </div>
-
-      <nav class="nav-course primary nav-dropdown" role="navigation">
-        <h2 class="sr">PH207x's Navigation:</h2>
-
-        <ol>
-          <li class="nav-item nav-course-courseware">
-            <a href="#" class="title">Content <i class="ss-icon ss-symbolicons-block">&#x25BE;</i></a>
-            
-            <div class="nav-sub">
-              <ul>
-                <li><a href="#">Outline</a></li>
-                <li><a href="#">Updates</a></li>
-                <li><a href="#">Pages/Tabs</a></li>
-                <li><a href="#">Media</a></li>
-              </ul>
-            </div>
-          </li>
-
-          <li class="nav-item nav-course-settings">
-            <a href="#" class="title">Settings <i class="ss-icon ss-symbolicons-block">&#x25BE;</i></a>
-            
-            <div class="nav-sub">
-              <ul>
-                <li><a href="#">Schedule &amp; Details</a></li>
-                <li><a href="#">Grading</a></li>
-                <li><a href="#">Course Team</a></li>
-                <li><a href="#">Advanced Settings</a></li>
-              </ul>
-            </div>
-          </li>
-
-          <li class="nav-item nav-course-tools">
-            <a href="#" class="title">Tools <i class="ss-icon ss-symbolicons-block">&#x25BE;</i></a>
-            
-            <div class="nav-sub">
-              <ul>
-                <li><a href="#">Import</a></li>
-                <li><a href="#">Export</a></li>
-              </ul>
-            </div>
-          </li>
-        </ol>
-      </nav>
-
-      <nav class="nav-account  nav-dropdown">
-        <h2 class="sr">Currently logged in as:</h2>
-        <ol>
-          <li class="nav-item nav-account-username">
-            <a href="#" class="title">
-              <span class="account-username">
-                <i class="ss-icon ss-symbolicons-standard">&#x1F464;</i> 
-                ReallyLongUserName
-              </span>
-              <i class="ss-icon ss-symbolicons-block">&#x25BE;</i>
-            </a>
-
-            <div class="nav-sub">
-              <ul>
-                <li><a href="#">Help</a></li>
-                <li><a class="action action-logout" href="#">Logout</a></li>
-              </ul>
-            </div>
-          </li>
-        </ol>
-      </nav>
-    </header>
-  </div>
+    </nav>
+  </header>
 </div>
 
 <div class="content-wrapper">
@@ -233,11 +97,15 @@
     $('body').addClass('js');
 
     $('.nav-dropdown .nav-item a').click(function(e){
+
+        $subnav = $(this).parent().find('.nav-sub');
+        $title = $(this).parent().find('.title');
+
         e.preventDefault();
         $('.nav-dropdown .nav-item .title').removeClass('is-selected');
         $('.nav-dropdown .nav-item .nav-sub').removeClass('is-shown');
-        $(this).parent().find('.title').toggleClass('is-selected');
-        $(this).parent().find('.nav-sub').toggleClass('is-shown');
+        $title.toggleClass('is-selected');
+        $subnav.toggleClass('is-shown');
       });
   });
   </script>
