@@ -36,10 +36,10 @@
           
           <div class="nav-sub">
             <ul>
-              <li><a href="">Schedule &amp; Details</a></li>
-              <li><a href="">Grading</a></li>
+              <li><a href="${reverse('course_settings', kwargs=dict(org=ctx_loc.org, course=ctx_loc.course, name=ctx_loc.name))}#schedule">Schedule &amp; Details</a></li>
+              <li><a href="${reverse('course_settings', kwargs=dict(org=ctx_loc.org, course=ctx_loc.course, name=ctx_loc.name))}#grading">Grading</a></li>
               <li><a href="${reverse('manage_users', kwargs=dict(location=ctx_loc))}">Course Team</a></li>
-              <li><a href="">Advanced Settings</a></li>
+              <li><a href="${reverse('course_settings', kwargs=dict(org=ctx_loc.org, course=ctx_loc.course, name=ctx_loc.name))}#advanced">Advanced Settings</a></li>
             </ul>
           </div>
         </li>
