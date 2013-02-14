@@ -156,7 +156,7 @@ h1 {
         }
 
         .new-button, .view-button {
-          font-weight: 700 !important;
+          font-weight: 600 !important;
         }
 
         .upload-button .icon-create {
@@ -186,15 +186,26 @@ h1 {
 
   // page metadata/action bar
   .metadata {
-    @include box-shadow(inset 0 1px 3px 0 $shadow-l2);
+    @include box-shadow(inset 0 1px 4px 0 $shadow);
     @include box-sizing(border-box);
     @include border-bottom-radius(3px);
     @include font-size(14);
-    margin-top: -($baseline*1.5);
-    border-top: 1px solid $gray-d3;
-    padding: ($baseline/2) $baseline;
+    margin-top: -21px;
+    padding: ($baseline*0.75) $baseline;
+    border-top: 1px solid $gray-l1;
     background: $gray-l4;
 
+    .status {
+      @include font-size(14);
+
+      .label, .value {
+        @include font-size(14);
+      }
+    }
+
+    .icon {
+      color: $gray-l3;
+    }
   }
 }
 

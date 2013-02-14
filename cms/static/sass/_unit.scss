@@ -5,17 +5,75 @@ body.unit {
   // metadata
   .wrapper-mast .metadata {
 
-    .status-visibility, .status-release {
+    .status {
       float: left;
+
+      .label {
+        color: $gray-l1;
+      }
+
+      .value {
+        color: $gray-d1;
+
+        strong {
+          font-weight: 700;
+        }
+      }
     }
 
     .status-visibility {
       width: flex-grid(3,12);
       margin-right: flex-gutter();
+
+      .label, .value {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      .label {
+        margin-right: ($baseline/4);
+      }
+
+      .icon-visibility {
+        @include font-size(24);
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: ($baseline/4);
+        margin-top: ($baseline/5);
+        line-height: 0;
+      }
     }
 
     .status-release {
+      float: right;
       width: flex-grid(9,12);
+      text-align: right;
+
+      .label, .value {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      .label {
+        margin-right: ($baseline/4);
+      }
+
+      .icon-time {
+        @include font-size(24);
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: ($baseline/4);
+        margin-top: ($baseline/5);
+        line-height: 0;
+      }
+
+      .label {
+        
+      }
+
+      .value {
+        
+      }
     }
   }  
 }
