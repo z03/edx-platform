@@ -1,3 +1,26 @@
+// Studio - Individual Unit
+// ====================
+body.unit {
+
+  // metadata
+  .wrapper-mast .metadata {
+
+    .status-visibility, .status-release {
+      float: left;
+    }
+
+    .status-visibility {
+      width: flex-grid(3,12);
+      margin-right: flex-gutter();
+    }
+
+    .status-release {
+      width: flex-grid(9,12);
+    }
+  }  
+}
+
+// artifact styles
 .unit .main-wrapper {
   @include clearfix();
   margin: 40px;

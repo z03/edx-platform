@@ -104,6 +104,7 @@ h1 {
         &:after {
           content: ">>";
           margin-left: ($baseline/4);
+          color: $gray-l3;
         }
 
         &:last-child {
@@ -154,18 +155,22 @@ h1 {
           font-weight: 400 !important;
         }
 
-        .new-button {
-          font-weight: 700 !important;
-        }
-
-        .view-button {
-
+        .new-button, .view-button {
           font-weight: 700 !important;
         }
 
         .upload-button .icon-create {
           @include font-size(18);
           margin-top: ($baseline/4);
+        }
+
+        .copy-button {
+          @include white-button;
+          @include font-size(13);
+          
+          .icon-copy {
+
+          }
         }
       }
     }
@@ -181,6 +186,14 @@ h1 {
 
   // page metadata/action bar
   .metadata {
+    @include box-shadow(inset 0 1px 3px 0 $shadow-l2);
+    @include box-sizing(border-box);
+    @include border-bottom-radius(3px);
+    @include font-size(14);
+    margin-top: -($baseline*1.5);
+    border-top: 1px solid $gray-d3;
+    padding: ($baseline/2) $baseline;
+    background: $gray-l4;
 
   }
 }
@@ -653,6 +666,7 @@ hr.divide {
   }
 }
 
+// button for general creating/adding
 .new-button {
   @include green-button;
   @include font-size(13);
@@ -672,6 +686,7 @@ hr.divide {
   }
 }
 
+// button for viewing/previewing
 .view-button {
   @include blue-button;
   @include font-size(13);
@@ -691,6 +706,24 @@ hr.divide {
   }
 }
 
+.copy-button {
+
+  .icon-copy {
+    @include font-size(15);
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: ($baseline/2);
+    margin-top: ($baseline/5);
+    line-height: 0;
+  }
+}
+
+// button for previewing
+.view-preview-button {
+  opacity: 0.75;
+}
+
+// button for editing
 .edit-button.standard,
 .delete-button.standard {
   @include font-size(12);
