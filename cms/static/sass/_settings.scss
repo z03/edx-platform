@@ -566,8 +566,8 @@
 
         .CodeMirror-scroll {
           height: auto;
-          min-height: 20px;
-          max-height: 200px;
+          max-height: 400px;
+          overflow: hidden;
         }
 
         // editor color changes just for JSON
