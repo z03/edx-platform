@@ -87,6 +87,26 @@ h1 {
       padding: 0;
       font-weight: 600;
       color: $gray-d3;
+
+      .badge-status {
+        @include font-size(13);
+        @include border-radius(5px);
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: ($baseline/10);
+        padding: ($baseline/4) ($baseline/2);
+        color: $white;
+
+        .icon {
+          display: inline-block;
+          vertical-align: middle;
+          margin-right: ($baseline/10);
+        }
+      }
+
+      .badge-status-draft {
+        background: $yellow-s3;
+      }
     }
 
     .nav-hierarchy {
@@ -189,9 +209,8 @@ h1 {
     @include box-shadow(inset 0 1px 4px 0 $shadow);
     @include box-sizing(border-box);
     @include border-bottom-radius(3px);
-    @include font-size(14);
+    @include font-size(13);
     margin-top: -21px;
-    padding: ($baseline*0.75) $baseline;
     border-top: 1px solid $gray-l1;
     background: $gray-l4;
 
@@ -731,7 +750,7 @@ hr.divide {
 
 // button for previewing
 .view-preview-button {
-  opacity: 0.75;
+  opacity: 0.65;
 }
 
 // button for editing

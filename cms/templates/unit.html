@@ -2,7 +2,7 @@
 <%! from django.core.urlresolvers import reverse %>
 <%namespace name="units" file="widgets/units.html" />
 <%block name="title">Individual Unit</%block>
-<%block name="bodyclass">is-signedin course unit</%block>
+<%block name="bodyclass">is-signedin course unit ${unit_state}</%block>
 
 <%block name="jsextra">
   <script type='text/javascript'>
@@ -24,6 +24,58 @@
 
 </%block>
 <%block name="content">
+
+<!-- basic state -->
+<div class="wrapper-mast wrapper wip-box">
+  <header class="mast has-actions has-subtitle">
+    <div class="title">
+      <nav class="nav-hierarchy">
+        <ul>
+          <li class="nav-item">
+            <a href="#">Section Name</a>
+          </li>
+          <li class="nav-item">
+            <a href="#">Subsection Name</a>
+          </li>
+        </ul>
+      </nav>
+
+      <h1 class="title-1">Unit Name</h1>
+    </div>
+
+    <nav class="nav-actions unit-actions">
+      <h3 class="sr">Page Actions</h3>
+      <ul>
+        <li class="nav-item">
+          <a href="#" rel="external" class="button view-button view-preview-button"><i class="ss-icon ss-symbolicons-block icon icon-view">&#xE010;</i>View Preview</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="metadata status-unit">
+    <div class="status status-visibility">
+      <label class="label" for="unit-visibility"><i class="ss-icon ss-symbolicons-standard icon icon-visibility">&#x1F440;</i> <span class="text">Visibility:</span></label>
+      <select class="visibility-select value" id="unit-visibility">
+        <option value="public">Public</option>
+        <option value="private" selected="selected">Private</option>
+      </select>
+    </div>
+
+    <div class="status status-release">
+      <h3 class="label"><i class="ss-icon ss-symbolicons-block icon icon-time">&#x23F2;</i> <span class="text">Wil Release to:</span></h3>
+      <p class="value"><strong>students</strong> on <strong>February 06, 2013 at 12:00 PM</strong></p>
+    </div>
+
+    <div class="status status-url">
+      <h3 class="label"><i class="ss-icon ss-symbolicons-block icon icon-link">&#x1F517;</i> <span class="text">URL:</span></h3>
+      <p class="value">/courseware/${section.url_name}/${subsection.url_name}</p>
+    </div>
+  </div> 
+</div>
+
+
+<!-- basic state with released content -->
 <div class="wrapper-mast wrapper">
   <header class="mast has-actions has-subtitle">
     <div class="title">
@@ -45,9 +97,6 @@
       <h3 class="sr">Page Actions</h3>
       <ul>
         <li class="nav-item">
-          <a href="#" rel="copy" class="button copy-button copy-location-button"><i class="ss-icon ss-symbolicons-block icon icon-copy">&#x1F4CB;</i>Copy Path</a>
-        </li>
-        <li class="nav-item">
           <a href="#" rel="external" class="button view-button view-preview-button"><i class="ss-icon ss-symbolicons-block icon icon-view">&#xE010;</i>View Preview</a>
         </li>
         <li class="nav-item">
@@ -58,20 +107,76 @@
   </header>
 
   <div class="metadata status-unit">
-    <div class="status status-visibility">
-      <label class="label" for="unit-visibility"><i class="ss-icon ss-symbolicons-standard icon icon-visibility">&#x1F440;</i> Visibility:</label>
+    <div class="status status-visibility is-public">
+      <label class="label" for="unit-visibility"><i class="ss-icon ss-symbolicons-standard icon icon-visibility">&#x1F440;</i> <span class="text">Visibility:</span></label>
       <select class="visibility-select value" id="unit-visibility">
         <option value="public">Public</option>
         <option value="private">Private</option>
       </select>
     </div>
 
-    <div class="status status-release">
-      <h3 class="label"><i class="ss-icon ss-symbolicons-block icon icon-time">&#x23F2;</i> Will be Released:</h3>
-      <p class="value">to <strong>students</strong> on <strong>February 06, 2013 at 12:00 PM</strong> within <a href="">"Introduction to the Course"</a></p>
+    <div class="status status-release is-released">
+      <h3 class="label"><i class="ss-icon ss-symbolicons-block icon icon-time">&#x23F2;</i> <span class="text">Released to:</span></h3>
+      <p class="value"><strong>students</strong> on <strong>February 06, 2013 at 12:00 PM</strong></p>
+    </div>
+
+    <div class="status status-url">
+      <h3 class="label"><i class="ss-icon ss-symbolicons-block icon icon-link">&#x1F517;</i> <span class="text">URL:</span></h3>
+      <p class="value">/courseware/${section.url_name}/${subsection.url_name}</p>
     </div>
   </div> 
 </div>
+
+
+<!-- basic state in draft -->
+<div class="wrapper-mast wrapper wip-box">
+  <header class="mast has-actions has-subtitle">
+    <div class="title">
+      <nav class="nav-hierarchy">
+        <ul>
+          <li class="nav-item">
+            <a href="#">Section Name</a>
+          </li>
+          <li class="nav-item">
+            <a href="#">Subsection Name</a>
+          </li>
+        </ul>
+      </nav>
+
+      <h1 class="title-1"><span class="badge badge-status badge-status-draft"><i class="ss-icon ss-symbolicons-block icon icon-draft">&#xE205;</i> Draft</span> Unit Name</h1>
+    </div>
+
+    <nav class="nav-actions unit-actions">
+      <h3 class="sr">Page Actions</h3>
+      <ul>
+        <li class="nav-item">
+          <a href="#" rel="external" class="button view-button view-preview-button"><i class="ss-icon ss-symbolicons-block icon icon-view">&#xE010;</i>View Preview</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="metadata status-unit">
+    <div class="status status-visibility is-public">
+      <label class="label" for="unit-visibility"><i class="ss-icon ss-symbolicons-standard icon icon-visibility">&#x1F440;</i> <span class="text">Visibility:</span></label>
+      <select class="visibility-select value" id="unit-visibility" disabled="disabled">
+        <option value="public">Public</option>
+        <option value="private">Private</option>
+      </select>
+    </div>
+
+    <div class="status status-release is-released">
+      <h3 class="label"><i class="ss-icon ss-symbolicons-block icon icon-time">&#x23F2;</i> <span class="text">Released to:</span></h3>
+      <p class="value"><strong>students</strong> on <strong>February 06, 2013 at 12:00 PM</strong></p>
+    </div>
+
+    <div class="status status-url">
+      <h3 class="label"><i class="ss-icon ss-symbolicons-block icon icon-link">&#x1F517;</i> <span class="text">URL:</span></h3>
+      <p class="value">/courseware/${section.url_name}/${subsection.url_name}</p>
+    </div>
+  </div> 
+</div>
+
 
 <div class="main-wrapper edit-state-${unit_state}" data-id="${unit_location}">
   <div class="inner-wrapper">

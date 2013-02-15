@@ -4,12 +4,40 @@ body.unit {
 
   // metadata
   .wrapper-mast .metadata {
+    @include clearfix();
+    padding: 0 $baseline;
 
     .status {
+      @include box-sizing(border-box);
       float: left;
+      border-right: 1px solid $gray-l3;
+      padding: ($baseline*0.75) $baseline;
+
+      &:first-child {
+        padding-left: 0;
+      }
+
+      &:last-child {
+        border: none;
+        padding-right: 0;
+      }
+
+      .label, .value {
+        display: inline-block;
+        vertical-align: middle;
+      }
 
       .label {
         color: $gray-l1;
+
+        .icon {
+          @include font-size(20);
+          display: inline-block;
+          vertical-align: middle;
+          margin-right: ($baseline/4);
+          margin-top: ($baseline/5);
+          line-height: 0;
+        }
       }
 
       .value {
@@ -22,57 +50,57 @@ body.unit {
     }
 
     .status-visibility {
-      width: flex-grid(3,12);
-      margin-right: flex-gutter();
-
-      .label, .value {
-        display: inline-block;
-        vertical-align: middle;
-      }
 
       .label {
         margin-right: ($baseline/4);
+
+        .text {
+          @include text-sr();
+        }
       }
 
-      .icon-visibility {
-        @include font-size(24);
-        display: inline-block;
-        vertical-align: middle;
-        margin-right: ($baseline/4);
-        margin-top: ($baseline/5);
-        line-height: 0;
+      // public state
+      &.is-public {
+
+        .label, .label .icon, .value {
+          color: $gray-d1;
+        }
       }
     }
 
     .status-release {
-      float: right;
-      width: flex-grid(9,12);
-      text-align: right;
 
       .label, .value {
-        display: inline-block;
-        vertical-align: middle;
+
+        color: $gray-l1;
       }
 
       .label {
         margin-right: ($baseline/4);
       }
 
-      .icon-time {
-        @include font-size(24);
-        display: inline-block;
-        vertical-align: middle;
-        margin-right: ($baseline/4);
-        margin-top: ($baseline/5);
-        line-height: 0;
+      // released state
+      &.is-released {
+
+        .label, .label .icon, .value {
+          color: $gray-d1;
+        }
       }
+    }
+
+    .status-url {
+      float: right;
 
       .label {
-        
+
+        .text {
+          @include text-sr();
+        }
       }
 
       .value {
-        
+        max-width: 270px;
+        overflow: auto;
       }
     }
   }  
