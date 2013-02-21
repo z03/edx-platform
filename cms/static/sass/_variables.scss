@@ -97,6 +97,23 @@ $yellow-u1: desaturate($yellow,15%);
 $yellow-u2: desaturate($yellow,30%);
 $yellow-u3: desaturate($yellow,45%);
 
+$orange: rgb(237, 189, 60);
+$orange-l1: tint($orange,20%);
+$orange-l2: tint($orange,40%);
+$orange-l3: tint($orange,60%);
+$orange-l4: tint($orange,80%);
+$orange-l5: tint($orange,90%);
+$orange-d1: shade($orange,20%);
+$orange-d2: shade($orange,40%);
+$orange-d3: shade($orange,60%);
+$orange-d4: shade($orange,80%);
+$orange-s1: saturate($orange,15%);
+$orange-s2: saturate($orange,30%);
+$orange-s3: saturate($orange,45%);
+$orange-u1: desaturate($orange,15%);
+$orange-u2: desaturate($orange,30%);
+$orange-u3: desaturate($orange,45%);
+
 $shadow: rgba(0,0,0,0.2);
 $shadow-l1: rgba(0,0,0,0.1);
 $shadow-l2: rgba(0,0,0,0.05);

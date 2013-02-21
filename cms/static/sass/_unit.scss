@@ -103,7 +103,12 @@ body.unit {
         overflow: auto;
       }
     }
-  }  
+  }
+
+  // general layout
+  .inner-wrapper {
+    @include clearfix();
+  }
 }
 
 // artifact styles
