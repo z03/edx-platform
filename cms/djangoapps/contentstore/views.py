@@ -59,6 +59,7 @@ from cms.djangoapps.models.settings.course_details import CourseDetails,\
 from cms.djangoapps.models.settings.course_grading import CourseGradingModel
 from cms.djangoapps.contentstore.utils import get_modulestore
 from lxml import etree
+from django.shortcuts import redirect
 
 # to install PIL on MacOSX: 'easy_install http://dist.repoze.org/PIL-1.1.6.tar.gz'
 
@@ -81,6 +82,11 @@ def signup(request):
     csrf_token = csrf(request)['csrf_token']
     return render_to_response('signup.html', {'csrf': csrf_token})
 
+def old_login_redirect(request):
+    '''
+    Redirect to the active login url.
+    '''
+    return redirect('login', permanent=True)
 
 @ssl_login_shortcut
 @ensure_csrf_cookie
@@ -125,7 +131,8 @@ def index(request):
                     reverse('course_index', args=[
                         course.location.org,
                         course.location.course,
-                        course.location.name]))
+                        course.location.name]),
+                    get_lms_link_for_item(course.location))
                     for course in courses],
         'user': request.user,
         'disable_course_creation': settings.MITX_FEATURES.get('DISABLE_COURSE_CREATION', False) and not request.user.is_staff
@@ -166,6 +173,8 @@ def course_index(request, org, course, name):
     if not has_access(request.user, location):
         raise PermissionDenied()
 
+    lms_link = get_lms_link_for_item(location)
+
     upload_asset_callback_url = reverse('upload_asset', kwargs={
             'org': org,
             'course': course,
@@ -178,6 +187,7 @@ def course_index(request, org, course, name):
     return render_to_response('overview.html', {
         'active_tab': 'courseware',
         'context_course': course,
+        'lms_link': lms_link,
         'sections': sections,
         'course_graders': json.dumps(CourseGradingModel.fetch(course.location).graders),
         'parent_location': course.location,

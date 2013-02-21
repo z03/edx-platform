@@ -13,17 +13,16 @@ import hashlib
 import capa.xqueue_interface as xqueue_interface
 import re
 
-from pkg_resources import resource_string
-
-from .capa_module import only_one, ComplexEncoder
-from .editing_module import EditingDescriptor
-from .html_checker import check_html
-from progress import Progress
-from .stringify import stringify_children
-from .xml_module import XmlDescriptor
+from xmodule.capa_module import only_one, ComplexEncoder
+import open_ended_image_submission
+from xmodule.editing_module import EditingDescriptor
+from xmodule.html_checker import check_html
+from xmodule.progress import Progress
+from xmodule.stringify import stringify_children
+from xmodule.xml_module import XmlDescriptor
 from xmodule.modulestore import Location
 from capa.util import *
-import open_ended_image_submission
+from peer_grading_service import PeerGradingService
 
 from datetime import datetime
 
@@ -68,10 +67,10 @@ class OpenEndedChild(object):
 
     #This is used to tell students where they are at in the module
     HUMAN_NAMES = {
-        'initial': 'Started',
-        'assessing': 'Being scored',
-        'post_assessment': 'Scoring finished',
-        'done': 'Problem complete',
+        'initial': 'Not started',
+        'assessing': 'In progress',
+        'post_assessment': 'Done',
+        'done': 'Done',
     }
 
     def __init__(self, system, location, definition, descriptor, static_data, 
@@ -100,10 +99,20 @@ class OpenEndedChild(object):
         self.display_name = static_data['display_name']
         self.accept_file_upload = static_data['accept_file_upload']
         self.close_date = static_data['close_date']
+        self.s3_interface = static_data['s3_interface']
+        self.skip_basic_checks = static_data['skip_basic_checks']
 
         # Used for progress / grading.  Currently get credit just for
         # completion (doesn't matter if you self-assessed correct/incorrect).
         self._max_score = static_data['max_score']
+        self.peer_gs = PeerGradingService(system.open_ended_grading_interface, system)
+
+        self.system = system
+        self.location_string = location
+        try:
+            self.location_string = self.location_string.url()
+        except:
+            pass
 
         self.setup_response(system, location, definition, descriptor)
 
@@ -127,17 +136,17 @@ class OpenEndedChild(object):
         if self.closed():
             return True, {
                 'success': False,
-                'error': 'This problem is now closed.'
+                #This is a student_facing_error
+                'error': 'The problem close date has passed, and this problem is now closed.'
             }
         elif self.attempts > self.max_attempts:
             return True, {
                 'success': False,
-                'error': 'Too many attempts.'
+                #This is a student_facing_error
+                'error': 'You have attempted this problem {0} times.  You are allowed {1} attempts.'.format(self.attempts, self.max_attempts)
             }
         else:
             return False, {}
-
-
 
     def latest_answer(self):
         """Empty string if not available"""
@@ -253,7 +262,8 @@ class OpenEndedChild(object):
             try:
                 return Progress(self.get_score()['score'], self._max_score)
             except Exception as err:
-                log.exception("Got bad progress")
+                #This is a dev_facing_error
+                log.exception("Got bad progress from open ended child module. Max Score: {1}".format(self._max_score))
                 return None
         return None
 
@@ -261,10 +271,12 @@ class OpenEndedChild(object):
         """
         return dict out-of-sync error message, and also log.
         """
-        log.warning("Assessment module state out sync. state: %r, get: %r. %s",
+        #This is a dev_facing_error
+        log.warning("Open ended child state out sync. state: %r, get: %r. %s",
             self.state, get, msg)
+        #This is a student_facing_error
         return {'success': False,
-                'error': 'The problem state got out-of-sync'}
+                'error': 'The problem state got out-of-sync.  Please try reloading the page.'}
 
     def get_html(self):
         """
@@ -321,7 +333,7 @@ class OpenEndedChild(object):
 
             try:
                 image_data.seek(0)
-                success, s3_public_url = open_ended_image_submission.upload_to_s3(image_data, image_key)
+                success, s3_public_url = open_ended_image_submission.upload_to_s3(image_data, image_key, self.s3_interface)
             except:
                 log.exception("Could not upload image to S3.")
 
@@ -410,3 +422,34 @@ class OpenEndedChild(object):
                     success = True
 
         return success, string
+
+    def check_if_student_can_submit(self):
+        location = self.location_string
+
+        student_id = self.system.anonymous_student_id
+        success = False
+        allowed_to_submit = True
+        response = {}
+        #This is a student_facing_error
+        error_string = ("You need to peer grade {0} more in order to make another submission.  "
+        "You have graded {1}, and {2} are required.  You have made {3} successful peer grading submissions.")
+        try:
+            response = self.peer_gs.get_data_for_location(location, student_id)
+            count_graded = response['count_graded']
+            count_required = response['count_required']
+            student_sub_count = response['student_sub_count']
+            success = True
+        except:
+            #This is a dev_facing_error
+            log.error("Could not contact external open ended graders for location {0} and student {1}".format(location,student_id))
+            #This is a student_facing_error
+            error_message = "Could not contact the graders.  Please notify course staff."
+            return success, allowed_to_submit, error_message
+        if count_graded>=count_required:
+            return success, allowed_to_submit, ""
+        else:
+            allowed_to_submit = False
+            #This is a student_facing_error
+            error_message = error_string.format(count_required-count_graded, count_graded, count_required, student_sub_count)
+            return success, allowed_to_submit, error_message
+

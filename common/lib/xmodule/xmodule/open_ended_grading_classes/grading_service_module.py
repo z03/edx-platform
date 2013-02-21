@@ -5,7 +5,7 @@ import requests
 from requests.exceptions import RequestException, ConnectionError, HTTPError
 import sys
 
-from xmodule.combined_open_ended_rubric import CombinedOpenEndedRubric, RubricParsingError
+from combined_open_ended_rubric import CombinedOpenEndedRubric
 from lxml import etree
 
 log = logging.getLogger(__name__)
@@ -22,8 +22,6 @@ class GradingService(object):
     def __init__(self, config):
         self.username = config['username']
         self.password = config['password']
-        self.url = config['url']
-        self.login_url = self.url + '/login/'
         self.session = requests.session()
         self.system = config['system']
 
@@ -53,6 +51,8 @@ class GradingService(object):
             r = self._try_with_login(op)
         except (RequestException, ConnectionError, HTTPError) as err:
             # reraise as promised GradingServiceError, but preserve stacktrace.
+            #This is a dev_facing_error
+            log.error("Problem posting data to the grading controller.  URL: {0}, data: {1}".format(url, data))
             raise GradingServiceError, str(err), sys.exc_info()[2]
 
         return r.text
@@ -69,6 +69,8 @@ class GradingService(object):
             r = self._try_with_login(op)
         except (RequestException, ConnectionError, HTTPError) as err:
             # reraise as promised GradingServiceError, but preserve stacktrace.
+            #This is a dev_facing_error
+            log.error("Problem getting data from the grading controller.  URL: {0}, params: {1}".format(url, params))
             raise GradingServiceError, str(err), sys.exc_info()[2]
 
         return r.text
@@ -114,16 +116,20 @@ class GradingService(object):
             if 'rubric' in response_json:
                 rubric = response_json['rubric']
                 rubric_renderer = CombinedOpenEndedRubric(self.system, view_only)
-                success, rubric_html = rubric_renderer.render_rubric(rubric)
+                rubric_dict = rubric_renderer.render_rubric(rubric)
+                success = rubric_dict['success']
+                rubric_html = rubric_dict['html']
                 response_json['rubric'] = rubric_html
             return response_json
         # if we can't parse the rubric into HTML,
         except etree.XMLSyntaxError, RubricParsingError:
+            #This is a dev_facing_error
             log.exception("Cannot parse rubric string. Raw string: {0}"
             .format(rubric))
             return {'success': False,
                     'error': 'Error displaying submission'}
         except ValueError:
+            #This is a dev_facing_error
             log.exception("Error parsing response: {0}".format(response))
             return {'success': False,
                     'error': "Error displaying submission"}
