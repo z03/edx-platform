@@ -96,16 +96,19 @@ h1 {
         margin-right: ($baseline/10);
         padding: ($baseline/4) ($baseline/2);
         color: $white;
+        background: $gray;
 
         .icon {
           display: inline-block;
           vertical-align: middle;
           margin-right: ($baseline/10);
+          line-height: 1rem;
+          color: $white;
         }
       }
 
       .badge-status-draft {
-        background: $yellow-s3;
+        background: $orange-s1;
       }
     }
 
@@ -211,7 +214,6 @@ h1 {
     @include border-bottom-radius(3px);
     @include font-size(13);
     margin-top: -21px;
-    border-top: 1px solid $gray-l1;
     background: $gray-l4;
 
     .status {
@@ -223,6 +225,7 @@ h1 {
     }
 
     .icon {
+      @include box-sizing(border-box);
       color: $gray-l3;
     }
   }

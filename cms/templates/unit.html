@@ -16,7 +16,12 @@
     });
 
     $(document).ready(function() {
-      $('body').addClass('js');
+
+      // unit URL management
+      $('.unit .metadata .status-url .label').click(function(e){
+        e.preventDefault();
+        $(this).parent().find('.value').toggleClass('is-shown');
+      });
 
       // tabs
       $('.tab-group').tabs();
@@ -33,7 +38,7 @@
 </%block>
 <%block name="content">
 <!-- basic state -->
-<div class="wrapper-mast wrapper wip-box">
+<div class="wrapper-mast wrapper">
   <header class="mast has-actions has-subtitle">
     <div class="title">
       <nav class="nav-hierarchy">
@@ -75,7 +80,7 @@
     </div>
 
     <div class="status status-url">
-      <h3 class="label"><i class="ss-icon ss-symbolicons-block icon icon-link">&#x1F517;</i> <span class="text">URL:</span></h3>
+      <h3 class="label" title="Unit URL"><i class="ss-icon ss-symbolicons-block icon icon-link">&#xED10;</i> <span class="text">URL:</span></h3>
       <p class="value">/courseware/${section.url_name}/${subsection.url_name}</p>
     </div>
   </div> 
@@ -104,10 +109,7 @@
       <h3 class="sr">Page Actions</h3>
       <ul>
         <li class="nav-item">
-          <a href="#" rel="external" class="button view-button view-preview-button"><i class="ss-icon ss-symbolicons-block icon icon-view">&#xE010;</i>View Preview</a>
-        </li>
-        <li class="nav-item">
-          <a href="#" rel="external" class="button view-button view-live-button"><i class="ss-icon ss-symbolicons-block icon icon-view">&#xE010;</i>View Live</a>
+          <a href="${published_preview_link}" rel="external" class="button view-button view-live-button"><i class="ss-icon ss-symbolicons-block icon icon-view">&#xE010;</i>View Live</a>
         </li>
       </ul>
     </nav>
@@ -115,7 +117,7 @@
 
   <div class="metadata status-unit">
     <div class="status status-visibility is-public">
-      <label class="label" for="unit-visibility"><i class="ss-icon ss-symbolicons-standard icon icon-visibility">&#x1F440;</i> <span class="text">Visibility:</span></label>
+      <label class="label" for="unit-visibility" title="Unit Visibility"><i class="ss-icon ss-symbolicons-standard icon icon-visibility">&#x1F440;</i> <span class="text">Visibility:</span></label>
       <select class="visibility-select value" id="unit-visibility">
         <option value="public">Public</option>
         <option value="private">Private</option>
@@ -127,8 +129,8 @@
       <p class="value"><strong>students</strong> on <strong>February 06, 2013 at 12:00 PM</strong></p>
     </div>
 
-    <div class="status status-url">
-      <h3 class="label"><i class="ss-icon ss-symbolicons-block icon icon-link">&#x1F517;</i> <span class="text">URL:</span></h3>
+    <div class="status status-url is-released">
+      <h3 class="label" title="Unit URL"><i class="ss-icon ss-symbolicons-block icon icon-link">&#xED10;</i> <span class="text">URL:</span></h3>
       <p class="value">/courseware/${section.url_name}/${subsection.url_name}</p>
     </div>
   </div> 
@@ -136,7 +138,7 @@
 
 
 <!-- basic state in draft -->
-<div class="wrapper-mast wrapper wip-box">
+<div class="wrapper-mast wrapper">
   <header class="mast has-actions has-subtitle">
     <div class="title">
       <nav class="nav-hierarchy">
@@ -157,7 +159,7 @@
       <h3 class="sr">Page Actions</h3>
       <ul>
         <li class="nav-item">
-          <a href="#" rel="external" class="button view-button view-preview-button"><i class="ss-icon ss-symbolicons-block icon icon-view">&#xE010;</i>View Preview</a>
+          <a href="${published_preview_link}" rel="external" class="button view-button view-preview-button"><i class="ss-icon ss-symbolicons-block icon icon-view">&#xE010;</i>View Preview</a>
         </li>
       </ul>
     </nav>
@@ -178,7 +180,7 @@
     </div>
 
     <div class="status status-url">
-      <h3 class="label"><i class="ss-icon ss-symbolicons-block icon icon-link">&#x1F517;</i> <span class="text">URL:</span></h3>
+      <h3 class="label" title="Unit URL"><i class="ss-icon ss-symbolicons-block icon icon-link">&#xED10;</i> <span class="text">URL:</span></h3>
       <p class="value">/courseware/${section.url_name}/${subsection.url_name}</p>
     </div>
   </div> 
@@ -187,7 +189,7 @@
 
 <div class="main-wrapper edit-state-${unit_state}" data-id="${unit_location}">
   <div class="inner-wrapper">
-    <div class="alert editing-draft-alert">
+    <div class="alert editing-draft-alert temp-hide">
       <p class="alert-message"><strong>You are editing a draft.</strong>
       % if published_date:
       This unit was originally published on ${published_date}.
@@ -259,7 +261,7 @@
     </div>
 
     <div class="sidebar">
-      <div class="unit-settings window">
+      <div class="unit-settings window temp-hide">
         <h4 class="header">Unit Settings</h4>
         <div class="window-contents">
           <div class="row visibility">
