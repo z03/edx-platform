@@ -1,0 +1,18 @@
+// Studio - Design Documentation
+// ====================
+body.documentation {
+  background: $white;
+
+  .wrapper-header {
+    background: transparent;
+    border: 1px solid $gray-l4;
+
+    header.primary {
+
+      .title-1 {
+        color: $gray-l1;
+        font-weight: 600;
+      }
+    }
+  }
+}
