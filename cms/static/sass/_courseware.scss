@@ -209,7 +209,8 @@ input.courseware-unit-search-input {
 
     &.collapsed .subsection-list,
     .collapsed .subsection-list,
-    .collapsed > ol {
+    .collapsed > ol,
+    .collapsed > .new-unit-item {
         display: none !important;
     }
 
@@ -658,7 +659,6 @@ input.courseware-unit-search-input {
 // sort/drag and drop
 .ui-droppable {
     @include transition (padding 0.5s ease-in-out 0s);
-    min-height: 20px;
     padding: 0;
 
     &.dropover {
