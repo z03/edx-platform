@@ -83,6 +83,7 @@ urlpatterns = ('',
 
 # User creation and updating views
 urlpatterns += (
+    url(r'^ux-offcanvasnav$', 'contentstore.views.ux_offcanvasnav', name='ux-offcanvasnav'),
     url(r'^howitworks$', 'contentstore.views.howitworks', name='howitworks'),
     url(r'^signup$', 'contentstore.views.signup', name='signup'),
 

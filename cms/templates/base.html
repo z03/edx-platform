@@ -27,33 +27,41 @@
   </head>
 
   <body class="<%block name='bodyclass'></%block> hide-wip">
-    <%include file="widgets/header.html" />
-    <%include file="courseware_vendor_js.html"/>
+    
+    <%block name='nav_offcanvas'></%block>
 
-    <script type="text/javascript" src="${static.url('js/vendor/json2.js')}"></script>
-    <script type="text/javascript" src="${static.url('js/vendor/underscore-min.js')}"></script>
-    <script type="text/javascript" src="${static.url('js/vendor/backbone-min.js')}"></script>
-    <script type="text/javascript" src="${static.url('js/vendor/markitup/jquery.markitup.js')}"></script>
-    <script type="text/javascript" src="${static.url('js/vendor/markitup/sets/wiki/set.js')}"></script>
-    <script src="${static.url('js/vendor/symbolset.ss-standard.js')}"></script>
-    <script src="${static.url('js/vendor/symbolset.ss-symbolicons.js')}"></script>
+    <div class="wrapper-view wrapper">
+        <%include file="widgets/header.html" />
+        <%include file="courseware_vendor_js.html"/>
 
-    <%static:js group='main'/>
-    <%static:js group='module-js'/>
-    <script src="${static.url('js/vendor/jquery.inlineedit.js')}"></script>
-    <script src="${static.url('js/vendor/jquery.cookie.js')}"></script>
-    <script src="${static.url('js/vendor/jquery.leanModal.min.js')}"></script>
-    <script src="${static.url('js/vendor/jquery.tablednd.js')}"></script>
-    <script src="${static.url('js/vendor/jquery.form.js')}"></script>
-    <script type="text/javascript" src="${static.url('js/vendor/CodeMirror/htmlmixed.js')}"></script>
-    <script type="text/javascript" src="${static.url('js/vendor/CodeMirror/css.js')}"></script>
-    <script type="text/javascript">
-      document.write('\x3Cscript type="text/javascript" src="' +
-          document.location.protocol + '//www.youtube.com/player_api">\x3C/script>');
-    </script>
+        <script type="text/javascript" src="${static.url('js/vendor/json2.js')}"></script>
+        <script type="text/javascript" src="${static.url('js/vendor/underscore-min.js')}"></script>
+        <script type="text/javascript" src="${static.url('js/vendor/backbone-min.js')}"></script>
+        <script type="text/javascript" src="${static.url('js/vendor/markitup/jquery.markitup.js')}"></script>
+        <script type="text/javascript" src="${static.url('js/vendor/markitup/sets/wiki/set.js')}"></script>
+        <script src="${static.url('js/vendor/symbolset.ss-standard.js')}"></script>
+        <script src="${static.url('js/vendor/symbolset.ss-symbolicons.js')}"></script>
 
-    <%block name="content"></%block>
-    <%include file="widgets/footer.html" />
+        <%static:js group='main'/>
+        <%static:js group='module-js'/>
+        <script src="${static.url('js/vendor/jquery.inlineedit.js')}"></script>
+        <script src="${static.url('js/vendor/jquery.cookie.js')}"></script>
+        <script src="${static.url('js/vendor/jquery.leanModal.min.js')}"></script>
+        <script src="${static.url('js/vendor/jquery.tablednd.js')}"></script>
+        <script src="${static.url('js/vendor/jquery.form.js')}"></script>
+        <script type="text/javascript" src="${static.url('js/vendor/CodeMirror/htmlmixed.js')}"></script>
+        <script type="text/javascript" src="${static.url('js/vendor/CodeMirror/css.js')}"></script>
+        <script type="text/javascript">
+          document.write('\x3Cscript type="text/javascript" src="' +
+              document.location.protocol + '//www.youtube.com/player_api">\x3C/script>');
+        </script>
+
+        <%block name="content"></%block>
+        
+        <%include file="widgets/footer.html" />        
+    </div>
+
+    
 
     <%block name="jsextra"></%block>
   </body>

@@ -118,6 +118,9 @@ def howitworks(request):
     else:
         return render_to_response('howitworks.html', {})
 
+def ux_offcanvasnav(request):
+    return render_to_response('ux-offcanvasnav.html', {})
+
 # ==== Views for any logged-in user ==================================
 
 

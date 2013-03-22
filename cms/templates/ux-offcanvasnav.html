@@ -1,0 +1,146 @@
+<%inherit file="base.html" />
+<%block name="title">Studio Off Canvas Navigation</%block>
+<%block name="bodyclass">is-signedin course uxdesign offcanvasnav</%block>
+
+<%block name="jsextra">
+<script type="text/javascript">
+  // notifications - demo
+  $(document).ready(function() {
+    
+    $('.toggle-offcanvasnav').click(function(e) {
+        (e).preventDefault();          
+        $('.nav-offcanvas').toggleClass('is-shown');
+    });
+  });
+</script>
+</%block>
+
+<%block name="content">
+<div class="wrapper-mast wrapper">
+  <header class="mast has-actions has-subtitle">
+    <div class="title">
+      <span class="title-sub">UX Design</span>
+      <h1 class="title-1">Off Canvas Navigation Example</h1>
+    </div>
+  </header>
+</div>
+
+<div class="wrapper-content wrapper">
+  <section class="content">
+    <article class="content-primary" role="main">
+      <section>
+
+        <ul classs="actions">
+          <li>
+            <a class="toggle-offcanvasnav" href="#nav-course">Show Course Menu</a>
+          </li>
+        </ul>
+
+        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Curabitur blandit tempus porttitor. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Donec sed odio dui.</p>
+
+        <p>Nulla vitae elit libero, a pharetra augue. Sed posuere consectetur est at lobortis. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.</p>
+
+        <p>Aenean lacinia bibendum nulla sed consectetur. Aenean lacinia bibendum nulla sed consectetur. Maecenas sed diam eget risus varius blandit sit amet non magna. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</p>
+
+        <p>Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Cras mattis consectetur purus sit amet fermentum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec sed odio dui.</p>       
+      </section>
+    </article>
+  </section>
+</div>  
+</%block>
+
+<%block name="nav_offcanvas">
+<nav class="nav-course primary nav-offcanvas" id="nav-course" role="navigation">
+  <header>
+    <h2 class="title-2">Course Navigation</h2>
+  </header>
+
+  <div class="bit search">
+    <h3 class="sr">Search Course</h3>
+    <form action="" method="post">
+       <ol class="form-fields">
+        <li class="field">
+          <label class="sr" for="search-course-input">Search Course Name</label>
+          <input type="text" name="search-course-input" value="" placeholder="Search for..." id="search-course-input" />
+        </li>
+       </ol>
+
+       <div class="form-actions">
+        <button type="submit" id="search-course-submit" name="search-course-submit" class="action action-primary">Search</button>
+       </div>
+    </form> 
+  </div>
+
+  <div class="bit nav-group">
+    <h3 class="title-3">Course Content</h3>
+    <ol class="nav-course-content">
+      <li class="nav-item">
+        <a href="#">Navigation Item</a>
+      </li>
+      <li class="nav-item">
+        <a href="#">Navigation Item</a>
+      </li>
+      <li class="nav-item">
+        <a href="#">Navigation Item</a>
+      </li>
+      <li class="nav-item">
+        <a href="#">Navigation Item</a>
+      </li>
+      <li class="nav-item">
+        <a href="#">Navigation Item</a>
+      </li>
+      <li class="nav-item">
+        <a href="#">Navigation Item</a>
+      </li>
+    </ol>    
+  </div>
+
+  <div class="bit nav-group">
+    <h3 class="title-3">Course Settings</h3>
+    <ol class="nav-course-content">
+      <li class="nav-item">
+        <a href="#">Navigation Item</a>
+      </li>
+      <li class="nav-item">
+        <a href="#">Navigation Item</a>
+      </li>
+      <li class="nav-item">
+        <a href="#">Navigation Item</a>
+      </li>
+      <li class="nav-item">
+        <a href="#">Navigation Item</a>
+      </li>
+      <li class="nav-item">
+        <a href="#">Navigation Item</a>
+      </li>
+      <li class="nav-item">
+        <a href="#">Navigation Item</a>
+      </li>
+    </ol>    
+  </div>
+
+  <div class="bit nav-group">
+    <h3 class="title-3">Course Tools</h3>
+    <ol class="nav-course-content">
+      <li class="nav-item">
+        <a href="#">Navigation Item</a>
+      </li>
+      <li class="nav-item">
+        <a href="#">Navigation Item</a>
+      </li>
+      <li class="nav-item">
+        <a href="#">Navigation Item</a>
+      </li>
+      <li class="nav-item">
+        <a href="#">Navigation Item</a>
+      </li>
+      <li class="nav-item">
+        <a href="#">Navigation Item</a>
+      </li>
+      <li class="nav-item">
+        <a href="#">Navigation Item</a>
+      </li>
+    </ol>    
+  </div>
+</nav>
+</%block>
