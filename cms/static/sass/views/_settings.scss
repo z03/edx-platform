@@ -710,7 +710,8 @@ body.course.settings {
         }
 
         .CodeMirror-scroll {
-          overflow: hidden;
+          overflow-y: auto;
+          overflow-x: hidden;
           height: auto;
           min-height: ($baseline*1.5);
           max-height: ($baseline*10);
