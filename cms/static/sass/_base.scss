@@ -696,6 +696,72 @@ hr.divider {
   @extend .sr;
 }
 
+// links + additional copy
+a[href$=".pdf"] {
+
+  &:after {
+    @include font-size(11);
+    display: inline;
+    vertical-align: text-bottom;
+    margin-left: ($baseline/4);
+    opacity: 0.75;
+    content: $cpy-pdf;
+    font-weight: 400;
+  }
+}
+
+a[href$=".ppt"] {
+
+  &:after {
+    @include font-size(11);
+    display: inline;
+    vertical-align: text-bottom;
+    margin-left: ($baseline/4);
+    opacity: 0.75;
+    content: $cpy-ppt;
+    font-weight: 400;
+  }
+}
+
+a[href$=".doc"] {
+
+  &:after {
+    @include font-size(11);
+    display: inline;
+    vertical-align: text-bottom;
+    margin-left: ($baseline/4);
+    opacity: 0.75;
+    content: $cpy-doc;
+    font-weight: 400;
+  }
+}
+
+a[href$=".zip"] {
+
+  &:after {
+    @include font-size(11);
+    display: inline;
+    vertical-align: text-bottom;
+    margin-left: ($baseline/4);
+    opacity: 0.75;
+    content: $cpy-zip;
+    font-weight: 400;
+  }
+}
+
+a[href$=".jpg"], a[href$=".png"], a[href$=".gif"], a[href$=".tiff"] {
+
+  &:after {
+    @include font-size(11);
+    display: inline;
+    vertical-align: text-bottom;
+    margin-left: ($baseline/4);
+    opacity: 0.75;
+    content: $cpy-img;
+    font-weight: 400;
+  }
+}
+
 // ====================
 
 // js dependant

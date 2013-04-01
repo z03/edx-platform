@@ -12,9 +12,13 @@ $fg-max-columns: 12;
 $fg-max-width: 1280px;
 $fg-min-width: 900px;
 
+// ====================
+
 // type
 $sans-serif: 'Open Sans', $verdana;
 $body-line-height: golden-ratio(.875em, 1);
+
+// ====================
 
 // colors - new for re-org
 $black: rgb(0,0,0);
@@ -147,6 +151,8 @@ $shadow: rgba(0,0,0,0.2);
 $shadow-l1: rgba(0,0,0,0.1);
 $shadow-d1: rgba(0,0,0,0.4);
 
+// ====================
+
 // colors - inherited 
 $baseFontColor: #3c3c3c;
 $offBlack: #3c3c3c;
@@ -164,3 +170,12 @@ $darkGreen: rgb(52, 133, 76);
 $lightBluishGrey: rgb(197, 207, 223);
 $lightBluishGrey2: rgb(213, 220, 228);
 $error-red: rgb(253, 87, 87);
+
+// ====================
+
+// copy - links
+$cpy-pdf: "(PDF)";
+$cpy-ppt: "(PPT)";
+$cpy-doc: "(DOC)";
+$cpy-zip: "(ZIP)";
+$cpy-img: "(image)";
