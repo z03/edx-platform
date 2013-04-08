@@ -27,11 +27,11 @@ PIPELINE_JS['js-test-source'] = {
 }
 
 PIPELINE_JS['spec'] = {
-    'source_filenames': sorted(rooted_glob(PROJECT_ROOT / 'static/', 'coffee/spec/**/*.coffee')),
+    'source_filenames': sorted(rooted_glob(PROJECT_ROOT / 'static/', 'spec/**/*.coffee')),
     'output_filename': 'js/cms-spec.js'
 }
 
-JASMINE_TEST_DIRECTORY = PROJECT_ROOT + '/static/coffee'
+JASMINE_TEST_DIRECTORY = PROJECT_ROOT + '/static/spec'
 
 STATICFILES_DIRS.append(COMMON_ROOT / 'test' / 'phantom-jasmine' / 'lib')
 
