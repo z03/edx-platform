@@ -6,16 +6,16 @@ input[type="text"],
 input[type="email"],
 input[type="password"],
 textarea.text {
-  padding: 6px 8px 8px;
   @include box-sizing(border-box);
-  border: 1px solid $gray-l2;
-  border-radius: 2px;
+  @include border-radius(2px);
   @include linear-gradient($gray-l5, $white);
-  background-color: $gray-l5;
   @include box-shadow(inset 0 1px 2px $shadow-l1);
-  font-family: 'Open Sans', sans-serif;
-  font-size: 11px;
-  color: $baseFontColor;
+  @include font-size(11);
+  border: 1px solid $gray-l2;
+  padding: 6px 8px 8px;
+  background-color: $gray-l5;
+  font-family: $sans-serif;
+  color: $gray-d2;
   outline: 0;
 
   &::-webkit-input-placeholder,
@@ -32,42 +32,247 @@ textarea.text {
 
 // ====================
 
-// forms - fields - not editable
-.field.is-not-editable {
-
-  & label.is-focused {
-   color: $gray-d2;
-  }
-
-  label, input, textarea {
-    pointer-events: none;
-  }
-}
-
-// ====================
-
-// field with error
-.field.error {
-
-  input, textarea {
-    border-color: $red;
-  }
-}
-
-// ====================
-
-// forms - additional UI
+// forms - fields
 form {
 
-  .note {
-    @include box-sizing(border-box);
+  .field {
+    margin: 0 0 $baseline 0;
 
-    .title {
+    label, .label {
+      @extend .t-copy-sub1;
+      @include transition(color, 0.15s, ease-in-out);
+      display: block;
+      margin: 0 0 ($baseline/4) 0;
+      font-weight: 400;
+      color: $black;
+    }
+
+    input[type="text"], input[type="email"], input[type="password"], textarea.text {
+      @extend .t-copy-base;
+      @include size(75%,100%);
+      @include box-sizing(border-box);
+      @include border-radius(2px);
+      @include linear-gradient($gray-l5, $white);
+      @include box-shadow(inset 0 1px 2px $shadow-l1);
+      border: 1px solid $gray-l2;
+      padding: ($baseline/2);
+      background-color: $gray-l5;
+      font-family: $sans-serif;
+      color: $gray-d2;
+      outline: 0;
+
+      &::-webkit-input-placeholder {
+        color: $gray-l2;
+      }
+      &:-moz-placeholder {
+        color: $gray-l2;
+      }
+      &:-ms-input-placeholder {
+        color: $gray-l2;
+      }
+
+      // text input sizes
+      &.long {
+        width: 100%;
+      }
+
+      &.short {
+        width: 50%;
+      }
+    }
+
+    // field tip
+    .tip {
+      @extend .t-copy-sub2;
+      @include transition(color, 0.15s, ease-in-out);
+      display: inline-block;
+      margin-top: ($baseline/4);
+      color: $gray-l3;
+
+      &.tip-stacked {
+        display: block;
+      }
+    }
+
+    // field metadata
+    .metadata {
 
     }
 
-    .copy {
+    // specific field types
+    textarea.text {
 
+      &.long {
+        height: ($baseline*10);
+      }
+    }
+
+    &.text {
+
+    }
+
+    &.checkbox {
+
+      input[type="checkbox"] {
+        margin-right: ($baseline/4);
+      }
+
+      label {
+        font-weight: 400;
+      }
+
+      .tip {
+        margin-left: ($baseline/2);
+      }
+
+      // state: checked
+      input[type="checkbox"]:checked {
+
+        ~ label {
+          color: $blue;
+        }
+      }
+
+      &.is-inline {
+
+        input[type="checkbox"] {
+
+        }
+
+        label {
+
+        }
+      }
+    }
+
+    &.radio {
+
+      input[type="radio"] {
+        margin-right: ($baseline/4);
+      }
+
+      label {
+        font-weight: 400;
+      }
+
+      .tip {
+        margin-left: ($baseline/2);
+      }
+
+      // state: checked
+      input[type="radio"]:checked {
+
+        ~ label {
+          color: $blue;
+        }
+      }
+
+      &.is-inline {
+        input[type="radio"] {
+
+        }
+
+        label {
+
+        }
+      }
+    }
+  }
+
+  // groups of fields
+  .field-group {
+    @include clearfix();
+    margin: 0 0 $baseline 0;
+
+    .field {
+      display: inline-block;
+      margin: 0 $baseline 0 0;
+      padding-bottom: 0;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  // ====================
+
+  // forms - fields - state: focused
+  .field.is-focused {
+
+    label, .tip {
+      color: $blue;
+    }
+  }
+
+  // ====================
+
+  // forms - fields state:required
+  .field.required {
+
+    label, .label {
+      font-weight: 600;
+
+      &:after {
+        margin-left: ($baseline/4);
+        content: "*";
+      }
+    }
+  }
+
+  // ====================
+
+  // forms - fields - state: not editable
+  .field.is-not-editable, .field.is-disabled {
+
+    label {
+     color: $gray-d2;
+    }
+
+    label, input, textarea {
+      pointer-events: none;
+    }
+  }
+
+  // ====================
+
+  // forms - fields state:error
+  .field.error {
+
+    input, textarea {
+      border-color: $red;
+    }
+  }
+
+  // ====================
+
+  // form actions
+  .form-actions {
+    margin-top: ($baseline*2);
+
+    .action-primary {
+      @extend .btn-primary-blue;
+    }
+
+    .action-secondary {
+      margin-left: $baseline;
+    }
+  }
+
+  // ====================
+
+  // form notes
+  .note {
+    @include box-sizing(border-box);
+    margin-bottom: ($baseline*2);
+
+    .title {
+      @extend .t-title-3;
+      margin-bottom: ($baseline/2);
+    }
+
+    .copy {
+      @extend .t-copy-sub1;
     }
 
     // note with actions
@@ -82,14 +287,13 @@ form {
 
       }
 
-      .list-actions {
+      .nav-actions {
 
+        .nav-item {
+          @extend .t-copy-sub1;
+        }
       }
     }
-  }
-
-  .note-promotion {
-
   }
 }
 

@@ -41,6 +41,13 @@ $(document).ready(function () {
 
     $('body').addClass('js');
 
+    // hilighting labels when fields are focused in
+    $("form :input").focus(function() {
+        $(this).closest('.field').addClass("is-focused");
+    }).blur(function() {
+        $(this).closest('.field').removeClass("is-focused");
+    });
+
     $('.unit .item-actions .delete-button').bind('click', deleteUnit);
     $('.new-unit-item').bind('click', createNewUnit);
 

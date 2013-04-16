@@ -1,0 +1,198 @@
+<%inherit file="base.html" />
+<%block name="title">Studio Forms</%block>
+<%block name="bodyclass">uxdesign forms</%block>
+
+<%block name="jsextra">
+<script type="text/javascript">
+  // forms - demo
+  $(document).ready(function() {
+
+
+  });
+</script>
+</%block>
+
+<%block name="content">
+<div class="wrapper-mast wrapper">
+  <header class="mast has-actions has-subtitle">
+    <div class="title">
+      <span class="title-sub">UX Design</span>
+      <h1 class="title-1">Forms</h1>
+    </div>
+  </header>
+</div>
+
+<div class="wrapper-content wrapper">
+  <section class="content">
+    <article class="content-primary" role="main">
+      <section>
+        <header>
+          <h2 class="title-2">Basic Forms</h2>
+          <span class="tip">common form and field structure</span>
+        </header>
+
+        <p>In Studio, forms are used for various user inputs. Below are examples of forms and their elements that are presented within the main content of a Studio View. Note: the styling of these forms may change over time, but the markup and standard structure are important to follow.</p>
+
+        <div class="example">
+          <form id="formName" method="post" action="formAction">
+            <div class="note has-actions">
+              <h3 class='title title-3'>Form Name or Title Would Go Here</h3>
+              <div class="copy">
+                <p>A form's purpose and instructions to the user on how to complete it can be presented here. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Maecenas faucibus mollis interdum. Etiam porta sem malesuada magna mollis euismod. Sed posuere consectetur est at lobortis. Vestibulum id ligula porta felis euismod semper. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+              </div>
+
+              <nav class="nav-actions">
+                <h3 class="sr">Form Options</h3>
+                <ul>
+                  <li class="nav-item">
+                    <a href="" class="action-primary">Skip to Step 2</a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="" rel="external" class="action-secondary">Contact edX About This form</a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+
+            <fieldset>
+              <legend class="sr">Form Section Name</legend>
+
+              <ol class="list-input">
+                <li class="field text required" id="field-email">
+                  <label for="email">Email Address</label>
+                  <input id="email" type="email" name="email" placeholder="e.g. jane.doe@gmail.com" required />
+                </li>
+
+                <li class="field text required" id="field-password">
+                  <label for="password">Password</label>
+                  <input id="password" type="password" name="password" />
+                </li>
+
+                <li class="field text required" id="field-username">
+                  <label for="username">Public Username</label>
+                  <input id="username" type="text" name="username" placeholder="e.g. janedoe" required />
+                  <span class="tip tip-stacked">This will be used in public discussions with your courses and in our edX101 support forums</span>
+                </li>
+
+                <li class="field text required" id="field-name">
+                  <label for="name">Full Name</label>
+                  <input id="name" type="text" name="name" placeholder="e.g. Jane Doe" required />
+                </li>
+
+                <li class="field-group">
+                  <div class="field text" id="field-location">
+                    <label for="location">Your Location</label>
+                    <input class="short" id="location" type="text" name="location" />
+                  </div>
+
+                  <div class="field text" id="field-language">
+                    <label for="language">Preferred Language</label>
+                    <input class="short" id="language" type="text" name="language" />
+                  </div>
+                </li>
+
+                <div class="field text" id="field-comments">
+                  <label for="comments">Comments or Questions</label>
+                  <textarea class="text" id="comments" name="comments"></textarea>
+                </div>
+
+                <div class="field text" id="field-comments2">
+                  <label for="comments2">Longer Comments or Questions</label>
+                  <textarea class="text long" id="comments2" name="comments2"></textarea>
+                </div>
+
+                <li class="field checkbox required" id="field-tos">
+                  <label for="tos">
+                    <input id="tos" name="terms_of_service" type="checkbox" value="true" required />
+                    I agree to the Terms of Service
+                  </label>
+                </li>
+
+                <li class="field radio" id="field-favorite">
+                  <h4 class="label">Who is Your Favorite Super Hero?</h4>
+                  <label for="favorite-1">
+                    <input id="favorite-1" name="favorite" type="radio" value="Superman" />
+                    Superman
+                    <span class="tip">He's allergic to kryptonite</span>
+                  </label>
+                  <label for="favorite-2">
+                    <input id="favorite-2" name="favorite" type="radio" value="Wonder Woman" />
+                    Wonder Woman
+                  </label>
+                  <label for="favorite-3">
+                    <input id="favorite-3" name="favorite" type="radio" value="Green Lantern" />
+                    Green Lantern
+                    <span class="tip">He's allergic to kryptonite</span>
+                  </label>
+                  <label for="favorite-4">
+                    <input id="favorite-4" name="favorite" type="radio" value="The Flash" />
+                    The Flash
+                  </label>
+                  <label for="favorite-5">
+                    <input id="favorite-5" name="favorite" type="radio" value="Aquaman" />
+                    Aquaman
+                  </label>
+                </li>
+
+                <li class="field checkbox" id="field-favorites">
+                  <h4 class="label">Who are Your Favorite Super Heroes?</h4>
+                  <label for="favorites-1">
+                    <input id="favorites-1" name="favorites" type="checkbox" value="Superman" />
+                    Superman
+                  </label>
+                  <label for="favorites-2">
+                    <input id="favorites-2" name="favorites" type="checkbox" value="Wonder Woman" />
+                    Wonder Woman
+                  </label>
+                  <label for="favorites-3">
+                    <input id="favorites-3" name="favorites" type="checkbox" value="Green Lantern" />
+                    Green Lantern
+                  </label>
+                  <label for="favorites-4">
+                    <input id="favorites-4" name="favorites" type="checkbox" value="The Flash" />
+                    The Flash
+                  </label>
+                  <label for="favorites-5">
+                    <input id="favorites-5" name="favorites" type="checkbox" value="Aquaman" />
+                    Aquaman
+                  </label>
+                </li>
+              </ol>
+            </fieldset>
+
+            <div class="form-actions">
+              <button type="submit" id="submit" name="submit" class="action action-primary action-submit">Primary Action (Often Submit)</button>
+              <a id="cancel" class="action action-secondary action-cancel">Secondary Action (often cancel - return to another view link)</a>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section>
+        <header>
+          <h2 class="title-2">Interstitial Forms</h2>
+          <span class="tip">How to handle forms that are not part of page's content</span>
+        </header>
+
+        <div class="example">
+          <h3 class="title-3">In-Context Form</h3>
+          <p>How do we handle standards on forms that pop up in the current view's UI in the place of the selection that the user made (e.g. "create a new section or course")?</p>
+        </div>
+
+        <div class="example">
+          <h3 class="title-3">Modal Forms</h3>
+          <p>How do we handle standards on forms that take the focus of the current view and require a user to interact with them to proceed (e.g. creating a new component, setting a release date)?</p>
+        </div>
+      </section>
+    </article>
+  </section>
+</div>
+</%block>
+
+<%block name="view_alerts">
+
+</%block>
+
+<%block name="view_notifications">
+
+</%block>

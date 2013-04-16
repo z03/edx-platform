@@ -13,7 +13,7 @@ $fg-max-width: 1280px;
 $fg-min-width: 900px;
 
 // type
-$sans-serif: 'Open Sans', $verdana;
+$sans-serif: 'Open Sans', sans-serif;
 $body-line-height: golden-ratio(.875em, 1);
 
 // colors - new for re-org
@@ -156,7 +156,7 @@ $shadow-d1: rgba(0,0,0,0.4);
 // specific UI
 $notification-height: ($baseline*10);
 
-// colors - inherited 
+// colors - inherited
 $baseFontColor: $gray-d2;
 $offBlack: #3c3c3c;
 $green: #108614;

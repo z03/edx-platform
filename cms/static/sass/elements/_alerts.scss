@@ -671,55 +671,6 @@
 
 // ====================
 
-// temporary
-body.uxdesign.alerts {
-
-  .content-primary, .content-supplementary {
-    @include box-sizing(border-box);
-    float: left;
-  }
-
-  .content-primary {
-    @extend .window;
-    width: flex-grid(12, 12);
-    margin-right: flex-gutter();
-    padding: $baseline ($baseline*1.5);
-
-    > section {
-      margin-bottom: ($baseline*2);
-
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-
-    ul {
-
-      li {
-        @include clearfix();
-        width: flex-grid(12, 12);
-        margin-bottom: ($baseline/4);
-        border-bottom: 1px solid $gray-l4;
-        padding-bottom: ($baseline/4);
-
-        &:last-child {
-          margin-bottom: 0;
-          border-bottom: none;
-          padding-bottom: 0;
-        }
-
-        a {
-          float: left;
-          width: flex-grid(5, 12);
-          margin-right: flex-gutter();
-        }
-      }
-    }
-  }
-}
-
-// ====================
-
 // artifact styles
 .main-wrapper {
   .alert {

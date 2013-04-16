@@ -12,7 +12,7 @@ body {
   min-width: $fg-min-width;
   background: $gray-l5;
   line-height: 1.6;
-  color: $baseFontColor;
+  color: $gray-d2;
 }
 
 body, input {
@@ -532,8 +532,7 @@ hr.divide {
 
   label {
     display: block;
-    margin-bottom: 6px;
-    font-weight: 700;
+    margin-bottom: ($baseline/4);
 
     &.inline-label {
       display: inline;

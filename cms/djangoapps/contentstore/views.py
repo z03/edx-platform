@@ -122,6 +122,9 @@ def howitworks(request):
 def ux_alerts(request):
     return render_to_response('ux-alerts.html', {})
 
+def ux_forms(request):
+    return render_to_response('ux-forms.html', {})
+
 
 # ==== Views for any logged-in user ==================================
 
