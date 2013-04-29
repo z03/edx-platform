@@ -46,6 +46,7 @@
           $('.message.submission-error').addClass('is-shown');
           toggleSubmitButton();
           $('.message.submission-error .message-copy').html(json.value);
+          $('.form-actions #submit').removeClass('is-disabled');
         }
       });
     })(this);
