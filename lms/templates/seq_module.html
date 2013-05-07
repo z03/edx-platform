@@ -11,7 +11,7 @@
         <a class="seq_${item['type']} inactive progress-${item['progress_status']}"
            data-id="${item['id']}"
            data-element="${idx+1}"
-           href="javascript:void(0);">
+           href="">
             <p>${item['title']}</p>
           </a>
         </li>
@@ -44,5 +44,10 @@
   var sequenceNav;
   $(document).ready(function() {
     sequenceNav = new SequenceNav($('.sequence-nav'));
+
+    // removing seq link's default behavior
+    $('#sequence-list [class^="seq_"]').click(function(e) {
+       e.preventDefault();
+     });
   });
 </script>

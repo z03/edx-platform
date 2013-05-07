@@ -114,7 +114,7 @@
       % endif
 
     </div>
-    <a href="preventDefault();" class="close-modal" title="Close Modal">
+    <a href="" class="close-modal" title="Close Modal">
       <div class="inner">
         <p>&#10005;</p>
       </div>
@@ -132,6 +132,11 @@
        $('#register_error').html(json.value).stop().css("display", "block");
        $("[data-field='"+json.field+"']").addClass('field-error')
      }
+    });
+
+    // removing close link's default behavior
+   $('#signup-modal .close-modal').click(function(e) {
+      e.preventDefault();
     });
   })(this)
 </script>

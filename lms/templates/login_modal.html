@@ -36,7 +36,7 @@
       </p>
 % endif
     </section>
-    <a href="preventDefault();" class="close-modal" title="Close Modal">
+    <a href="" class="close-modal" title="Close Modal">
       <div class="inner">
         <p>&#10005;</p>
       </div>
@@ -46,20 +46,25 @@
 
 <script type="text/javascript">
 (function() {
-   $(document).delegate('#login_form', 'ajax:success', function(data, json, xhr) {
-     if(json.success) {
-        next = getParameterByName('next');
-        if(next) {
-           location.href = next;
-       } else {
-           location.href = "${reverse('dashboard')}";
-       }
+  $(document).delegate('#login_form', 'ajax:success', function(data, json, xhr) {
+   if(json.success) {
+      next = getParameterByName('next');
+      if(next) {
+         location.href = next;
      } else {
-       if($('#login_error').length == 0) {
-         $('#login_form').prepend('<div id="login_error" class="modal-form-error"></div>');
-       }
-       $('#login_error').html(json.value).stop().css("display", "block");
+         location.href = "${reverse('dashboard')}";
      }
-   });
+   } else {
+     if($('#login_error').length == 0) {
+       $('#login_form').prepend('<div id="login_error" class="modal-form-error"></div>');
+     }
+     $('#login_error').html(json.value).stop().css("display", "block");
+   }
+  });
+
+  // removing close link's default behavior
+ $('#login-modal .close-modal').click(function(e) {
+    e.preventDefault();
+  });
 })(this)
 </script>
