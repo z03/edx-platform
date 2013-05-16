@@ -437,7 +437,7 @@
   &.saving {
 
     .icon-saving {
-      @include anim-rotateClockwise(3s, linear, infinite);
+      @include animation(anim-spinCW 3s linear infinite);
       width: 22px;
     }
 
@@ -642,7 +642,7 @@
       pointer-events: auto;
 
       .prompt {
-        @include anim-bounceIn(0.5s);
+        @include animation(anim-bounceIn 0.5s ease-in-out 0);
         opacity: 1.0;
       }
     }
@@ -663,15 +663,11 @@
 
     // varying animations
     &.is-shown {
-      @include anim-notificationsSlideUp(1s);
+      @include animation(anim-notificationsSlideUp 1.0s ease-in-out 0);
     }
 
     &.is-hiding {
-      @include anim-notificationsSlideDown(0.25s);
-    }
-
-    &.is-fleeting {
-      @include anim-notificationsSlideUpDown(2s);
+      @include animation(anim-notificationsSlideDown 0.25s ease-in-out 0);
     }
   }
 }
