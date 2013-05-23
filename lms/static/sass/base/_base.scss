@@ -84,6 +84,9 @@ a:link, a:visited {
   background: $content-wrapper-bg;
   margin: 0 auto 0;
   width: flex-grid(12);
+  margin: 0 auto;
+  padding-bottom: ($baseline*2);
+  background: rgb(255,255,255);
 }
 
 .container {
@@ -92,6 +95,7 @@ a:link, a:visited {
   padding: 0px 30px;
   max-width: grid-width(12);
   min-width: 760px;
+  width: flex-grid(12);
 }
 
 span.edx {
