@@ -697,6 +697,9 @@ INSTALLED_APPS = (
 
     # Student notes
     'notes',
+
+    # Email test
+    'emailtest'
 )
 
 ######################### MARKETING SITE ###############################
