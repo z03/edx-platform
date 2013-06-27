@@ -285,7 +285,7 @@ def dashboard(request):
 
     # Get the 3 most recent news
     top_news = _get_news(top=3) if not settings.MITX_FEATURES.get('ENABLE_MKTG_SITE', False) else None
-            
+
     # get info w.r.t ExternalAuthMap
     external_auth_map = None
     try:
@@ -434,54 +434,53 @@ def login_user(request, error=""):
         return HttpResponse(json.dumps({'success': False,
                                         'value': 'Email or password is incorrect.'}))
 
-    if user is not None and user.is_active:
-        try:
-            login(request, user)
-            if request.POST.get('remember') == 'true':
-                request.session.set_expiry(604800)
-                log.debug("Setting user session to never expire")
-            else:
-                request.session.set_expiry(0)
-        except Exception as e:
-            log.critical("Login failed - Could not create session. Is memcached running?")
-            log.exception(e)
+    if not user.is_active:
+        log.warning(u"Login failed - Account not active for user {0}, resending activation".format(username))
 
-        log.info(u"Login success - {0} ({1})".format(username, email))
+        reactivation_email_for_user(user)
+        not_activated_msg = "This account has not been activated. We have " + \
+                            "sent another activation message. Please check your " + \
+                            "e-mail for the activation instructions."
+        return HttpResponse(json.dumps({'success': False,
+                                        'value': not_activated_msg}))
 
-        try_change_enrollment(request)
-
-        statsd.increment("common.student.successful_login")
-        response = HttpResponse(json.dumps({'success': True}))
-
-        # set the login cookie for the edx marketing site
-        # we want this cookie to be accessed via javascript
-        # so httponly is set to None
-
-        if request.session.get_expire_at_browser_close():
-            max_age = None
-            expires = None
+    try:
+        login(request, user)
+        if request.POST.get('remember') == 'true':
+            request.session.set_expiry(604800)
+            log.debug("Setting user session to never expire")
         else:
-            max_age = request.session.get_expiry_age()
-            expires_time = time.time() + max_age
-            expires = cookie_date(expires_time)
+            request.session.set_expiry(0)
+    except Exception:
+        log.exception("Login failed - Could not create session. Is memcached running?")
 
-        response.set_cookie(settings.EDXMKTG_COOKIE_NAME,
-                            'true', max_age=max_age,
-                            expires=expires, domain=settings.SESSION_COOKIE_DOMAIN,
-                            path='/',
-                            secure=None,
-                            httponly=None)
+    log.info(u"Login success - {0} ({1})".format(username, email))
 
-        return response
+    try_change_enrollment(request)
 
-    log.warning(u"Login failed - Account not active for user {0}, resending activation".format(username))
+    statsd.increment("common.student.successful_login")
+    response = HttpResponse(json.dumps({'success': True}))
 
-    reactivation_email_for_user(user)
-    not_activated_msg = "This account has not been activated. We have " + \
-                        "sent another activation message. Please check your " + \
-                        "e-mail for the activation instructions."
-    return HttpResponse(json.dumps({'success': False,
-                                    'value': not_activated_msg}))
+    # set the login cookie for the edx marketing site
+    # we want this cookie to be accessed via javascript
+    # so httponly is set to None
+
+    if request.session.get_expire_at_browser_close():
+        max_age = None
+        expires = None
+    else:
+        max_age = request.session.get_expiry_age()
+        expires_time = time.time() + max_age
+        expires = cookie_date(expires_time)
+
+    response.set_cookie(settings.EDXMKTG_COOKIE_NAME,
+                        'true', max_age=max_age,
+                        expires=expires, domain=settings.SESSION_COOKIE_DOMAIN,
+                        path='/',
+                        secure=None,
+                        httponly=None)
+
+    return response
 
 
 @ensure_csrf_cookie
@@ -594,7 +593,7 @@ def create_account(request, post_override=None):
         if eamap.external_name.strip() == '':
             name = post_vars.get('name', '')
         else:
-            name = eamap.external_name 
+            name = eamap.external_name
         password = eamap.internal_password
         post_vars = dict(post_vars.items())
         post_vars.update(dict(email=email, name=name, password=password))
