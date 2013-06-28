@@ -18,6 +18,15 @@ S3_INTERFACE = {
     "aws_bucket_name": "",
 }
 
+MODULESTORE = {
+    'default': {
+        'ENGINE': 'xmodule.modulestore.xml.XMLModuleStore',
+        'OPTIONS': {
+            'data_dir': DATA_DIR,
+            'default_class': 'xmodule.hidden_module.HiddenDescriptor',
+            }
+    }
+}
 
 class MockQueryDict(dict):
     """
