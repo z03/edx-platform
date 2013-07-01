@@ -1,4 +1,4 @@
-// studio animations & keyframes
+// studio  - assets - animations & keyframes
 // ====================
 
 // rotate clockwise
@@ -56,7 +56,6 @@
   @include animation-timing-function($timing);
   @include animation-iteration-count($count);
   @include animation-fill-mode(both);
-
 }
 
 // ====================
@@ -83,6 +82,35 @@
 
 @mixin anim-notificationsSlideDown($duration, $timing: ease-in-out, $count: 1, $delay: 0) {
   @include animation-name(notificationsSlideDown);
+  @include animation-duration($duration);
+  @include animation-delay($delay);
+  @include animation-timing-function($timing);
+  @include animation-iteration-count($count);
+  @include animation-fill-mode(both);
+}
+
+// ====================
+
+// alerts fade out
+@mixin alertsFadeOut {
+  0% {
+    opacity: 1.0;
+    @include transform(scaleY(1.0));
+  }
+
+  100% {
+    opacity: 0.0;
+    @include transform(scaleY(0.0));
+  }
+}
+
+@-moz-keyframes alertsFadeOut { @include alertsFadeOut(); }
+@-webkit-keyframes alertsFadeOut { @include alertsFadeOut(); }
+@-o-keyframes alertsFadeOut { @include alertsFadeOut(); }
+@keyframes alertsFadeOut { @include alertsFadeOut();}
+
+@mixin anim-alertsFadeOut($duration, $timing: ease-in-out, $count: 1, $delay: 0) {
+  @include animation-name(alertsFadeOut);
   @include animation-duration($duration);
   @include animation-delay($delay);
   @include animation-timing-function($timing);

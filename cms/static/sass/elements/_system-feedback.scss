@@ -657,6 +657,13 @@
     &.is-shown {
       display: block;
     }
+
+    &.is-hiding {
+      @include anim-alertsFadeOut(0.25s);
+    }
+
+    &.is-showing {
+    }
   }
 
   // notification showing/hiding
@@ -669,6 +676,14 @@
     }
 
     &.is-hiding {
+      @include anim-notificationsSlideDown(0.25s);
+    }
+
+    &.is-sliding-up {
+      @include anim-notificationsSlideDown(0.25s);
+    }
+
+    &.is-sliding-down {
       @include anim-notificationsSlideDown(0.25s);
     }
   }
