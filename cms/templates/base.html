@@ -72,7 +72,30 @@
       <%include file="widgets/footer.html" />
       <%include file="widgets/tender.html" />
 
-      <div id="page-notification"></div>
+      <div id="page-notification">
+        <div class="wrapper wrapper-notification wrapper-notification-warning wrapper-notification-warning-w-errors is-shown" id="notification-warning" aria-hidden="false" aria-labelledby="notification-warning-title" aria-describedby="notification-warning-description" role="dialog">
+          <div class="notification warning warning-w-errors has-actions">
+            <i class="icon-warning-sign"></i>
+
+            <div class="copy">
+              <h2 class="title title-3" id="notification-warning-title">You've made some changes, but there are some errors</h2>
+              <p class="message" id="notification-warning-description">Please address the errors on this page first, and then save your progress.</p>
+            </div>
+
+            <nav class="nav-actions">
+              <h3 class="sr">notification Actions</h3>
+              <ul>
+                <li class="nav-item">
+                  <a href="#" class="button action-primary action-save is-disabled">Save Changes</a>
+                </li>
+                <li class="nav-item">
+                  <a href="#" class="button action-secondary action-cancel">Cancel</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div id="page-prompt"></div>
