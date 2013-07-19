@@ -75,6 +75,7 @@ def course_index(request, org, course, name):
         'coursename': name
     })
 
+    course_title = course
     course = modulestore().get_item(location, depth=3)
     sections = course.get_children()
 
@@ -90,7 +91,8 @@ def course_index(request, org, course, name):
         'new_subsection_category': 'sequential',
         'upload_asset_callback_url': upload_asset_callback_url,
         'new_unit_category': 'vertical',
-        'category': 'vertical'
+        'category': 'vertical',
+        "course_title": course_title,
     })
 
 
