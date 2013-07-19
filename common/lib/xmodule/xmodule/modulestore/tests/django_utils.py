@@ -5,7 +5,71 @@ from django.test import TestCase
 
 from django.conf import settings
 import xmodule.modulestore.django
-from xmodule.templates import update_templates
+from unittest.util import safe_repr
+
+
+def mongo_store_config(data_dir):
+    """
+    Defines default module store using MongoModuleStore.
+
+    Use of this config requires mongo to be running.
+    """
+    store = {
+        'default': {
+            'ENGINE': 'xmodule.modulestore.mongo.MongoModuleStore',
+            'OPTIONS': {
+                'default_class': 'xmodule.raw_module.RawDescriptor',
+                'host': 'localhost',
+                'db': 'test_xmodule',
+                'collection': 'modulestore_%s' % uuid4().hex,
+                'fs_root': data_dir,
+                'render_template': 'mitxmako.shortcuts.render_to_string'
+            }
+        }
+    }
+    store['direct'] = store['default']
+    return store
+
+
+def draft_mongo_store_config(data_dir):
+    """
+    Defines default module store using DraftMongoModuleStore.
+    """
+
+    modulestore_options = {
+        'default_class': 'xmodule.raw_module.RawDescriptor',
+        'host': 'localhost',
+        'db': 'test_xmodule',
+        'collection': 'modulestore_%s' % uuid4().hex,
+        'fs_root': data_dir,
+        'render_template': 'mitxmako.shortcuts.render_to_string'
+    }
+
+    return {
+        'default': {
+            'ENGINE': 'xmodule.modulestore.mongo.draft.DraftModuleStore',
+            'OPTIONS': modulestore_options
+        },
+        'direct': {
+            'ENGINE': 'xmodule.modulestore.mongo.MongoModuleStore',
+            'OPTIONS': modulestore_options
+        }
+    }
+
+
+def xml_store_config(data_dir):
+    """
+    Defines default module store using XMLModuleStore.
+    """
+    return {
+        'default': {
+            'ENGINE': 'xmodule.modulestore.xml.XMLModuleStore',
+            'OPTIONS': {
+                'data_dir': data_dir,
+                'default_class': 'xmodule.hidden_module.HiddenDescriptor',
+            }
+        }
+    }
 
 
 class ModuleStoreTestCase(TestCase):
@@ -44,22 +108,6 @@ class ModuleStoreTestCase(TestCase):
         # Remove everything except templates
         modulestore.collection.remove(query)
         modulestore.collection.drop()
-
-    @staticmethod
-    def load_templates_if_necessary():
-        """
-        Load templates into the direct modulestore only if they do not already exist.
-        We need the templates, because they are copied to create
-        XModules such as sections and problems.
-        """
-        modulestore = xmodule.modulestore.django.modulestore('direct')
-
-        # Count the number of templates
-        query = {"_id.course": "templates"}
-        num_templates = modulestore.collection.find(query).count()
-
-        if num_templates < 1:
-            update_templates(modulestore)
 
     @classmethod
     def setUpClass(cls):
@@ -104,9 +152,6 @@ class ModuleStoreTestCase(TestCase):
         # Flush anything that is not a template
         ModuleStoreTestCase.flush_mongo_except_templates()
 
-        # Check that we have templates loaded; if not, load them
-        ModuleStoreTestCase.load_templates_if_necessary()
-
         # Call superclass implementation
         super(ModuleStoreTestCase, self)._pre_setup()
 
@@ -119,3 +164,32 @@ class ModuleStoreTestCase(TestCase):
 
         # Call superclass implementation
         super(ModuleStoreTestCase, self)._post_teardown()
+
+
+    def assert2XX(self, status_code, msg=None):
+        """
+        Assert that the given value is a success status (between 200 and 299)
+        """
+        msg = self._formatMessage(msg, "%s is not a success status" % safe_repr(status_code))
+        self.assertTrue(status_code >= 200 and status_code < 300, msg=msg)
+
+    def assert3XX(self, status_code, msg=None):
+        """
+        Assert that the given value is a redirection status (between 300 and 399)
+        """
+        msg = self._formatMessage(msg, "%s is not a redirection status" % safe_repr(status_code))
+        self.assertTrue(status_code >= 300 and status_code < 400, msg=msg)
+
+    def assert4XX(self, status_code, msg=None):
+        """
+        Assert that the given value is a client error status (between 400 and 499)
+        """
+        msg = self._formatMessage(msg, "%s is not a client error status" % safe_repr(status_code))
+        self.assertTrue(status_code >= 400 and status_code < 500, msg=msg)
+
+    def assert5XX(self, status_code, msg=None):
+        """
+        Assert that the given value is a server error status (between 500 and 599)
+        """
+        msg = self._formatMessage(msg, "%s is not a server error status" % safe_repr(status_code))
+        self.assertTrue(status_code >= 500 and status_code < 600, msg=msg)
