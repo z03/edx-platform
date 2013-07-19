@@ -83,7 +83,7 @@ class PeerGradingModuleTest(unittest.TestCase, DummyModulestore):
         max_score = self.peer_grading.max_score()
         self.assertEquals(max_score, None)
 
-    def get_next_submission(self):
+    def test_get_next_submission(self):
         """
         Test to see if we can get the next mock submission
         @return:
