@@ -1,171 +1,325 @@
 // studio animations & keyframes
 // ====================
+// NOTE: useage options include:
+// 1) use the bourbon syntax in specific Sass rules with these animation names and customized parameters
+// 2) add the anim-* classes to elements you want canned animations applied to
+
+// utility for container - use as an @extend on individual elements
+.wrapper-anim {
+  overflow: hidden;
+}
+
+// ====================
+
+// slide down
+@include keyframes(slideDown) {
+  0% {
+    @include transform(translateY(-100%));
+  }
+  50%{
+    @include transform(translateY(4%));
+  }
+  90%{
+    @include transform(translateY(-2%));
+  }
+  100% {
+    @include transform(translateY(0%));
+  }
+}
+
+.anim-slideDown {
+  @include animation(slideDown $tmg-avg linear 1);
+  visibility: visible !important; // needed to enforce regardless of specificity/cascade
+}
+
+// ====================
+
+// slide down
+@include keyframes(slideUp) {
+  0% {
+    @include transform(translateY(100%));
+  }
+  50%{
+    @include transform(translateY(-4%));
+  }
+  90%{
+    @include transform(translateY(2%));
+  }
+  100% {
+    @include transform(translateY(0%));
+  }
+}
+
+.anim-slideUp {
+  @include animation(slideUp $tmg-avg ease-in-out 1);
+  visibility: visible !important; // needed to enforce regardless of specificity/cascade
+}
+
+// ====================
+
+// slide left
+@include keyframes(slideLeft) {
+  0% {
+    @include transform(translateX(150%));
+  }
+  50%{
+    @include transform(translateX(-4%));
+  }
+  90%{
+    @include transform(translateX(2%));
+  }
+  100% {
+    @include transform(translateX(0%));
+  }
+}
+
+.anim-slideLeft {
+  @include animation(slideLeft $tmg-avg ease-in-out 1);
+  visibility: visible !important; // needed to enforce regardless of specificity/cascade
+}
+
+// ====================
+
+// slide right
+@include keyframes(slideRight) {
+  0% {
+    @include transform(translateX(-150%));
+  }
+  50%{
+    @include transform(translateX(4%));
+  }
+  90%{
+    @include transform(translateX(-2%));
+  }
+  100% {
+    @include transform(translateX(0%));
+  }
+}
+
+.anim-slideRight {
+  @include animation(slideRight $tmg-avg ease-in-out 1);
+  visibility: visible !important; // needed to enforce regardless of specificity/cascade
+}
+
+// ====================
+
+// pull up
+@include keyframes(pullUp) {
+  0% {
+    @include transform(scaleY(0.1));
+  }
+  40% {
+    @include transform(scaleY(1.02));
+  }
+  60% {
+    @include transform(scaleY(0.98));
+  }
+  80% {
+    @include transform(scaleY(1.01));
+  }
+  100% {
+    @include transform(scaleY(1.0));
+  }
+}
+
+.anim-pullUp {
+  @include animation(pullUp $tmg-avg ease-in-out 1);
+  @include transform-origin(50% 100%);
+  visibility: visible !important; // needed to enforce regardless of specificity/cascade
+}
+
+// ====================
+
+// pull down
+@include keyframes(pullDown) {
+  0% {
+    @include transform(scaleY(0.1));
+  }
+  40% {
+    @include transform(scaleY(1.02));
+  }
+  60% {
+    @include transform(scaleY(0.98));
+  }
+  80% {
+    @include transform(scaleY(1.01));
+  }
+  100% {
+    @include transform(scaleY(1.0));
+  }
+}
+
+.anim-pullDown {
+  @include animation(pullDown $tmg-avg ease-in-out 1);
+  visibility: visible !important; // needed to enforce regardless of specificity/cascade
+  @include transform-origin(50% 0);
+}
+
+// ====================
+
+// pull left
+@include keyframes(pullLeft) {
+  0% {
+    @include transform(scaleX(0.3));
+  }
+  40% {
+    @include transform(scaleX(1.02));
+  }
+  60% {
+    @include transform(scaleX(0.98));
+  }
+  80% {
+    @include transform(scaleX(1.01));
+  }
+  100% {
+    @include transform(scaleX(1.0));
+  }
+}
+
+.anim-pullLeft {
+  @include animation(pullLeft $tmg-avg ease-in-out 1);
+  visibility: visible !important; // needed to enforce regardless of specificity/cascade
+  @include transform-origin(100% 0%);
+}
+
+// ====================
+
+// pull right
+@include keyframes(pullRight) {
+  0% {
+    @include transform(scaleX(0.3));
+  }
+  40% {
+    @include transform(scaleX(1.02));
+  }
+  60% {
+    @include transform(scaleX(0.98));
+  }
+  80% {
+    @include transform(scaleX(1.01));
+  }
+  100% {
+    @include transform(scaleX(1.0));
+  }
+}
+
+.anim-pullRight {
+  @include animation(pullRight $tmg-avg ease-in-out 1);
+  visibility: visible !important; // needed to enforce regardless of specificity/cascade
+  @include transform-origin(0% 0%);
+}
+
+// ====================
 
 // fade in
 @include keyframes(fadeIn) {
   0% {
     opacity: 0.0;
   }
-
-  50% {
-    opacity: 0.5;
-  }
-
   100% {
     opacity: 1.0;
   }
 }
 
-// canned animation - use if you want out of the box/non-customized anim
 .anim-fadeIn {
-  @include animation(fadeIn $tmg-f2 linear 1);
+  @include animation(fadeIn $tmg-avg ease-in-out 1);
+  visibility: visible !important; // needed to enforce regardless of specificity/cascade
 }
 
+// ====================
 
 // fade out
 @include keyframes(fadeOut) {
   0% {
     opacity: 1.0;
   }
-
-  50% {
-    opacity: 0.5;
-  }
-
   100% {
     opacity: 0.0;
   }
 }
 
-// canned animation - use if you want out of the box/non-customized anim
 .anim-fadeOut {
-  @include animation(fadeOut $tmg-f2 linear 1);
+  @include animation(fadeOut $tmg-avg ease-in-out 1);
+  visibility: visible !important; // needed to enforce regardless of specificity/cascade
 }
-
 
 // ====================
 
-
-// rotate up
-@include keyframes(rotateUp) {
+// fade/scale in
+@include keyframes(fadeScaleIn) {
   0% {
-    @include transform(rotate(0deg));
+    @include transform(scale(0));
+    opacity: 0.0;
   }
-
-  50% {
-    @include transform(rotate(-90deg));
+  60% {
+    @include transform(scale(1.1));
   }
-
+  80% {
+    @include transform(scale(0.9));
+    opacity: 1;
+  }
   100% {
-    @include transform(rotate(-180deg));
+    @include transform(scale(1.0));
+    opacity: 1;
   }
 }
 
-// canned animation - use if you want out of the box/non-customized anim
-.anim-rotateUp {
-  @include animation(rotateUp $tmg-f2 ease-in-out 1);
+.anim-fadeScaleIn {
+  @include animation(fadeScaleIn $tmg-avg ease-in-out 1);
+  visibility: visible !important; // needed to enforce regardless of specificity/cascade
 }
-
-
-// rotate up
-@include keyframes(rotateDown) {
-  0% {
-    @include transform(rotate(0deg));
-  }
-
-  50% {
-    @include transform(rotate(90deg));
-  }
-
-  100% {
-    @include transform(rotate(180deg));
-  }
-}
-
-// canned animation - use if you want out of the box/non-customized anim
-.anim-rotateDown {
-  @include animation(rotateDown $tmg-f2 ease-in-out 1);
-}
-
-
-// rotate clockwise
-@include keyframes(rotateCW) {
-  0% {
-    @include transform(rotate(0deg));
-  }
-
-  50% {
-    @include transform(rotate(180deg));
-  }
-
-  100% {
-    @include transform(rotate(360deg));
-  }
-}
-
-// canned animation - use if you want out of the box/non-customized anim
-.anim-rotateCW {
-  @include animation(rotateCW $tmg-s1 linear infinite);
-}
-
-
-// rotate counter-clockwise
-@include keyframes(rotateCCW) {
-  0% {
-    @include transform(rotate(0deg));
-  }
-
-  50% {
-    @include transform(rotate(-180deg));
-  }
-
-  100% {
-    @include transform(rotate(-360deg));
-  }
-}
-
-// canned  animation - use if you want out of the box/non-customized anim
-.anim-rotateCCW {
-  @include animation(rotateCCW $tmg-s1 linear infinite);
-}
-
 
 // ====================
 
-
-// notifications slide up
-@include keyframes(notificationSlideUp) {
+// fade/scale out
+@include keyframes(fadeScaleOut) {
   0% {
-    @include transform(translateY(0));
+    @include transform(scale(1.0));
+    opacity: 1;
   }
-
-  90% {
-    @include transform(translateY(-($notification-height)));
+  60% {
+    @include transform(scale(1.1));
   }
-
+  80% {
+    @include transform(scale(0.9));
+    opacity: 1;
+  }
   100% {
-    @include transform(translateY(-($notification-height*0.99)));
+    @include transform(scale(0));
+    opacity: 0.0;
   }
 }
 
-// notifications slide down
-@include keyframes(notificationSlideDown) {
-  0% {
-    @include transform(translateY(-($notification-height*0.99)));
-  }
 
-  10% {
-    @include transform(translateY(-($notification-height)));
-  }
-
-  100% {
-    @include transform(translateY(0));
-  }
+.anim-fadeScaleOut {
+  @include animation(fadeScaleOut $tmg-avg ease-in-out 1);
+  visibility: visible !important; // needed to enforce regardless of specificity/cascade
 }
-
 
 // ====================
 
+// pulse
+@include keyframes(pulse) {
+  0% {
+    @include transform(scale(0.9));
+    opacity: 0.75;
+  }
+  50% {
+    @include transform(scale(1.0));
+    opacity: 1;
+  }
+  100% {
+    @include transform(scale(0.9));
+    opacity: 0.75;
+  }
+}
+
+.anim-pulse {
+  @include animation(pulse $tmg-avg ease-in-out infinite); // interval is set to infinite
+  visibility: visible !important; // needed to enforce regardless of specificity/cascade
+}
+
+// ====================
 
 // bounce in
 @include keyframes(bounceIn) {
@@ -184,11 +338,11 @@
   }
 }
 
-// canned animation - use if you want out of the box/non-customized anim
 .anim-bounceIn {
   @include animation(bounceIn $tmg-f1 ease-in-out 1);
 }
 
+// ====================
 
 // bounce out
 @include keyframes(bounceOut) {
@@ -207,7 +361,126 @@
   }
 }
 
-// canned animation - use if you want out of the box/non-customized anim
 .anim-bounceOut {
   @include animation(bounceOut $tmg-f1 ease-in-out 1);
+}
+
+// ====================
+
+// rotate up
+@include keyframes(rotateUp) {
+  0% {
+    @include transform(rotate(0deg));
+  }
+
+  50% {
+    @include transform(rotate(-90deg));
+  }
+
+  100% {
+    @include transform(rotate(-180deg));
+  }
+}
+
+.anim-rotateUp {
+  @include animation(rotateUp $tmg-f2 ease-in-out 1);
+}
+
+// ====================
+
+// rotate down
+@include keyframes(rotateDown) {
+  0% {
+    @include transform(rotate(0deg));
+  }
+
+  50% {
+    @include transform(rotate(90deg));
+  }
+
+  100% {
+    @include transform(rotate(180deg));
+  }
+}
+
+.anim-rotateDown {
+  @include animation(rotateDown $tmg-f2 ease-in-out 1);
+}
+
+// ====================
+
+// rotate clockwise
+@include keyframes(rotateCW) {
+  0% {
+    @include transform(rotate(0deg));
+  }
+
+  50% {
+    @include transform(rotate(180deg));
+  }
+
+  100% {
+    @include transform(rotate(360deg));
+  }
+}
+
+.anim-rotateCW {
+  @include animation(rotateCW $tmg-s1 linear infinite);
+}
+
+// ====================
+
+// rotate counter-clockwise
+@include keyframes(rotateCCW) {
+  0% {
+    @include transform(rotate(0deg));
+  }
+
+  50% {
+    @include transform(rotate(-180deg));
+  }
+
+  100% {
+    @include transform(rotate(-360deg));
+  }
+}
+
+.anim-rotateCCW {
+  @include animation(rotateCCW $tmg-s1 linear infinite);
+}
+
+
+// ====================
+
+
+// CASE: notifications slide up
+@include keyframes(notificationSlideUp) {
+  0% {
+    @include transform(translateY(0));
+  }
+
+  90% {
+    @include transform(translateY(-($notification-height)));
+  }
+
+  100% {
+    @include transform(translateY(-($notification-height*0.99)));
+  }
+}
+
+// ====================
+
+// CASE: notifications slide down
+@include keyframes(notificationSlideDown) {
+  0% {
+    @include transform(translateY(-($notification-height*0.99)));
+  }
+
+  10% {
+    @include transform(translateY(-($notification-height)));
+  }
+
+  100% {
+    @include transform(translateY(0));
+  }
 }

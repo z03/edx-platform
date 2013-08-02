@@ -1,0 +1,88 @@
+// studio - views - documentation
+// ====================
+// NOTE: this is only to be used to style internal/app documentation pages (design library-centric things)
+
+// view - UX Animations
+body.ux-anims {
+
+  .content-primary {
+    width: flex-grid(12, 12);
+  }
+
+  // ELEM: content
+  .content {
+
+    .introduction {
+      @extend .t-copy-sub1;
+      width: flex-grid(12, 12);
+      margin: 0 0 ($baseline*2) 0;
+    }
+
+    .title-2 {
+      @extend .t-title4;
+      color: $gray-d4;
+    }
+  }
+
+  // ELEM: anim-list
+  .anim-list {
+    @include clearfix();
+    margin-top: ($baseline/2);
+    margin-bottom: ($baseline*3);
+    border-top: 2px solid $gray-l4;
+    padding-top: $baseline;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .anim-item {
+      @include box-sizing(border-box);
+
+      float: left;
+      width: flex-grid(4, 12);
+      overflow: hidden;
+      margin-bottom: ($baseline*2);
+      margin-right: flex-gutter();
+      padding: $baseline;
+      border-radius: ($baseline/10);
+      background: $white;
+      box-shadow: 0 2px 1px 0 $shadow-l1;
+
+      &:nth-child(3n) {
+        margin-right: 0;
+      }
+
+      .title {
+        @extend .t-title5;
+        margin-bottom: ($baseline/4);
+        border-bottom: 1px solid $gray-l4;
+        padding-bottom: ($baseline/4);
+        font-weight: 600;
+      }
+
+      .wrapper-anim {
+        text-align: center;
+        margin: ($baseline*2) 0;
+        padding: $baseline;
+      }
+
+      .action {
+        @extend .btn-primary-green;
+        @extend .t-action2;
+        display: block;
+      }
+    }
+  }
+
+  // ELEM: anim-element
+  .wrapper-anim > div { // crappy way to select this, but needed for easy demo
+    @extend .cont-text-hide;
+    @include box-sizing(border-box);
+    @include linear-gradient($blue-d1 0%, $blue 50%);
+    @include size(($baseline*5), ($baseline*5));
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: ($baseline/5);
+  }
+}

@@ -1,0 +1,267 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%inherit file="../blank.html" />
+<%! from django.core.urlresolvers import reverse %>
+<%block name="title">UX Documentation | Animations</%block>
+<%block name="bodyclass">is-signedin ux-docs ux-anims</%block>
+
+<%namespace name='static' file='../static_content.html'/>
+<%block name="jsextra">
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.action-anim').bind('click', addAnimation);
+  });
+
+  function addAnimation(e) {
+    (e).preventDefault();
+    var animName = $(this).find('.anim-name').text();
+    console.log('anim-' + animName);
+    var $animElement = $(this).parent().find('.anim-element');
+    $animElement.removeClass('anim-' + animName);
+    console.log('removed!');
+    $animElement.addClass('anim-' + animName);
+    console.log('added!');
+  }
+</script>
+</%block>
+
+<%block name="content">
+<div class="wrapper-mast wrapper">
+  <header class="mast has-subtitle">
+    <h1 class="page-header">
+      <small class="subtitle">${_("UX Documentation")}</small>
+      <span class="sr">&gt; </span>${_("Animations")}
+    </h1>
+  </header>
+</div>
+
+<div class="wrapper-content wrapper">
+  <section class="content">
+    <div class="introduction">
+      <p class="copy">${_("A quick demo of all clean-up animations.")}</p>
+    </div>
+
+    <article class="content-primary" role="main">
+
+    <h2 class="title-2">Base Animations</h2>
+    <ol class="anim-list">
+
+      <!-- slideDown -->
+      <li class="anim-item">
+        <h2 class="title">Slide Down</h2>
+
+        <div class="wrapper-anim">
+          <div class="anim-element"></div>
+        </div>
+
+        <a class="action action-anim" href="#">Toggle <span class="anim-name">slideDown</span> class</a>
+      </li>
+
+      <!-- slideUp -->
+      <li class="anim-item">
+        <h2 class="title">Slide Up</h2>
+
+        <div class="wrapper-anim">
+          <div class="anim-element"></div>
+        </div>
+
+        <a class="action action-anim" href="#">Toggle <span class="anim-name">slideUp</span> class</a>
+      </li>
+
+      <!-- slideLeft -->
+      <li class="anim-item">
+        <h2 class="title">Slide Left</h2>
+
+        <div class="wrapper-anim">
+          <div class="anim-element"></div>
+        </div>
+
+        <a class="action action-anim" href="#">Toggle <span class="anim-name">slideLeft</span> class</a>
+      </li>
+
+      <!-- slideRight -->
+      <li class="anim-item">
+        <h2 class="title">Slide Right</h2>
+
+        <div class="wrapper-anim">
+          <div class="anim-element"></div>
+        </div>
+
+        <a class="action action-anim" href="#">Toggle <span class="anim-name">slideRight</span> class</a>
+      </li>
+
+      <!-- pullUp -->
+      <li class="anim-item">
+        <h2 class="title">Pull Up</h2>
+
+        <div class="wrapper-anim">
+          <div class="anim-element"></div>
+        </div>
+
+        <a class="action action-anim" href="#">Toggle <span class="anim-name">pullUp</span> class</a>
+      </li>
+
+      <!-- pullDown -->
+      <li class="anim-item">
+        <h2 class="title">Pull Down</h2>
+
+        <div class="wrapper-anim">
+          <div class="anim-element"></div>
+        </div>
+
+        <a class="action action-anim" href="#">Toggle <span class="anim-name">pullDown</span> class</a>
+      </li>
+
+      <!-- pullLeft -->
+      <li class="anim-item">
+        <h2 class="title">Pull Left</h2>
+
+        <div class="wrapper-anim">
+          <div class="anim-element"></div>
+        </div>
+
+        <a class="action action-anim" href="#">Toggle <span class="anim-name">pullLeft</span> class</a>
+      </li>
+
+      <!-- pullRight -->
+      <li class="anim-item">
+        <h2 class="title">Pull Right</h2>
+
+        <div class="wrapper-anim">
+          <div class="anim-element"></div>
+        </div>
+
+        <a class="action action-anim" href="#">Toggle <span class="anim-name">pullRight</span> class</a>
+      </li>
+
+      <!-- fadeIn -->
+      <li class="anim-item">
+        <h2 class="title">Fade In</h2>
+
+        <div class="wrapper-anim">
+          <div class="anim-element"></div>
+        </div>
+
+        <a class="action action-anim" href="#">Toggle <span class="anim-name">fadeIn</span> class</a>
+      </li>
+
+      <!-- fadeOut -->
+      <li class="anim-item">
+        <h2 class="title">Fade Out</h2>
+
+        <div class="wrapper-anim">
+          <div class="anim-element"></div>
+        </div>
+
+        <a class="action action-anim" href="#">Toggle <span class="anim-name">fadeOut</span> class</a>
+      </li>
+
+      <!-- fadeScaleIn -->
+      <li class="anim-item">
+        <h2 class="title">Fade and Scale In</h2>
+
+        <div class="wrapper-anim">
+          <div class="anim-element"></div>
+        </div>
+
+        <a class="action action-anim" href="#">Toggle <span class="anim-name">fadeScaleIn</span> class</a>
+      </li>
+
+      <!-- fadeScaleOut -->
+      <li class="anim-item">
+        <h2 class="title">Fade and Scale Out</h2>
+
+        <div class="wrapper-anim">
+          <div class="anim-element"></div>
+        </div>
+
+        <a class="action action-anim" href="#">Toggle <span class="anim-name">fadeScaleOut</span> class</a>
+      </li>
+
+      <!-- pulse -->
+      <li class="anim-item">
+        <h2 class="title">Pulse</h2>
+
+        <div class="wrapper-anim">
+          <div class="anim-element"></div>
+        </div>
+
+        <a class="action action-anim" href="#">Toggle <span class="anim-name">pulse</span> class</a>
+      </li>
+
+      <!-- bounceIn -->
+      <li class="anim-item">
+        <h2 class="title">Bounce In</h2>
+
+        <div class="wrapper-anim">
+          <div class="anim-element"></div>
+        </div>
+
+        <a class="action action-anim" href="#">Toggle <span class="anim-name">bounceIn</span> class</a>
+      </li>
+
+      <!-- bounceOut -->
+      <li class="anim-item">
+        <h2 class="title">Bounce Out</h2>
+
+        <div class="wrapper-anim">
+          <div class="anim-element"></div>
+        </div>
+
+        <a class="action action-anim" href="#">Toggle <span class="anim-name">bounceOut</span> class</a>
+      </li>
+
+      <!-- rotateUp -->
+      <li class="anim-item">
+        <h2 class="title">Rotate Up</h2>
+
+        <div class="wrapper-anim">
+          <div class="anim-element"></div>
+        </div>
+
+        <a class="action action-anim" href="#">Toggle <span class="anim-name">rotateUp</span> class</a>
+      </li>
+
+      <!-- rotateDown -->
+      <li class="anim-item">
+        <h2 class="title">Rotate Down</h2>
+
+        <div class="wrapper-anim">
+          <div class="anim-element"></div>
+        </div>
+
+        <a class="action action-anim" href="#">Toggle <span class="anim-name">rotateDown</span> class</a>
+      </li>
+
+      <!-- rotateCW -->
+      <li class="anim-item">
+        <h2 class="title">Rotate Clockwise</h2>
+
+        <div class="wrapper-anim">
+          <div class="anim-element"></div>
+        </div>
+
+        <a class="action action-anim" href="#">Toggle <span class="anim-name">rotateCW</span> class</a>
+      </li>
+
+      <!-- rotateCCW -->
+      <li class="anim-item">
+        <h2 class="title">Rotate Counter-clockwise</h2>
+
+        <div class="wrapper-anim">
+          <div class="anim-element"></div>
+        </div>
+
+        <a class="action action-anim" href="#">Toggle <span class="anim-name">rotateCCW</span> class</a>
+      </li>
+    </ol>
+
+    <hr class="divide" />
+
+    <h2 class="title-2">Implemented Animations</h2>
+    <ol class="anim-list">
+
+    </ol>
+    </article>
+  </section>
+</div>
+</%block>

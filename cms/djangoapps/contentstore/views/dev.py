@@ -6,7 +6,10 @@ in a 404 error.
 # pylint: disable=W0613
 from mitxmako.shortcuts import render_to_response
 
-
 def dev_mode(request):
     "Sample static view"
     return render_to_response("dev/dev_mode.html")
+
+def ux_animations(request):
+    "Sample static view"
+    return render_to_response("dev/ux_animations.html")
