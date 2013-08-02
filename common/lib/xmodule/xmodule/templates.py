@@ -23,7 +23,7 @@ def all_templates():
     """
     # TODO use memcache to memoize w/ expiration
     templates = defaultdict(list)
-    for category, descriptor in XModuleDescriptor.load_classes():
+    for category, descriptor in XBlock.load_classes():
         templates[category] = descriptor.templates()
 
     return templates

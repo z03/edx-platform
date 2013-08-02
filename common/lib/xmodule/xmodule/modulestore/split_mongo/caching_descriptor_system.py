@@ -64,7 +64,7 @@ class CachingDescriptorSystem(MakoDescriptorSystem):
             if json_data is None:
                 raise ItemNotFoundError
 
-        class_ = XModuleDescriptor.load_class(
+        class_ = XBlock.load_class(
             json_data.get('category'),
             self.default_class
         )

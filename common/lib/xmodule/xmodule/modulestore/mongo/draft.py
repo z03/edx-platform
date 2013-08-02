@@ -41,8 +41,8 @@ def wrap_draft(item):
     draft, and `False` otherwise. Sets the item's location to the
     non-draft location in either case
     """
-    setattr(item, 'is_draft', item.location.revision == DRAFT)
-    item.location = item.location.replace(revision=None)
+    setattr(item, 'is_draft', item.lms.location.revision == DRAFT)
+    item.lms.location = item.lms.location.replace(revision=None)
     return item
 
 
@@ -126,12 +126,12 @@ class DraftModuleStore(MongoModuleStore):
         draft_items = super(DraftModuleStore, self).get_items(draft_loc, course_id=course_id, depth=depth)
         items = super(DraftModuleStore, self).get_items(location, course_id=course_id, depth=depth)
 
-        draft_locs_found = set(item.location.replace(revision=None) for item in draft_items)
+        draft_locs_found = set(item.lms.location.replace(revision=None) for item in draft_items)
         non_draft_items = [
             item
             for item in items
-            if (item.location.revision != DRAFT
-                and item.location.replace(revision=None) not in draft_locs_found)
+            if (item.lms.location.revision != DRAFT
+                and item.lms.location.replace(revision=None) not in draft_locs_found)
         ]
         return [wrap_draft(item) for item in draft_items + non_draft_items]
 

@@ -5,28 +5,28 @@
 This def will enumerate through a passed in subsection and list all of the units
 -->
 <%def name="enum_units(subsection, actions=True, selected=None, sortable=True, subsection_units=None)">
-<ol ${'class="sortable-unit-list"' if sortable else ''} data-subsection-id="${subsection.location}">
+<ol ${'class="sortable-unit-list"' if sortable else ''} data-subsection-id="${subsection.lms.location}">
   <%
     if subsection_units is None:
       subsection_units = subsection.get_children()
   %>
   % for unit in subsection_units:
-  <li class="leaf unit" data-id="${unit.location}">
+  <li class="leaf unit" data-id="${unit.lms.location}">
     <%
       unit_state = compute_unit_state(unit)
-      if unit.location == selected:
+      if unit.lms.location == selected:
         selected_class = 'editing'
       else:
         selected_class = ''
     %>
     <div class="section-item ${selected_class}">
-      <a href="${reverse('edit_unit', args=[unit.location])}" class="${unit_state}-item">
-        <span class="${unit.category}-icon"></span>
+      <a href="${reverse('edit_unit', args=[unit.lms.location])}" class="${unit_state}-item">
+        <span class="${unit.plugin_name}-icon"></span>
         <span class="unit-name">${unit.display_name_with_default}</span>
       </a>
       % if actions:
       <div class="item-actions">
-	<a href="#" data-tooltip="Delete this unit" class="delete-button" data-id="${unit.location}"><span class="delete-icon"></span></a>
+	<a href="#" data-tooltip="Delete this unit" class="delete-button" data-id="${unit.lms.location}"><span class="delete-icon"></span></a>
 	<a href="#" data-tooltip="Drag to sort" class="drag-handle"></a>
       </div>
       % endif
@@ -34,7 +34,7 @@ This def will enumerate through a passed in subsection and list all of the units
   </li>
   % endfor
   <li>
-    <a href="#" class="new-unit-item" data-category="${new_unit_category}" data-parent="${subsection.location}">
+    <a href="#" class="new-unit-item" data-category="${new_unit_category}" data-parent="${subsection.lms.location}">
       <span class="new-unit-icon"></span>New Unit
     </a>
   </li>

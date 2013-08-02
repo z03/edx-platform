@@ -67,7 +67,7 @@ class ModelsTest(unittest.TestCase):
         pass
 
     def test_load_class(self):
-        vc = xmodule.x_module.XModuleDescriptor.load_class('video')
+        vc = xmodule.x_module.XBlock.load_class('video')
         vc_str = "<class 'xmodule.video_module.VideoDescriptor'>"
         self.assertEqual(str(vc), vc_str)
 

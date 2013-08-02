@@ -57,7 +57,7 @@ def get_course_location_for_item(location):
         if found_cnt > 1:
             raise Exception('Found more than one course at {0}. There should only be one!!! Dump = {1}'.format(course_search_location, courses))
 
-        location = courses[0].location
+        location = courses[0].lms.location
 
     return location
 
@@ -170,7 +170,7 @@ def compute_unit_state(unit):
 
     if getattr(unit, 'is_draft', False):
         try:
-            modulestore('direct').get_item(unit.location)
+            modulestore('direct').get_item(unit.lms.location)
             return UnitState.draft
         except ItemNotFoundError:
             return UnitState.private

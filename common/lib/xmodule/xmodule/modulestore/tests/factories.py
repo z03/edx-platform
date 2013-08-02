@@ -110,7 +110,7 @@ class XModuleItemFactory(Factory):
         assert location != parent_location
         if kwargs.get('boilerplate') is not None:
             template_id = kwargs.get('boilerplate')
-            clz = XModuleDescriptor.load_class(category)
+            clz = XBlock.load_class(category)
             template = clz.get_template(template_id)
             assert template is not None
             metadata.update(template.get('metadata', {}))

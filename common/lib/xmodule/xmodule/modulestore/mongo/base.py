@@ -27,7 +27,7 @@ from uuid import uuid4
 from importlib import import_module
 from xmodule.errortracker import null_error_tracker, exc_info_to_str
 from xmodule.mako_module import MakoDescriptorSystem
-from xmodule.x_module import XModuleDescriptor
+from xblock.core import XBlock
 from xmodule.error_module import ErrorDescriptor
 from xblock.runtime import DbModel, KeyValueStore, InvalidScopeError
 from xblock.core import Scope
@@ -190,19 +190,19 @@ class CachingDescriptorSystem(MakoDescriptorSystem):
             module = self.modulestore.get_item(location)
             if module is not None:
                 # update our own cache after going to the DB to get cache miss
-                self.module_data.update(module.system.module_data)
+                self.module_data.update(module.runtime.module_data)
             return module
         else:
             # load the module and apply the inherited metadata
             try:
                 category = json_data['location']['category']
-                class_ = XModuleDescriptor.load_class(
+                class_ = XBlock.load_class(
                     category,
                     self.default_class
                 )
                 definition = json_data.get('definition', {})
                 metadata = json_data.get('metadata', {})
-                for old_name, new_name in class_.metadata_translations.items():
+                for old_name, new_name in getattr(class_, 'metadata_translations', {}).items():
                     if old_name in metadata:
                         metadata[new_name] = metadata[old_name]
                         del metadata[old_name]
@@ -216,7 +216,6 @@ class CachingDescriptorSystem(MakoDescriptorSystem):
                 )
 
                 model_data = DbModel(kvs, class_, None, MongoUsage(self.course_id, location))
-                model_data['category'] = category
                 model_data['location'] = location
                 module = class_(self, model_data)
                 if self.cached_metadata is not None:
@@ -606,7 +605,7 @@ class MongoModuleStore(ModuleStoreBase):
         :param location: a Location--must have a category
         :param definition_data: can be empty. The initial definition_data for the kvs
         :param metadata: can be empty, the initial metadata for the kvs
-        :param system: if you already have an xmodule from the course, the xmodule.system value
+        :param system: if you already have an xblock from the course, the xblock.runtime value
         """
         if not isinstance(location, Location):
             location = Location(location)
@@ -624,7 +623,7 @@ class MongoModuleStore(ModuleStoreBase):
                 self.render_template,
                 {}
             )
-        xblock_class = XModuleDescriptor.load_class(location.category, self.default_class)
+        xblock_class = XBlock.load_class(location.category, self.default_class)
         if definition_data is None:
             if hasattr(xblock_class, 'data') and getattr(xblock_class, 'data').default is not None:
                 definition_data = getattr(xblock_class, 'data').default
@@ -668,7 +667,7 @@ class MongoModuleStore(ModuleStoreBase):
         :param location: a Location--must have a category
         :param definition_data: can be empty. The initial definition_data for the kvs
         :param metadata: can be empty, the initial metadata for the kvs
-        :param system: if you already have an xmodule from the course, the xmodule.system value
+        :param system: if you already have an xblock from the course, the xblock.runtime value
         """
         # differs from split mongo in that I believe most of this logic should be above the persistence
         # layer but added it here to enable quick conversion. I'll need to reconcile these.
@@ -860,7 +859,7 @@ class MongoModuleStore(ModuleStoreBase):
             category
         )
 
-        class_ = XModuleDescriptor.load_class(
+        class_ = XBlock.load_class(
                     category,
                     self.default_class
                 )

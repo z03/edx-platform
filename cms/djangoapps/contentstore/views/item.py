@@ -129,7 +129,7 @@ def create_item(request):
     data = None
     template_id = request.POST.get('boilerplate')
     if template_id is not None:
-        clz = XModuleDescriptor.load_class(category)
+        clz = XBlock.load_class(category)
         if clz is not None:
             template = clz.get_template(template_id)
             if template is not None:

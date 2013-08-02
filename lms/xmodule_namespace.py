@@ -1,10 +1,36 @@
 """
 Namespace that defines fields common to all blocks used in the LMS
 """
-from xblock.core import Namespace, Boolean, Scope, String, Float
+from xblock.core import Namespace, Boolean, Scope, String, Float, ModelType
 from xmodule.fields import Date, Timedelta
+from xmodule.modulestore import Location
+from xmodule.modulestore.exceptions import InvalidLocationError
+from xmodule.modulestore.locator import BlockUsageLocator
 from datetime import datetime
 from pytz import UTC
+
+
+class LocationField(ModelType):
+    """
+    XBlock field for storing Location values
+    """
+    def from_json(self, value):
+        """
+        Parse the json value as a Location
+        """
+        try:
+            return Location(value)
+        except InvalidLocationError:
+            if isinstance(value, BlockUsageLocator):
+                return value
+            else:
+                return BlockUsageLocator(value)
+
+    def to_json(self, value):
+        """
+        Store the Location as a url string in json
+        """
+        return value.url()
 
 
 class LmsNamespace(Namespace):
@@ -55,4 +81,13 @@ class LmsNamespace(Namespace):
         help="Number of days early to show content to beta users",
         default=None,
         scope=Scope.settings
+    )
+
+    # the LMS and CMS shouldn't be using this field. It's only for internal
+    # consumption by the XModules themselves
+    location = LocationField(
+        display_name="Location",
+        help="This is the location id for the XModule.",
+        scope=Scope.content,
+        default=Location(None),
     )

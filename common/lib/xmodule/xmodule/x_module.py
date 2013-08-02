@@ -115,7 +115,6 @@ class XModuleFields(object):
         default=None
     )
 
-    # Please note that in order to be compatible with XBlocks more generally,
     # the LMS and CMS shouldn't be using this field. It's only for internal
     # consumption by the XModules themselves
     location = LocationField(
@@ -123,14 +122,6 @@ class XModuleFields(object):
         help="This is the location id for the XModule.",
         scope=Scope.content,
         default=Location(None),
-    )
-    # Please note that in order to be compatible with XBlocks more generally,
-    # the LMS and CMS shouldn't be using this field. It's only for internal
-    # consumption by the XModules themselves
-    category = String(
-        display_name="xmodule category",
-        help="This is the category id for the XModule. It's for internal use only",
-        scope=Scope.content,
     )
 
 
@@ -173,12 +164,8 @@ class XModule(XModuleFields, HTMLSnippet, XBlock):
             # don't need to set category as it will automatically get from descriptor
         elif isinstance(self.location, Location):
             self.url_name = self.location.name
-            if not hasattr(self, 'category'):
-                self.category = self.location.category
         elif isinstance(self.location, BlockUsageLocator):
             self.url_name = self.location.usage_id
-            if not hasattr(self, 'category'):
-                raise InsufficientSpecificationError()
         else:
             raise InsufficientSpecificationError()
         self._loaded_children = None
@@ -186,6 +173,10 @@ class XModule(XModuleFields, HTMLSnippet, XBlock):
     @property
     def id(self):
         return self.location.url()
+
+    @property
+    def category(self):
+        return self.plugin_name
 
     @property
     def display_name_with_default(self):
@@ -575,7 +566,7 @@ class XModuleDescriptor(XModuleFields, HTMLSnippet, ResourceTemplates, XBlock):
         - 'definition':
         - '_id' (optional): the usage_id of this. Will generate one if not given one.
         """
-        class_ = XModuleDescriptor.load_class(
+        class_ = XBlock.load_class(
             json_data.get('category', json_data.get('location', {}).get('category')),
             default_class
         )
@@ -649,7 +640,7 @@ class XModuleDescriptor(XModuleFields, HTMLSnippet, ResourceTemplates, XBlock):
         org and course are optional strings that will be used in the generated
             module's url identifiers
         """
-        class_ = XModuleDescriptor.load_class(
+        class_ = XBlock.load_class(
             etree.fromstring(xml_data).tag,
             default_class
         )

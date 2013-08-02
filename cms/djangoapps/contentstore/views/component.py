@@ -26,7 +26,7 @@ from models.settings.course_grading import CourseGradingModel
 
 from .requests import _xmodule_recurse
 from .access import has_access
-from xmodule.x_module import XModuleDescriptor
+from xblock.core import XBlock
 from xblock.plugin import PluginMissingError
 
 __all__ = ['OPEN_ENDED_COMPONENT_TYPES',
@@ -146,22 +146,28 @@ def edit_unit(request, location):
 
     component_templates = defaultdict(list)
     for category in COMPONENT_TYPES:
-        component_class = XModuleDescriptor.load_class(category)
+        component_class = XBlock.load_class(category)
         # add the default template
+        # TODO
+        if hasattr(component_class, 'display_name'):
+            display_name = component_class.display_name.default or 'Blank'
+        else:
+            display_name = 'Blank'
         component_templates[category].append((
-            component_class.display_name.default or 'Blank',
+            display_name,
             category,
             False,  # No defaults have markdown (hardcoded current default)
             None  # no boilerplate for overrides
         ))
         # add boilerplates
-        for template in component_class.templates():
-            component_templates[category].append((
-                template['metadata'].get('display_name'),
-                category,
-                template['metadata'].get('markdown') is not None,
-                template.get('template_id')
-            ))
+        if hasattr(component_class, 'templates'):
+            for template in component_class.templates():
+                component_templates[category].append((
+                    template['metadata'].get('display_name'),
+                    category,
+                    template['metadata'].get('markdown') is not None,
+                    template.get('template_id')
+                ))
 
     # Check if there are any advanced modules specified in the course policy. These modules
     # should be specified as a list of strings, where the strings are the names of the modules
@@ -175,7 +181,7 @@ def edit_unit(request, location):
                 # Do I need to allow for boilerplates or just defaults on the class? i.e., can an advanced
                 # have more than one entry in the menu? one for default and others for prefilled boilerplates?
                 try:
-                    component_class = XModuleDescriptor.load_class(category)
+                    component_class = XBlock.load_class(category)
 
                     component_templates['advanced'].append((
                         component_class.display_name.default or category,
