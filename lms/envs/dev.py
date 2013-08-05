@@ -265,6 +265,10 @@ EDX_API_KEY = None
 ########################## QUERYABLE TABLES ########################
 INSTALLED_APPS += ('queryable_student_module',)
 
+########################## CLASS DASHBOARD ########################
+INSTALLED_APPS += ('class_dashboard',)
+MITX_FEATURES['CLASS_DASHBOARD'] = True
+
 #####################################################################
 # Lastly, see if the developer has any local overrides.
 try:
