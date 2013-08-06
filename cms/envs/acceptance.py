@@ -76,4 +76,4 @@ DATABASES = {
 INSTALLED_APPS += ('lettuce.django',)
 LETTUCE_APPS = ('contentstore',)
 LETTUCE_SERVER_PORT = random.randint(1024, 65535)
-LETTUCE_BROWSER = 'chrome'
+LETTUCE_BROWSER = 'firefox'
