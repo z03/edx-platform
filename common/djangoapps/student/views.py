@@ -391,7 +391,7 @@ def change_enrollment(request):
             enrollment.delete()
 
             org, course_num, run = course_id.split("/")
-            statsd.increment("common.student.unenrollment",
+            log.increment("common.student.unenrollment",
                              tags=["org:{0}".format(org),
                                    "course:{0}".format(course_num),
                                    "run:{0}".format(run)])
