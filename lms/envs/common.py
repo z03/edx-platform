@@ -777,6 +777,9 @@ INSTALLED_APPS = (
     'rest_framework',
     'user_api',
 
+    # shopping cart
+    'shoppingcart',
+
     # Notification preferences setting
     'notification_prefs',
 )
