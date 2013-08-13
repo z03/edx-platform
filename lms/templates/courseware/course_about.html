@@ -58,7 +58,23 @@
     });
 
     %endif
-   
+
+    $('.addtocart').on('click', function(event) {
+      event.preventDefault();
+      $.post("${reverse('shoppingcart.views.add_course_to_cart', args=[course.id])}")
+        .always(function(xhr){
+          if(xhr.status == 200) {
+            location.href = "${reverse('shoppingcart.views.show_cart')}";
+          } else if (xhr.status == 403) {
+            location.href = "${reverse('signin_user')}?next=${reverse('shoppingcart.views.add_course_to_cart',
+                             args=[course.id])}";
+          } else {
+            $('#addtocart_error').html(
+                (xhr.responseText ? xhr.responseText : 'An error occurred. Please try again later.')
+            ).css("display", "block");
+          }
+        });
+    });
    
   })(this)
   </script>
@@ -93,6 +109,13 @@
                     <strong>${_("View Courseware")}</strong>
                     </a>
                 %endif
+
+        %elif course.enrollment_cost['cost'] > 0:
+            <a href="#" class="addtocart">${_("Add {course.display_number_with_default} " +
+            "to cart ({cost} {currency})").format(course=course, cost=course.enrollment_cost['cost'],
+            currency=course.enrollment_cost['currency']).upper() | h}</a>
+            <div id="addtocart_error"></div>
+
         %else:
             <a href="#" class="register">${_("Register for {course.display_number_with_default}").format(course=course) | h}</a>
 
