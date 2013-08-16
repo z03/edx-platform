@@ -19,6 +19,7 @@ from .import get_test_system
 from xmodule.modulestore import Location
 from xmodule.video_module import VideoDescriptor, _create_youtube_string
 from .test_import import DummySystem
+from xblock.test.test_core import DictModel
 
 from textwrap import dedent
 
@@ -96,7 +97,7 @@ class VideoDescriptorTest(unittest.TestCase):
         system = get_test_system()
         self.descriptor = VideoDescriptor(
             runtime=system,
-            model_data={})
+            model_data=DictModel({}))
 
     def test_get_context(self):
         """"test get_context"""
@@ -169,8 +170,8 @@ class VideoDescriptorImportTestCase(unittest.TestCase):
         '''
         location = Location(["i4x", "edX", "video", "default",
                              "SampleProblem1"])
-        model_data = {'data': sample_xml,
-                      'location': location}
+        model_data = DictModel({'data': sample_xml,
+                      'location': location})
         system = DummySystem(load_error_modules=True)
         descriptor = VideoDescriptor(system, model_data)
         self.assert_attributes_equal(descriptor, {
@@ -359,7 +360,7 @@ class VideoExportTestCase(unittest.TestCase):
         """Test XML export with defaults."""
         module_system = DummySystem(load_error_modules=True)
         location = Location(["i4x", "edX", "video", "default", "SampleProblem1"])
-        desc = VideoDescriptor(module_system, {'location': location})
+        desc = VideoDescriptor(module_system, DictModel({'location': location}))
 
         xml = desc.export_to_xml(None)
         expected = '<video url_name="SampleProblem1"/>\n'
