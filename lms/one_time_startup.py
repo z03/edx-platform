@@ -2,6 +2,7 @@ from dogapi import dog_http_api, dog_stats_api
 from django.conf import settings
 from xmodule.modulestore.django import modulestore
 from request_cache.middleware import RequestCache
+from mongo_perf_tracker.middleware import MongoPerfTracker
 
 from django.core.cache import get_cache
 
@@ -10,7 +11,8 @@ for store_name in settings.MODULESTORE:
     store = modulestore(store_name)
     store.set_modulestore_configuration({
         'metadata_inheritance_cache_subsystem': cache,
-        'request_cache': RequestCache.get_request_cache()
+        'request_cache': RequestCache.get_request_cache(),
+        'perf_tracker': MongoPerfTracker()
     })
 
 if hasattr(settings, 'DATADOG_API'):

@@ -469,6 +469,13 @@ class ModuleStoreBase(ModuleStore):
         """
         return self.modulestore_configuration.get('request_cache', None)
 
+    @property
+    def perf_tracker(self):
+        """
+        Exposes an access to a performance tracker
+        """
+        return self.modulestore_configuration.get('perf_tracker', None)
+
     def set_modulestore_configuration(self, config_dict):
         """
         This is the base implementation of the interface, all we need to do is store
