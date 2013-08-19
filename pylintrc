@@ -98,12 +98,10 @@ ignore-mixin-members=yes
 
 # List of classes names for which member attributes should not be checked
 # (useful for classes with attributes dynamically set).
-ignored-classes=SQLObject
-
 # See http://stackoverflow.com/questions/17156240/nose-tools-and-pylint
 # Pylint does not like the way that nose tools inspects and makes available
 # the assert classes
-ignored-classes=nose.tools,nose.tools.trivial
+ignored-classes=nose.tools,nose.tools.trivial,SQLObject
 
 # When zope mode is activated, add a predefined set of Zope acquired attributes
 # to generated-members.
