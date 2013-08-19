@@ -101,7 +101,7 @@ ignore-mixin-members=yes
 # See http://stackoverflow.com/questions/17156240/nose-tools-and-pylint
 # Pylint does not like the way that nose tools inspects and makes available
 # the assert classes
-ignored-classes=nose.tools,nose.tools.trivial,SQLObject
+ignored-classes=SQLObject
 
 # When zope mode is activated, add a predefined set of Zope acquired attributes
 # to generated-members.
@@ -215,7 +215,7 @@ dummy-variables-rgx=_|dummy|unused|.*_unused
 
 # List of additional names supposed to be defined in builtins. Remember that
 # you should avoid to define new builtins when possible.
-additional-builtins=
+additional-builtins=assert_equals, assert_raises, assert_not_equals, assert_false
 
 
 [IMPORTS]
