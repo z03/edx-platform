@@ -293,7 +293,7 @@ def import_course(request, org, course, name):
         temp_file.close()
 
         tar_file = tarfile.open(temp_filepath)
-        tar_file.extractall(course_dir + '/')
+        tar_file.extractall(str(course_dir) + '/')
 
         # find the 'course.xml' file
         dirpath = None

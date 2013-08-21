@@ -37,7 +37,7 @@ class StaticContent(object):
 
     @staticmethod
     def compute_location(org, course, name, revision=None, is_thumbnail=False):
-        name = name.replace('/', '_')
+        name = name.replace(u'/', u'_')
         return Location([XASSET_LOCATION_TAG, org, course, 'asset' if not is_thumbnail else 'thumbnail',
                          Location.clean_keeping_underscores(name), revision])
 
