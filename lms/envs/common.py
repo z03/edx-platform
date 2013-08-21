@@ -369,6 +369,11 @@ BUGS_EMAIL = 'bugs@edx.org'
 ADMINS = ()
 MANAGERS = ADMINS
 
+# Search
+ES_DATABASE = "http://localhost:9200"
+# Tokenizer is for english here, but there are a number of alternate tokenizers for other languages
+SENTENCE_TOKENIZER = "tokenizers/punkt/english.pickle"
+
 # Static content
 STATIC_URL = '/static/'
 ADMIN_MEDIA_PREFIX = '/static/admin/'
@@ -796,7 +801,10 @@ INSTALLED_APPS = (
     'notification_prefs',
 
     # Different Course Modes
-    'course_modes'
+    'course_modes',
+
+    # Search
+    'search',
 )
 
 ######################### MARKETING SITE ###############################
