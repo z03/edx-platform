@@ -5,6 +5,7 @@ from south.v2 import SchemaMigration
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):

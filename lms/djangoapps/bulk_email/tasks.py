@@ -109,7 +109,7 @@ def course_email(hash_for_msg, to_list, course_id, course_title, course_url, thr
 
     num_optout = len(optouts)
 
-    to_list = filter(lambda x:x['email'] not in optouts, to_list)
+    to_list = filter(lambda x: x['email'] not in optouts, to_list)
 
     subject = "[" + course_title + "] " + msg.subject
 

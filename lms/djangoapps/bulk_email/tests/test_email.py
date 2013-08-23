@@ -20,12 +20,14 @@ from mock import Mock, patch, sentinel
 STAFF_COUNT = 3
 STUDENT_COUNT = 10
 
+
 class MockCourseEmailResult(object):
     """
     A small closure-like class to keep count of emails sent over all tasks, recorded
     by mock object side effects
     """
     emails_sent = 0
+
     def get_mock_course_email_result(self):
         def mock_course_email_result(sent, failed, output, **kwargs):
             self.emails_sent += sent
@@ -243,7 +245,7 @@ class TestEmailSendFromDashboard(ModuleStoreTestCase):
         """
         Test sending a large number of emails, to test the chunked querying
         """
-        LARGE_NUM_EMAILS=137
+        LARGE_NUM_EMAILS = 137
         mock_factory = MockCourseEmailResult()
         email_mock.side_effect = mock_factory.get_mock_course_email_result()
         added_users = []
@@ -253,7 +255,7 @@ class TestEmailSendFromDashboard(ModuleStoreTestCase):
             CourseEnrollmentFactory.create(user=user, course_id=self.course.id)
 
         optouts = []
-        for i in [1,3,9,10,18]: # 5 random optouts
+        for i in [1, 3, 9, 10, 18]:  # 5 random optouts
             u = added_users[i]
             optouts.append(u)
             o = Optout(user=u, course_id=self.course.id)
@@ -267,13 +269,14 @@ class TestEmailSendFromDashboard(ModuleStoreTestCase):
         }
         response = self.client.post(self.url, test_email)
         self.assertContains(response, "Your email was successfully queued for sending.")
-        self.assertEquals(mock_factory.emails_sent, 1 + len(self.staff) + len(self.students)
-                                                    + LARGE_NUM_EMAILS - len(optouts))
+        self.assertEquals(mock_factory.emails_sent,
+                          1 + len(self.staff) + len(self.students) + LARGE_NUM_EMAILS - len(optouts))
         self.assertItemsEqual(
             [e.to[0] for e in mail.outbox],
             [self.instructor.email] + [s.email for s in self.staff] + [s.email for s in self.students] +
             [s.email for s in added_users if s not in optouts]
         )
+
 
 @override_settings(MODULESTORE=TEST_DATA_MONGO_MODULESTORE)
 class TestEmailSendExceptions(ModuleStoreTestCase):
