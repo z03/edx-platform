@@ -19,6 +19,7 @@ from courseware.models import StudentModule
 from queryable.models import Log
 from queryable.models import StudentModuleExpand
 
+
 class Command(BaseCommand):
     help = "Populates the queryable.StudentModuleExpand table.\n"
     help += "Usage: populate_studentmoduleexpand course_id\n"
@@ -30,7 +31,7 @@ class Command(BaseCommand):
                     dest='force',
                     default=False,
                     help='Forces a full populate for all students and rows, rather than iterative.'),
-        )
+    )
 
     def handle(self, *args, **options):
         script_id = "studentmoduleexpand"
@@ -69,15 +70,15 @@ class Command(BaseCommand):
                 print "Full populate: Can't find log of last run"
                 iterative_populate = False
             print "--------------------------------------------------------------------------------"
-        
+
         # If iterative populate, get all the problems that students have submitted an answer to for this course,
         # since the last run
         if iterative_populate:
             sm_rows = StudentModule.objects.filter(course_id__exact=course_id, grade__isnull=False,
-                                                  module_type__exact="problem", modified__gte=last_log_run[0].created)
+                                                   module_type__exact="problem", modified__gte=last_log_run[0].created)
         else:
             sm_rows = StudentModule.objects.filter(course_id__exact=course_id, grade__isnull=False,
-                                                  module_type__exact="problem")
+                                                   module_type__exact="problem")
 
         c_updated_rows = 0
         # For each problem, get or create the corresponding StudentModuleExpand row

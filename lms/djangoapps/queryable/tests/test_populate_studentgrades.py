@@ -9,7 +9,8 @@ from django.core.management import call_command
 
 from courseware import grades
 from courseware.tests.factories import StudentModuleFactory
-from courseware.tests.tests import TEST_DATA_MONGO_MODULESTORE
+from courseware.tests.modulestore_config import TEST_DATA_MONGO_MODULESTORE
+from xmodule.modulestore.tests.django_utils import ModuleStoreTestCase
 from student.tests.factories import UserFactory as StudentUserFactory
 from xmodule.modulestore.tests.factories import CourseFactory, ItemFactory
 
@@ -24,15 +25,13 @@ class TestPopulateStudentGradesUpdateCourseGrade(TestCase):
 
     def setUp(self):
         self.course_grade = CourseGrade(percent=0.9, grade='A')
-        self.gradeset = {'percent' : 0.9, 'grade' : 'A'}
-
+        self.gradeset = {'percent': 0.9, 'grade': 'A'}
 
     def test_no_update(self):
         """
         Values are the same, so no update
         """
         self.assertFalse(populate_studentgrades.update_course_grade(self.course_grade, self.gradeset))
-
 
     def test_percents_not_equal(self):
         """
@@ -42,7 +41,6 @@ class TestPopulateStudentGradesUpdateCourseGrade(TestCase):
 
         self.assertTrue(populate_studentgrades.update_course_grade(self.course_grade, self.gradeset))
 
-
     def test_different_grade(self):
         """
         Update because the grade is different
@@ -50,7 +48,6 @@ class TestPopulateStudentGradesUpdateCourseGrade(TestCase):
         self.course_grade.grade = 'Foo'
 
         self.assertTrue(populate_studentgrades.update_course_grade(self.course_grade, self.gradeset))
-
 
     def test_grade_as_null(self):
         """
@@ -72,20 +69,19 @@ class TestPopulateStudentGradesGetAssignmentIndex(TestCase):
         Simple test if returns correct index.
         """
 
-        self.assertEquals(populate_studentgrades.get_assignment_index("HW 3"),2)
-        self.assertEquals(populate_studentgrades.get_assignment_index("HW 02"),1)
-        self.assertEquals(populate_studentgrades.get_assignment_index("HW 11"),10)
-        self.assertEquals(populate_studentgrades.get_assignment_index("HW 001"),0)
-
+        self.assertEquals(populate_studentgrades.get_assignment_index("HW 3"), 2)
+        self.assertEquals(populate_studentgrades.get_assignment_index("HW 02"), 1)
+        self.assertEquals(populate_studentgrades.get_assignment_index("HW 11"), 10)
+        self.assertEquals(populate_studentgrades.get_assignment_index("HW 001"), 0)
 
     def test_no_index(self):
         """
         Test if returns -1 for badly formed input
         """
 
-        self.assertEquals(populate_studentgrades.get_assignment_index("HW Avg"),-1)
-        self.assertEquals(populate_studentgrades.get_assignment_index("HW"),-1)
-        self.assertEquals(populate_studentgrades.get_assignment_index("HW "),-1)
+        self.assertEquals(populate_studentgrades.get_assignment_index("HW Avg"), -1)
+        self.assertEquals(populate_studentgrades.get_assignment_index("HW"), -1)
+        self.assertEquals(populate_studentgrades.get_assignment_index("HW "), -1)
 
 
 class TestPopulateStudentGradesGetStudentProblems(TestCase):
@@ -99,7 +95,7 @@ class TestPopulateStudentGradesGetStudentProblems(TestCase):
             module_state_key='one',
             grade=1,
             max_grade=1,
-            )
+        )
 
     def test_single_problem(self):
         """
@@ -111,9 +107,8 @@ class TestPopulateStudentGradesGetStudentProblems(TestCase):
             self.student_module.student,
         )
 
-        self.assertEquals(len(problem_set),1)
+        self.assertEquals(len(problem_set), 1)
         self.assertEquals(problem_set[0], self.student_module.module_state_key)
-
 
     def test_problem_with_no_submission(self):
         """
@@ -134,7 +129,7 @@ class TestPopulateStudentGradesGetStudentProblems(TestCase):
             self.student_module.student,
         )
 
-        self.assertEquals(len(problem_set),1)
+        self.assertEquals(len(problem_set), 1)
         self.assertEquals(problem_set[0], self.student_module.module_state_key)
 
 
@@ -146,11 +141,10 @@ class TestPopulateStudentGradesAssignmentExistsAndHasProblems(TestCase):
     def setUp(self):
         self.category = 'HW'
         self.assignment_problems_map = {
-            self.category : [
+            self.category: [
                 ['cat_1_problem_id_1'],
             ]
         }
-
 
     def test_simple(self):
         """
@@ -158,11 +152,10 @@ class TestPopulateStudentGradesAssignmentExistsAndHasProblems(TestCase):
         """
 
         self.assertTrue(populate_studentgrades.assignment_exists_and_has_problems(
-                self.assignment_problems_map,
-                self.category,
-                len(self.assignment_problems_map[self.category])-1,
-            ))
-
+                        self.assignment_problems_map,
+                        self.category,
+                        len(self.assignment_problems_map[self.category]) - 1, )
+                        )
 
     def test_assignment_exist_no_problems(self):
         """
@@ -170,29 +163,26 @@ class TestPopulateStudentGradesAssignmentExistsAndHasProblems(TestCase):
         """
 
         self.assignment_problems_map['Final'] = [[]]
-        
-        self.assertFalse(populate_studentgrades.assignment_exists_and_has_problems(
-                self.assignment_problems_map, 'Final', 0
-            ))
 
+        self.assertFalse(populate_studentgrades.assignment_exists_and_has_problems(
+                         self.assignment_problems_map, 'Final', 0)
+                         )
 
     def test_negative_index(self):
         """
         Test handles negative indexes well by returning False
         """
 
-        self.assertFalse(populate_studentgrades.assignment_exists_and_has_problems({},"",-1))
-        self.assertFalse(populate_studentgrades.assignment_exists_and_has_problems({},"",-5))
-
+        self.assertFalse(populate_studentgrades.assignment_exists_and_has_problems({}, "", -1))
+        self.assertFalse(populate_studentgrades.assignment_exists_and_has_problems({}, "", -5))
 
     def test_non_existing_category(self):
         """
         Test handled a category that doesn't actually exist by returning False
         """
 
-        self.assertFalse(populate_studentgrades.assignment_exists_and_has_problems({},"Foo",0))
-        self.assertFalse(populate_studentgrades.assignment_exists_and_has_problems(self.assignment_problems_map,"Foo",0))
-
+        self.assertFalse(populate_studentgrades.assignment_exists_and_has_problems({}, "Foo", 0))
+        self.assertFalse(populate_studentgrades.assignment_exists_and_has_problems(self.assignment_problems_map, "Foo", 0))
 
     def test_index_too_high(self):
         """
@@ -200,8 +190,7 @@ class TestPopulateStudentGradesAssignmentExistsAndHasProblems(TestCase):
         """
 
         self.assertFalse(populate_studentgrades.assignment_exists_and_has_problems(
-                self.assignment_problems_map, self.category, len(self.assignment_problems_map[self.category])
-            ))
+                         self.assignment_problems_map, self.category, len(self.assignment_problems_map[self.category])))
 
 
 class TestPopulateStudentGradesStudentDidProblems(TestCase):
@@ -223,14 +212,13 @@ class TestPopulateStudentGradesStudentDidProblems(TestCase):
         problem_set.append('cat_2_problem_1')
         self.assertTrue(populate_studentgrades.student_did_problems(self.student_problems, problem_set))
 
-
     def test_student_did_not_do_problems(self):
         """
         Test where student didn't do any problems in the list
         """
 
         self.assertFalse(populate_studentgrades.student_did_problems(self.student_problems, []))
-        self.assertFalse(populate_studentgrades.student_did_problems([],self.student_problems))
+        self.assertFalse(populate_studentgrades.student_did_problems([], self.student_problems))
 
         problem_set = ['cat_1_problem_2']
         self.assertFalse(populate_studentgrades.student_did_problems(self.student_problems, problem_set))
@@ -245,8 +233,8 @@ class TestPopulateStudentGradesStoreCourseGradeIfNeed(TestCase):
         self.student = StudentUserFactory()
         self.course_id = 'test/test/test'
         self.gradeset = {
-            'percent' : 1.0,
-            'grade' : 'A',
+            'percent': 1.0,
+            'grade': 'A',
         }
         self.course_grade = CourseGrade(
             user=self.student,
@@ -256,21 +244,19 @@ class TestPopulateStudentGradesStoreCourseGradeIfNeed(TestCase):
         )
         self.course_grade.save()
 
-
     def test_new_course_grade_store(self):
         """
         Test stores because it's a new CourseGrade
         """
 
-        self.assertEqual(len(CourseGrade.objects.filter(course_id__exact=self.course_id)),1)
+        self.assertEqual(len(CourseGrade.objects.filter(course_id__exact=self.course_id)), 1)
         student = StudentUserFactory()
         return_value = populate_studentgrades.store_course_grade_if_need(
             student, self.course_id, self.gradeset
         )
-        
-        self.assertTrue(return_value)
-        self.assertEqual(len(CourseGrade.objects.filter(course_id__exact=self.course_id)),2)
 
+        self.assertTrue(return_value)
+        self.assertEqual(len(CourseGrade.objects.filter(course_id__exact=self.course_id)), 2)
 
     @patch('queryable.management.commands.populate_studentgrades.update_course_grade')
     def test_update_store(self, mock_update_course_grade):
@@ -284,16 +270,15 @@ class TestPopulateStudentGradesStoreCourseGradeIfNeed(TestCase):
         return_value = populate_studentgrades.store_course_grade_if_need(
             self.student, self.course_id, self.gradeset
         )
-        
+
         self.assertTrue(return_value)
 
         course_grades = CourseGrade.objects.filter(
             course_id__exact=self.course_id,
             user=self.student,
         )
-        self.assertEqual(len(course_grades),1)
+        self.assertEqual(len(course_grades), 1)
         self.assertNotEqual(updated_time, course_grades[0].updated)
-
 
     @patch('queryable.management.commands.populate_studentgrades.update_course_grade')
     def test_no_update_no_store(self, mock_update_course_grade):
@@ -307,14 +292,14 @@ class TestPopulateStudentGradesStoreCourseGradeIfNeed(TestCase):
         return_value = populate_studentgrades.store_course_grade_if_need(
             self.student, self.course_id, self.gradeset
         )
-        
+
         self.assertFalse(return_value)
 
         course_grades = CourseGrade.objects.filter(
             course_id__exact=self.course_id,
             user=self.student,
         )
-        self.assertEqual(len(course_grades),1)
+        self.assertEqual(len(course_grades), 1)
         self.assertEqual(updated_time, course_grades[0].updated)
 
 
@@ -336,31 +321,29 @@ class TestPopulateStudentGradesStoreAssignmentTypeGradeIfNeed(TestCase):
         )
         self.assignment_type_grade.save()
 
-
     def test_new_assignment_type_grade_store(self):
         """
         Test the function both stores the new assignment type grade and returns True meaning that it had
         """
 
-        self.assertEqual(len(AssignmentTypeGrade.objects.filter(course_id__exact=self.course_id)),1)
+        self.assertEqual(len(AssignmentTypeGrade.objects.filter(course_id__exact=self.course_id)), 1)
         return_value = populate_studentgrades.store_assignment_type_grade_if_need(
             self.student, self.course_id, 'Foo 01', 1.0
         )
-        
-        self.assertTrue(return_value)
-        self.assertEqual(len(AssignmentTypeGrade.objects.filter(course_id__exact=self.course_id)),2)
 
+        self.assertTrue(return_value)
+        self.assertEqual(len(AssignmentTypeGrade.objects.filter(course_id__exact=self.course_id)), 2)
 
     def test_difference_percent_store(self):
         """
         Test updates the percent value when it is different
         """
 
-        new_percent = self.percent-0.1
+        new_percent = self.percent - 0.1
         return_value = populate_studentgrades.store_assignment_type_grade_if_need(
             self.student, self.course_id, self.category, new_percent
         )
-        
+
         self.assertTrue(return_value)
 
         assignment_type_grades = AssignmentTypeGrade.objects.filter(
@@ -368,9 +351,8 @@ class TestPopulateStudentGradesStoreAssignmentTypeGradeIfNeed(TestCase):
             user=self.student,
             category=self.category,
         )
-        self.assertEqual(len(assignment_type_grades),1)
+        self.assertEqual(len(assignment_type_grades), 1)
         self.assertEqual(assignment_type_grades[0].percent, new_percent)
-
 
     def test_same_percent_no_store(self):
         """
@@ -389,7 +371,7 @@ class TestPopulateStudentGradesStoreAssignmentTypeGradeIfNeed(TestCase):
             user=self.student,
             category=self.category,
         )
-        self.assertEqual(len(assignment_type_grades),1)
+        self.assertEqual(len(assignment_type_grades), 1)
         self.assertEqual(assignment_type_grades[0].percent, self.percent)
         self.assertEqual(assignment_type_grades[0].updated, updated_time)
 
@@ -412,31 +394,29 @@ class TestPopulateStudentGradesStoreAssignmentGradeIfNeed(TestCase):
         )
         self.assignment_grade.save()
 
-
     def test_new_assignment_grade_store(self):
         """
         Test the function both stores the new assignment grade and returns True meaning that it had
         """
 
-        self.assertEqual(len(AssignmentGrade.objects.filter(course_id__exact=self.course_id)),1)
+        self.assertEqual(len(AssignmentGrade.objects.filter(course_id__exact=self.course_id)), 1)
         return_value = populate_studentgrades.store_assignment_grade_if_need(
             self.student, self.course_id, 'Foo 01', 1.0
         )
-        
-        self.assertTrue(return_value)
-        self.assertEqual(len(AssignmentGrade.objects.filter(course_id__exact=self.course_id)),2)
 
+        self.assertTrue(return_value)
+        self.assertEqual(len(AssignmentGrade.objects.filter(course_id__exact=self.course_id)), 2)
 
     def test_difference_percent_store(self):
         """
         Test updates the percent value when it is different
         """
 
-        new_percent = self.percent-0.1
+        new_percent = self.percent - 0.1
         return_value = populate_studentgrades.store_assignment_grade_if_need(
             self.student, self.course_id, self.label, new_percent
         )
-        
+
         self.assertTrue(return_value)
 
         assignment_grades = AssignmentGrade.objects.filter(
@@ -444,9 +424,8 @@ class TestPopulateStudentGradesStoreAssignmentGradeIfNeed(TestCase):
             user=self.student,
             label=self.label,
         )
-        self.assertEqual(len(assignment_grades),1)
+        self.assertEqual(len(assignment_grades), 1)
         self.assertEqual(assignment_grades[0].percent, new_percent)
-
 
     def test_same_percent_no_store(self):
         """
@@ -465,13 +444,13 @@ class TestPopulateStudentGradesStoreAssignmentGradeIfNeed(TestCase):
             user=self.student,
             label=self.label,
         )
-        self.assertEqual(len(assignment_grades),1)
+        self.assertEqual(len(assignment_grades), 1)
         self.assertEqual(assignment_grades[0].percent, self.percent)
         self.assertEqual(assignment_grades[0].updated, updated_time)
 
 
 @override_settings(MODULESTORE=TEST_DATA_MONGO_MODULESTORE)
-class TestPopulateStudentGradesCommand(TestCase):
+class TestPopulateStudentGradesCommand(ModuleStoreTestCase):
 
     def create_studentmodule(self):
         """
@@ -482,9 +461,8 @@ class TestPopulateStudentGradesCommand(TestCase):
             module_type='problem',
             grade=1,
             max_grade=1,
-            state=json.dumps({'attempts':1}),
+            state=json.dumps({'attempts': 1}),
         )
-
 
     def create_log_entry(self):
         """
@@ -493,24 +471,22 @@ class TestPopulateStudentGradesCommand(TestCase):
         log = Log(script_id=self.script_id, course_id=self.course.id, created=datetime.now(UTC))
         log.save()
 
-
     def setUp(self):
         self.command = 'populate_studentgrades'
         self.script_id = 'studentgrades'
         self.course = CourseFactory.create()
         self.category = 'Homework'
         self.gradeset = {
-            'percent' : 1.0,
-            'grade' : 'A',
-            'section_breakdown' : [
-                {'category':self.category, 'label':'HW Avg', 'percent':1.0, 'prominent':True},
-                {'category':self.category, 'label':'HW 01', 'percent':1.0},
+            'percent': 1.0,
+            'grade': 'A',
+            'section_breakdown': [
+                {'category': self.category, 'label': 'HW Avg', 'percent': 1.0, 'prominent': True},
+                {'category': self.category, 'label': 'HW 01', 'percent': 1.0},
             ],
         }
         # Make sure these are correct with the above gradeset
         self.assignment_type_index = 0
         self.assignment_index = 1
-
 
     def test_missing_input(self):
         """
@@ -521,7 +497,6 @@ class TestPopulateStudentGradesCommand(TestCase):
             self.assertTrue(True)
         except:
             self.assertTrue(False)
-
 
     def test_just_logs_if_empty_course(self):
         """
@@ -534,7 +509,6 @@ class TestPopulateStudentGradesCommand(TestCase):
         self.assertEqual(len(CourseGrade.objects.filter(course_id__exact=self.course.id)), 0)
         self.assertEqual(len(AssignmentTypeGrade.objects.filter(course_id__exact=self.course.id)), 0)
         self.assertEqual(len(AssignmentGrade.objects.filter(course_id__exact=self.course.id)), 0)
-
 
     @patch('courseware.grades.grade')
     def test_force_update(self, mock_grade):
@@ -551,7 +525,7 @@ class TestPopulateStudentGradesCommand(TestCase):
             module_type='problem',
             grade=1,
             max_grade=1,
-            state=json.dumps({'attempts':1}),
+            state=json.dumps({'attempts': 1}),
         )
 
         self.create_log_entry()
@@ -561,15 +535,12 @@ class TestPopulateStudentGradesCommand(TestCase):
         self.assertEqual(len(Log.objects.filter(script_id__exact=self.script_id, course_id__exact=self.course.id)), 2)
         self.assertEqual(len(CourseGrade.objects.filter(user=sm.student, course_id__exact=self.course.id)), 1)
         self.assertEqual(len(AssignmentTypeGrade.objects.filter(
-                    user=sm.student, course_id__exact=self.course.id, category=self.category
-                )), 1)
+                             user=sm.student, course_id__exact=self.course.id, category=self.category)), 1)
         self.assertEqual(len(AssignmentGrade.objects.filter(
-                    user=sm.student,
-                    course_id__exact=self.course.id,
-                    label=self.gradeset['section_breakdown'][self.assignment_index]['label'],
-                )), 1)
+                             user=sm.student,
+                             course_id__exact=self.course.id,
+                             label=self.gradeset['section_breakdown'][self.assignment_index]['label'], )), 1)
 
-        
     @patch('courseware.grades.grade')
     def test_incremental_update_if_log_exists(self, mock_grade):
         """
@@ -583,7 +554,7 @@ class TestPopulateStudentGradesCommand(TestCase):
             module_type='problem',
             grade=1,
             max_grade=1,
-            state=json.dumps({'attempts':1}),
+            state=json.dumps({'attempts': 1}),
         )
         sm.student.last_name = "Student1"
         sm.student.save()
@@ -596,7 +567,7 @@ class TestPopulateStudentGradesCommand(TestCase):
             module_type='problem',
             grade=1,
             max_grade=1,
-            state=json.dumps({'attempts':1}),
+            state=json.dumps({'attempts': 1}),
         )
         sm.student.last_name = "Student2"
         sm.student.save()
@@ -604,7 +575,6 @@ class TestPopulateStudentGradesCommand(TestCase):
         call_command(self.command, self.course.id)
 
         self.assertEqual(mock_grade.call_count, 1)
-
 
     @patch('queryable.management.commands.populate_studentgrades.store_course_grade_if_need')
     @patch('courseware.grades.grade')
@@ -615,11 +585,10 @@ class TestPopulateStudentGradesCommand(TestCase):
         mock_grade.return_value = self.gradeset
 
         self.create_studentmodule()
-        
-        call_command(self.command, self.course.id)
-        
-        self.assertEqual(mock_method.call_count, 1)
 
+        call_command(self.command, self.course.id)
+
+        self.assertEqual(mock_method.call_count, 1)
 
     @patch('queryable.management.commands.populate_studentgrades.store_assignment_type_grade_if_need')
     @patch('courseware.grades.grade')
@@ -630,12 +599,10 @@ class TestPopulateStudentGradesCommand(TestCase):
         mock_grade.return_value = self.gradeset
 
         self.create_studentmodule()
-        
+
         call_command(self.command, self.course.id)
-        
+
         self.assertEqual(mock_method.call_count, 1)
-
-
 
     @patch('queryable.management.commands.populate_studentgrades.store_assignment_grade_if_need')
     @patch('courseware.grades.grade')
@@ -646,12 +613,10 @@ class TestPopulateStudentGradesCommand(TestCase):
         mock_grade.return_value = self.gradeset
 
         self.create_studentmodule()
-        
+
         call_command(self.command, self.course.id)
-        
+
         self.assertEqual(mock_method.call_count, 1)
-
-
 
     @patch('queryable.management.commands.populate_studentgrades.get_assignment_index')
     @patch('queryable.management.commands.populate_studentgrades.store_assignment_grade_if_need')
@@ -667,20 +632,19 @@ class TestPopulateStudentGradesCommand(TestCase):
         mock_assign_index.return_value = -1
 
         self.create_studentmodule()
-        
+
         call_command(self.command, self.course.id)
-        
+
         self.assertEqual(mock_grade.call_count, 1)
         self.assertEqual(mock_method.call_count, 0)
-
 
     @patch('queryable.management.commands.populate_studentgrades.get_student_problems')
     @patch('queryable.management.commands.populate_studentgrades.assignment_exists_and_has_problems')
     @patch('queryable.util.get_assignment_to_problem_map')
     @patch('queryable.management.commands.populate_studentgrades.store_assignment_grade_if_need')
     @patch('courseware.grades.grade')
-    def test_assignment_grade_percent_zero_no_student_problems(self, mock_grade, mock_method, mock_assign_problem_map,\
-                                                                   mock_assign_exists, mock_student_problems):
+    def test_assignment_grade_percent_zero_no_student_problems(self, mock_grade, mock_method, mock_assign_problem_map,
+                                                               mock_assign_exists, mock_student_problems):
         """
         Does not call store_assignment_grade_if_need when the percent is zero because the student did not submit
         answers to any problems in that assignment.
@@ -689,7 +653,7 @@ class TestPopulateStudentGradesCommand(TestCase):
         mock_grade.return_value = self.gradeset
 
         mock_assign_problem_map.return_value = {
-            self.gradeset['section_breakdown'][self.assignment_index]['category'] : [[]]
+            self.gradeset['section_breakdown'][self.assignment_index]['category']: [[]]
         }
 
         mock_assign_exists.return_value = True
@@ -697,19 +661,18 @@ class TestPopulateStudentGradesCommand(TestCase):
         mock_student_problems.return_value = []
 
         self.create_studentmodule()
-        
-        call_command(self.command, self.course.id)
-        
-        self.assertEqual(mock_method.call_count, 0)
 
+        call_command(self.command, self.course.id)
+
+        self.assertEqual(mock_method.call_count, 0)
 
     @patch('queryable.management.commands.populate_studentgrades.get_student_problems')
     @patch('queryable.management.commands.populate_studentgrades.assignment_exists_and_has_problems')
     @patch('queryable.util.get_assignment_to_problem_map')
     @patch('queryable.management.commands.populate_studentgrades.store_assignment_grade_if_need')
     @patch('courseware.grades.grade')
-    def test_assignment_grade_percent_zero_has_student_problems(self, mock_grade, mock_method, mock_assign_problem_map,\
-                                                                   mock_assign_exists, mock_student_problems):
+    def test_assignment_grade_percent_zero_has_student_problems(self, mock_grade, mock_method, mock_assign_problem_map,
+                                                                mock_assign_exists, mock_student_problems):
         """
         Calls store_assignment_grade_if_need when the percent is zero because the student did submit answers to
         problems in that assignment.
@@ -718,7 +681,7 @@ class TestPopulateStudentGradesCommand(TestCase):
         mock_grade.return_value = self.gradeset
 
         mock_assign_problem_map.return_value = {
-            self.gradeset['section_breakdown'][self.assignment_index]['category'] : [['problem_1']]
+            self.gradeset['section_breakdown'][self.assignment_index]['category']: [['problem_1']]
         }
 
         mock_assign_exists.return_value = True
@@ -726,9 +689,7 @@ class TestPopulateStudentGradesCommand(TestCase):
         mock_student_problems.return_value = ['problem_1']
 
         self.create_studentmodule()
-        
+
         call_command(self.command, self.course.id)
-        
+
         self.assertEqual(mock_method.call_count, 1)
-
-

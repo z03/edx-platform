@@ -2,13 +2,14 @@ from django.contrib.auth.models import User
 from django.db import models
 from courseware.models import StudentModule
 
+
 class StudentModuleExpand(models.Model):
     """
     Expanded version of courseware's model StudentModule. This is only for
     instances of module type 'problem'. Adds attribute 'attempts' that is pulled
     out of the json in the state attribute.
     """
-    
+
     EXPAND_TYPES = {'problem'}
 
     student_module = models.ForeignKey(StudentModule, db_index=True)
@@ -66,7 +67,6 @@ class AssignmentTypeGrade(models.Model):
 
     created = models.DateTimeField(auto_now_add=True, db_index=True)
     updated = models.DateTimeField(auto_now=True, db_index=True)
-
 
 
 class AssignmentGrade(models.Model):

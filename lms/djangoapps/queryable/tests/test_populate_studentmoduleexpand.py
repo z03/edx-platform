@@ -12,6 +12,7 @@ from courseware.tests.tests import TEST_DATA_MONGO_MODULESTORE
 from courseware.tests.factories import StudentModuleFactory
 from queryable.models import Log, StudentModuleExpand
 
+
 @override_settings(MODULESTORE=TEST_DATA_MONGO_MODULESTORE)
 class TestPopulateStudentModuleExpand(TestCase):
 
@@ -19,7 +20,6 @@ class TestPopulateStudentModuleExpand(TestCase):
         self.command = 'populate_studentmoduleexpand'
         self.script_id = "studentmoduleexpand"
         self.course_id = 'test/test/test'
-
 
     def test_missing_input(self):
         """
@@ -31,7 +31,6 @@ class TestPopulateStudentModuleExpand(TestCase):
         except:
             self.assertTrue(False)
 
-
     def test_just_logs_if_empty_course(self):
         """
         If the course has nothing in it, just logs the run in the log table
@@ -41,14 +40,13 @@ class TestPopulateStudentModuleExpand(TestCase):
         self.assertEqual(len(Log.objects.filter(script_id__exact=self.script_id, course_id__exact=self.course_id)), 1)
         self.assertEqual(len(StudentModuleExpand.objects.filter(course_id__exact=self.course_id)), 0)
 
-
     def test_force_update(self):
         """
         Even if there is a log entry for incremental update, force a full update
 
         This may be done because something happened in the last update.
         """
-        
+
         # Create a StudentModule that is before the log entry
         sm = StudentModuleFactory(
             course_id=self.course_id,
@@ -57,7 +55,7 @@ class TestPopulateStudentModuleExpand(TestCase):
             max_grade=1,
             state=json.dumps({'attempts':1}),
         )
-        
+
         # Create the log entry
         log = Log(script_id=self.script_id, course_id=self.course_id, created=datetime.now(UTC))
         log.save()
@@ -77,7 +75,6 @@ class TestPopulateStudentModuleExpand(TestCase):
         self.assertEqual(len(Log.objects.filter(script_id__exact=self.script_id, course_id__exact=self.course_id)), 2)
         self.assertEqual(len(StudentModuleExpand.objects.filter(course_id__exact=self.course_id)), 1)
         self.assertEqual(StudentModuleExpand.objects.filter(course_id__exact=self.course_id)[0].attempts, 1)
-
 
     def test_incremental_update_if_log_exists(self):
         """
@@ -113,7 +110,6 @@ class TestPopulateStudentModuleExpand(TestCase):
 
         # Even though there are two studentmodules only one row should be created
         self.assertEqual(len(StudentModuleExpand.objects.filter(course_id__exact=self.course_id)), 1)
-
 
     def test_update_only_if_row_modified(self):
         """

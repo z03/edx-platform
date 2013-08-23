@@ -6,7 +6,7 @@
 # these students rows for the course grade and assignment type are created only if the student has submitted at
 # least one answer to any problem in the course. Rows for assignments are only created if the student has submitted an
 # answer to one of the problems in that assignment. Updates only occur if there is a change in the values the row should
-# be storing. 
+# be storing.
 
 import json
 import re
@@ -46,7 +46,7 @@ def get_assignment_index(assignment):
     m = re.search('.* (\d+)', assignment)
     index = -1
     if m:
-        index = int(m.group(1))-1
+        index = int(m.group(1)) - 1
 
     return index
 
@@ -91,7 +91,7 @@ def get_student_problems(course_id, student):
         grade__isnull=False,
         module_type__exact='problem',
     ).values('module_state_key').distinct()
-    
+
     student_problems = []
     for problem in query:
         student_problems.append(problem['module_state_key'])
@@ -195,6 +195,7 @@ def store_assignment_grade_if_need(student, course_id, label, percent):
 
     return False
 
+
 ################## Actual Command ##################
 class Command(BaseCommand):
     help = "Populates the queryable.StudentGrades table.\n"
@@ -207,7 +208,7 @@ class Command(BaseCommand):
                     dest='force',
                     default=False,
                     help='Forces a full populate for all students and rows, rather than iterative.'),
-        )
+    )
 
     def handle(self, *args, **options):
         script_id = "studentgrades"
@@ -248,7 +249,7 @@ class Command(BaseCommand):
                 print "Full populate: Can't find log of last run"
                 iterative_populate = False
             print "--------------------------------------------------------------------------------"
-        
+
         # If iterative populate get all students since last populate, otherwise get all students that fit the criteria.
         # Criteria: match course_id, module_type is 'problem', grade is not null because it means they have submitted an
         # answer to a problem that might effect their grade.
@@ -267,12 +268,9 @@ class Command(BaseCommand):
         # Copying instead of using that code so everything is self contained in this django app.
         class DummyRequest(object):
             META = {}
+
             def __init__(self):
                 return
-            def get_host(self):
-                return 'edx.mit.edu'
-            def is_secure(self):
-                return False
 
         # Get course using the id, to pass to the grade function
         course = get_course_by_id(course_id)
@@ -300,7 +298,7 @@ class Command(BaseCommand):
                         student, course_id, section['category'], section['percent']
                     )
 
-                else: #If no 'prominent' or it's False this is at the assignment level
+                else:  # If no 'prominent' or it's False this is at the assignment level
                     store = False
 
                     # If the percent is 0, there are three possibilities:
@@ -320,11 +318,11 @@ class Command(BaseCommand):
                             if assignment_exists_and_has_problems(assignment_problems_map, section['category'], index):
 
                                 # Get problems student has done, only do this database call if needed
-                                if student_problems == None:
+                                if student_problems is None:
                                     student_problems = get_student_problems(course_id, student)
-                                    
+
                                 curr_assignment_problems = assignment_problems_map[section['category']][index]
-                                    
+
                                 if student_did_problems(student_problems, curr_assignment_problems):
                                     store = True
 
