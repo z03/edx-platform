@@ -6,6 +6,7 @@ import logging
 import math
 import re
 import time
+import gc
 
 from smtplib import SMTPServerDisconnected, SMTPDataError, SMTPConnectError
 
@@ -82,6 +83,7 @@ def delegate_email_batches(hash_for_msg, to_option, course_id, course_url, user_
             to_list = recipient_sublist[i * chunk:i * chunk + chunk]
             course_email.delay(hash_for_msg, to_list, course.id, course.display_name, course_url, False)
         num_workers += num_tasks_this_query
+        gc.collect()
     return num_workers
 
 
