@@ -47,7 +47,6 @@ def import_static_content(modules, course_loc, course_data_path, static_content_
                 with open(content_path, 'rb') as f:
                     data = f.read()
 
-                log.debug(u'filename {0}  content_loc = {1}'.format(filename, content_loc))
                 content = StaticContent(content_loc, filename, mime_type, data, import_path=fullname_with_subpath)
 
                 # first let's save a thumbnail so we can get back a thumbnail location
