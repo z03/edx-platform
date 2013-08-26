@@ -4,13 +4,15 @@
 // mixins - font sizing
 @mixin font-size($sizeValue: 16){
   font-size: $sizeValue + px;
-  font-size: ($sizeValue/10) + rem;
+  // font-size: ($sizeValue/10) + rem;
+  // "I guess you guys aren't ready for that yet. But your kids are gonna love it." - Marty McFly
 }
 
 // mixins - line height
 @mixin line-height($fontSize: auto){
   line-height: ($fontSize*1.48) + px;
-  line-height: (($fontSize/10)*1.48) + rem;
+  // line-height: (($fontSize/10)*1.48) + rem;
+  // "I guess you guys aren't ready for that yet. But your kids are gonna love it." - Marty McFly
 }
 
 // image-replacement hidden text
