@@ -929,6 +929,7 @@ def _add_or_remove_user_group(request, username_or_email, group, group_title, ev
     to do.
     """
     user = None
+    username_or_email = username_or_email.strip()
     try:
         if '@' in username_or_email:
             user = User.objects.get(email=username_or_email)

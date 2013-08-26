@@ -234,7 +234,7 @@ def modify_access(request, course_id):
         request.user, course_id, 'instructor', depth=None
     )
 
-    email = request.GET.get('email')
+    email_raw = request.GET.get('email')
     rolename = request.GET.get('rolename')
     action = request.GET.get('action')
 
@@ -243,6 +243,7 @@ def modify_access(request, course_id):
             "unknown rolename '{}'".format(rolename)
         )
 
+    email = email_raw.strip()
     user = User.objects.get(email=email)
 
     # disallow instructors from removing their own instructor access.
@@ -434,7 +435,8 @@ def get_student_progress_url(request, course_id):
         'progress_url': '/../...'
     }
     """
-    student_email = request.GET.get('student_email')
+    student_email_raw = request.GET.get('student_email')
+    student_email = student_email_raw.strip()
     user = User.objects.get(email=student_email)
 
     progress_url = reverse('student_progress', kwargs={'course_id': course_id, 'student_id': user.id})
@@ -475,10 +477,13 @@ def reset_student_attempts(request, course_id):
         request.user, course_id, 'staff', depth=None
     )
 
-    problem_to_reset = request.GET.get('problem_to_reset')
-    student_email = request.GET.get('student_email')
+    problem_to_reset_raw = request.GET.get('problem_to_reset')
+    student_email_raw = request.GET.get('student_email')
     all_students = request.GET.get('all_students', False) in ['true', 'True', True]
     delete_module = request.GET.get('delete_module', False) in ['true', 'True', True]
+
+    problem_to_reset = problem_to_reset_raw.strip()
+    student_email = student_email_raw.strip()
 
     # parameter combinations
     if all_students and student_email:
@@ -532,9 +537,12 @@ def rescore_problem(request, course_id):
 
     all_students and student_email cannot both be present.
     """
-    problem_to_reset = request.GET.get('problem_to_reset')
-    student_email = request.GET.get('student_email', False)
+    problem_to_reset_raw = request.GET.get('problem_to_reset')
+    student_email_raw = request.GET.get('student_email', False)
     all_students = request.GET.get('all_students') in ['true', 'True', True]
+
+    problem_to_reset = problem_to_reset_raw.strip()
+    student_email = student_email_raw.strip() if student_email_raw else student_email_raw
 
     if not (problem_to_reset and (all_students or student_email)):
         return HttpResponseBadRequest("Missing query parameters.")
@@ -577,17 +585,19 @@ def list_instructor_tasks(request, course_id):
         - `problem_urlname` and `student_email` lists task
             history for problem AND student (intersection)
     """
-    problem_urlname = request.GET.get('problem_urlname', False)
-    student_email = request.GET.get('student_email', False)
+    problem_urlname_raw = request.GET.get('problem_urlname', False)
+    student_email_raw = request.GET.get('student_email', False)
 
-    if student_email and not problem_urlname:
+    if student_email_raw and not problem_urlname_raw:
         return HttpResponseBadRequest(
             "student_email must accompany problem_urlname"
         )
 
-    if problem_urlname:
+    if problem_urlname_raw:
+        problem_urlname = problem_urlname_raw.strip()
         module_state_key = _msk_from_problem_urlname(course_id, problem_urlname)
-        if student_email:
+        if student_email_raw:
+            student_email = student_email_raw.strip()
             student = User.objects.get(email=student_email)
             tasks = instructor_task.api.get_instructor_task_history(course_id, module_state_key, student)
         else:
@@ -694,9 +704,11 @@ def update_forum_role_membership(request, course_id):
         request.user, course_id, FORUM_ROLE_ADMINISTRATOR
     )
 
-    email = request.GET.get('email')
+    email_raw = request.GET.get('email')
     rolename = request.GET.get('rolename')
     action = request.GET.get('action')
+
+    email = email_raw.strip()
 
     # default roles require either (staff & forum admin) or (instructor)
     if not (has_forum_admin or has_instructor_access):
