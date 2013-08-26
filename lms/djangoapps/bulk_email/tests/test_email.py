@@ -275,11 +275,12 @@ class TestEmailSendFromDashboard(ModuleStoreTestCase):
         self.assertContains(response, "Your email was successfully queued for sending.")
         self.assertEquals(mock_factory.emails_sent,
                           1 + len(self.staff) + len(self.students) + LARGE_NUM_EMAILS - len(optouts))
-        self.assertItemsEqual(
-            [e.to[0] for e in mail.outbox],
-            [self.instructor.email] + [s.email for s in self.staff] + [s.email for s in self.students] +
-            [s.email for s in added_users if s not in optouts]
-        )
+        outbox_contents = [e.to[0] for e in mail.outbox]
+        should_send_contents = ([self.instructor.email] +
+                                [s.email for s in self.staff] +
+                                [s.email for s in self.students] +
+                                [s.email for s in added_users if s not in optouts])
+        self.assertItemsEqual(outbox_contents, should_send_contents)
 
 
 @override_settings(MODULESTORE=TEST_DATA_MONGO_MODULESTORE)

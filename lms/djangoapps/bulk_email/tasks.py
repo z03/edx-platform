@@ -5,7 +5,6 @@ to a course.
 import math
 import re
 import time
-import gc
 
 from smtplib import SMTPServerDisconnected, SMTPDataError, SMTPConnectError
 
@@ -47,6 +46,9 @@ def delegate_email_batches(email_id, to_option, course_id, course_url, user_id):
     try:
         CourseEmail.objects.get(id=email_id)
     except CourseEmail.DoesNotExist as exc:
+        # The retry behavior here is necessary because of a race condition between the commit of the transaction
+        # that creates this CourseEmail row and the celery pipeline that starts this task.
+        # We might possibly want to move the blocking into the view function rather than have it in this task.
         log.warning("Failed to get CourseEmail with id %s, retry %d", email_id, current_task.request.retries)
         raise delegate_email_batches.retry(arg=[email_id, to_option, course_id, course_url, user_id], exc=exc)
 
@@ -86,32 +88,33 @@ def delegate_email_batches(email_id, to_option, course_id, course_url, user_id):
             to_list = recipient_sublist[i * chunk:i * chunk + chunk]
             course_email.delay(email_id, to_list, course.display_name, course_url, False)
         num_workers += num_tasks_this_query
-        gc.collect()
     return num_workers
 
 
 @task(default_retry_delay=15, max_retries=5)  # pylint: disable=E1102
 def course_email(email_id, to_list, course_title, course_url, throttle=False):
     """
-    Takes a subject and an html formatted email and sends it from
-    sender to all addresses in the to_list, with each recipient
-    being the only "to".  Emails are sent multipart, in both plain
+    Takes a primary id for a CourseEmail object and a 'to_list' of recipient objects--keys are
+    'profile__name', 'email' (address), and 'pk' (in the user table).
+    course_title and course_url are to memoize course properties and save lookups.
+
+    Sends to all addresses contained in to_list.  Emails are sent multi-part, in both plain
     text and html.
     """
     try:
         msg = CourseEmail.objects.get(id=email_id)
-    except CourseEmail.DoesNotExist as exc:
-        log.exception(exc.args[0])
-        raise exc
+    except CourseEmail.DoesNotExist:
+        log.exception("Could not find email id:{} to send.".format(email_id))
+        raise
 
     # exclude optouts
-    optouts = Optout.objects.filter(course_id=msg.course_id,
-                                    user__email__in=[i['email'] for i in to_list])\
-                            .values_list('user__email', flat=True)
+    optouts = (Optout.objects.filter(course_id=msg.course_id,
+                                     user__in=[i['pk'] for i in to_list])
+                             .values_list('user__email', flat=True))
 
     num_optout = len(optouts)
 
-    to_list = filter(lambda x: x['email'] not in optouts, to_list)
+    to_list = filter(lambda x: x['email'] not in set(optouts), to_list)
 
     subject = "[" + course_title + "] " + msg.subject
 
