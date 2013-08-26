@@ -1,10 +1,12 @@
-# ======== Populate StudentModuleExpand  ===============================================================================
-#
-# Populates the StudentModuleExpand table of the queryable_table model.
-#
-# For the provided course_id, it will find all rows in the StudentModule table of the courseware model that have
-# module_type 'problem' and the grade is not null. Then for any rows that have changed since the last populate or do not
-# have a corresponding row, update the attempts value.
+"""
+======== Populate StudentModuleExpand  ===============================================================================
+
+Populates the StudentModuleExpand table of the queryable_table model.
+
+For the provided course_id, it will find all rows in the StudentModule table of the courseware model that have
+module_type 'problem' and the grade is not null. Then for any rows that have changed since the last populate or do not
+have a corresponding row, update the attempts value.
+"""
 
 import json
 
@@ -13,14 +15,16 @@ from pytz import UTC
 from optparse import make_option
 from django.core.management.base import BaseCommand
 
-from xmodule.modulestore.django import modulestore
-
 from courseware.models import StudentModule
 from queryable.models import Log
 from queryable.models import StudentModuleExpand
 
 
 class Command(BaseCommand):
+    """
+    populate_studentmoduleexpand command
+    """
+
     help = "Populates the queryable.StudentModuleExpand table.\n"
     help += "Usage: populate_studentmoduleexpand course_id\n"
     help += "   course_id: course's ID, such as Medicine/HRP258/Statistics_in_Medicine\n"
@@ -82,19 +86,19 @@ class Command(BaseCommand):
 
         c_updated_rows = 0
         # For each problem, get or create the corresponding StudentModuleExpand row
-        for sm in sm_rows:
-            sme, created = StudentModuleExpand.objects.get_or_create(student=sm.student, course_id=course_id,
-                                                                     module_state_key=sm.module_state_key,
-                                                                     student_module=sm)
+        for sm_row in sm_rows:
+            sme, created = StudentModuleExpand.objects.get_or_create(student=sm_row.student, course_id=course_id,
+                                                                     module_state_key=sm_row.module_state_key,
+                                                                     student_module=sm_row)
 
             # If the StudentModuleExpand row is new or the StudentModule row was
             # more recently updated than the StudentModuleExpand row, fill in/update
             # everything and save
-            if created or (sme.modified < sm.modified):
+            if created or (sme.modified < sm_row.modified):
                 c_updated_rows += 1
-                sme.grade = sm.grade
-                sme.max_grade = sm.max_grade
-                state = json.loads(sm.state)
+                sme.grade = sm_row.grade
+                sme.max_grade = sm_row.max_grade
+                state = json.loads(sm_row.state)
                 sme.attempts = state["attempts"]
                 sme.save()
 

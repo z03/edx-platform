@@ -1,9 +1,14 @@
-# ======== Utility functions to help with population ===================================================================
+"""
+Utility functions to help with population
+"""
+
+from datetime import datetime
+from pytz import UTC
 
 from xmodule.course_module import CourseDescriptor
 from xmodule.modulestore.django import modulestore
 from xmodule.modulestore.inheritance import own_metadata
-
+from queryable.models import Log
 
 def get_assignment_to_problem_map(course_id):
     """
@@ -34,8 +39,41 @@ def get_assignment_to_problem_map(course_id):
     return assignment_problems_map
 
 
-def approx_equal(a, b, tolerance=0.0001):
+def approx_equal(first, second, tolerance=0.0001):
     """
-    Checks if a and b are at most the specified tolerance away from each other.
+    Checks if first and second are at most the specified tolerance away from each other.
     """
-    return abs(a - b) <= tolerance
+    return abs(first - second) <= tolerance
+
+
+def pre_run_command(script_id, options, course_id):
+    
+    print "--------------------------------------------------------------------------------"
+    print "Populating queryable.{0} table for course {1}".format(script_id, course_id)
+    print "--------------------------------------------------------------------------------"
+
+    # Grab when we start, to log later
+    tstart = datetime.now(UTC)
+
+    iterative_populate = True
+    last_log_run = {}
+    if options['force']:
+        print "--------------------------------------------------------------------------------"
+        print "Full populate: Forced full populate"
+        print "--------------------------------------------------------------------------------"
+        iterative_populate = False
+
+    if iterative_populate:
+        # Get when this script was last run for this course
+        last_log_run = Log.objects.filter(script_id__exact=script_id, course_id__exact=course_id)
+
+        length = len(last_log_run)
+        print "--------------------------------------------------------------------------------"
+        if length > 0:
+            print "Iterative populate: Last log run", last_log_run[0].created
+        else:
+            print "Full populate: Can't find log of last run"
+            iterative_populate = False
+        print "--------------------------------------------------------------------------------"
+        
+    return iterative_populate, tstart, last_log_run

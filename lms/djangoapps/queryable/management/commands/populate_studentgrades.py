@@ -1,14 +1,15 @@
-# ======== Populate Student Grades  ====================================================================================
-#
-# Populates the student grade tables of the queryable_table model (CourseGrade, AssignmentTypeGrade, AssignmentGrade).
-#
-# For the provided course_id, it will find all students that may have changed their grade since the last populate. Of
-# these students rows for the course grade and assignment type are created only if the student has submitted at
-# least one answer to any problem in the course. Rows for assignments are only created if the student has submitted an
-# answer to one of the problems in that assignment. Updates only occur if there is a change in the values the row should
-# be storing.
+"""
+======== Populate Student Grades  ====================================================================================
 
-import json
+Populates the student grade tables of the queryable_table model (CourseGrade, AssignmentTypeGrade, AssignmentGrade).
+
+For the provided course_id, it will find all students that may have changed their grade since the last populate. Of
+these students rows for the course grade and assignment type are created only if the student has submitted at
+least one answer to any problem in the course. Rows for assignments are only created if the student has submitted an
+answer to one of the problems in that assignment. Updates only occur if there is a change in the values the row should
+be storing.
+"""
+
 import re
 
 from datetime import datetime
@@ -43,15 +44,15 @@ def get_assignment_index(assignment):
     function.
     """
 
-    m = re.search('.* (\d+)', assignment)
+    match = re.search(r'.* (\d+)', assignment)
     index = -1
-    if m:
-        index = int(m.group(1)) - 1
+    if match:
+        index = int(match.group(1)) - 1
 
     return index
 
 
-def assignment_exists_and_has_problems(assignment_problems_map, category, index):
+def assignment_exists_and_has_prob(assignment_problems_map, category, index):
     """
     Returns True if the assignment for the category and index exists and has problems
 
@@ -136,7 +137,7 @@ def store_course_grade_if_need(student, course_id, gradeset):
     return False
 
 
-def store_assignment_type_grade_if_need(student, course_id, category, percent):
+def store_assignment_type_grade(student, course_id, category, percent):
     """
     Stores the assignment type grade for the student and course if needed, returns True if it was stored
 
@@ -196,8 +197,11 @@ def store_assignment_grade_if_need(student, course_id, label, percent):
     return False
 
 
-################## Actual Command ##################
 class Command(BaseCommand):
+    """
+    populate_studentgrades command
+    """
+    
     help = "Populates the queryable.StudentGrades table.\n"
     help += "Usage: populate_studentgrades course_id\n"
     help += "   course_id: course's ID, such as Medicine/HRP258/Statistics_in_Medicine\n"
@@ -267,9 +271,16 @@ class Command(BaseCommand):
         # Code originally from lms/djangoapps/instructor/offline_gradecalc.py
         # Copying instead of using that code so everything is self contained in this django app.
         class DummyRequest(object):
+            """
+            Create a dummy request to pass to the grade function.
+            Code originally from lms/djangoapps/instructor/offline_gradecalc.py
+            Copying instead of using that code so everything is self contained in this django app.
+            """
+            
             META = {}
 
             def __init__(self):
+                self.user = None
                 return
 
         # Get course using the id, to pass to the grade function
@@ -280,10 +291,9 @@ class Command(BaseCommand):
             updated = False
             student_problems = None
 
-            # Create dummy request and set its user and session
+            # Create dummy request and set its user
             request = DummyRequest()
             request.user = student
-            request.session = {}
 
             # Call grade to get the gradeset
             gradeset = grades.grade(student, request, course, keep_raw_scores=False)
@@ -294,7 +304,7 @@ class Command(BaseCommand):
             for section in gradeset['section_breakdown']:
                 # If the dict has 'prominent' and it's True this is at the assignment type level, store it if need
                 if ('prominent' in section) and section['prominent']:
-                    updated = store_assignment_type_grade_if_need(
+                    updated = store_assignment_type_grade(
                         student, course_id, section['category'], section['percent']
                     )
 
@@ -315,7 +325,7 @@ class Command(BaseCommand):
                             print "WARNING: Can't find index for the following section, skipping"
                             print section
                         else:
-                            if assignment_exists_and_has_problems(assignment_problems_map, section['category'], index):
+                            if assignment_exists_and_has_prob(assignment_problems_map, section['category'], index):
 
                                 # Get problems student has done, only do this database call if needed
                                 if student_problems is None:

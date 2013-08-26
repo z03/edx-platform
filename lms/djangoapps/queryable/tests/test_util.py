@@ -18,29 +18,27 @@ class TestUtilApproxEqual(TestCase):
         """
         Check that function with default tolerance
         """
-        self.assertTrue(util.approx_equal(1.00001,1.0))
-        self.assertTrue(util.approx_equal(1.0,1.00001))
+        self.assertTrue(util.approx_equal(1.00001, 1.0))
+        self.assertTrue(util.approx_equal(1.0, 1.00001))
 
-        self.assertFalse(util.approx_equal(1.0,2.0))
-        self.assertFalse(util.approx_equal(1.0,1.0002))
-
+        self.assertFalse(util.approx_equal(1.0, 2.0))
+        self.assertFalse(util.approx_equal(1.0, 1.0002))
 
     def test_smaller_default_tolerance(self):
         """
         Set tolerance smaller than default and check if still correct
         """
-        
-        self.assertTrue(util.approx_equal(1.0,1.0,1))
-        self.assertTrue(util.approx_equal(1.0,1.000001,0.000001))
 
+        self.assertTrue(util.approx_equal(1.0, 1.0, 1))
+        self.assertTrue(util.approx_equal(1.0, 1.000001, 0.000001))
 
     def test_bigger_default_tolerance(self):
         """
         Set tolerance bigger than default and check if still correct
         """
 
-        self.assertFalse(util.approx_equal(1.0,2.0,0.75))
-        self.assertFalse(util.approx_equal(2.0,1.0,0.75))
+        self.assertFalse(util.approx_equal(1.0, 2.0, 0.75))
+        self.assertFalse(util.approx_equal(2.0, 1.0, 0.75))
 
 
 @override_settings(MODULESTORE=TEST_DATA_MONGO_MODULESTORE)
@@ -52,15 +50,13 @@ class TestUtilGetAssignmentToProblemMap(TestCase):
     def setUp(self):
         self.course = CourseFactory.create()
 
-
     def test_empty_course(self):
         """
         Test for course with nothing in it
         """
         problems_map = util.get_assignment_to_problem_map(self.course.id)
-        
-        self.assertEqual(problems_map, {})
 
+        self.assertEqual(problems_map, {})
 
     def test_single_assignment(self):
         """
@@ -95,14 +91,10 @@ class TestUtilGetAssignmentToProblemMap(TestCase):
 
         problems_map = util.get_assignment_to_problem_map(self.course.id)
 
-        answer = {
-            'Homework' : [
-                [problem1.location.url(), problem2.location.url()],
-                ],
-            }
+        answer = {'Homework': [[problem1.location.url(), problem2.location.url()], ],
+                  }
 
-        self.assertEqual(problems_map,answer)
-
+        self.assertEqual(problems_map, answer)
 
     def test_two_assignments_same_type(self):
         """
@@ -144,15 +136,10 @@ class TestUtilGetAssignmentToProblemMap(TestCase):
 
         problems_map = util.get_assignment_to_problem_map(self.course.id)
 
-        answer = {
-            'Homework' : [
-                [problem1.location.url()],
-                [problem2.location.url()],
-                ],
-            }
+        answer = {'Homework': [[problem1.location.url()], [problem2.location.url()], ],
+                  }
 
-        self.assertEqual(problems_map,answer)
-
+        self.assertEqual(problems_map, answer)
 
     def test_two_assignments_different_types(self):
         """
@@ -194,18 +181,11 @@ class TestUtilGetAssignmentToProblemMap(TestCase):
 
         problems_map = util.get_assignment_to_problem_map(self.course.id)
 
-        answer = {
-            'Homework' : [
-                [problem1.location.url()],
-                ],
-            'Quiz' : [
-                [problem2.location.url()],
-                ],
-            }
+        answer = {'Homework': [[problem1.location.url()], ],
+                  'Quiz': [[problem2.location.url()], ],
+                  }
 
-        self.assertEqual(problems_map,answer)
-
-
+        self.assertEqual(problems_map, answer)
 
     def test_return_only_graded_subsections(self):
         """
@@ -246,11 +226,7 @@ class TestUtilGetAssignmentToProblemMap(TestCase):
 
         problems_map = util.get_assignment_to_problem_map(self.course.id)
 
-        answer = {
-            'Homework' : [
-                [problem1.location.url()],
-                ],
-            }
+        answer = {'Homework': [[problem1.location.url()], ],
+                  }
 
-        self.assertEqual(problems_map,answer)
-
+        self.assertEqual(problems_map, answer)

@@ -53,7 +53,7 @@ class TestPopulateStudentModuleExpand(TestCase):
             module_type='problem',
             grade=1,
             max_grade=1,
-            state=json.dumps({'attempts':1}),
+            state=json.dumps({'attempts': 1}),
         )
 
         # Create the log entry
@@ -86,9 +86,9 @@ class TestPopulateStudentModuleExpand(TestCase):
             module_type='problem',
             grade=1,
             max_grade=1,
-            state=json.dumps({'attempts':1}),
+            state=json.dumps({'attempts': 1}),
         )
-        
+
         # Create the log entry
         log = Log(script_id=self.script_id, course_id=self.course_id, created=datetime.now(UTC))
         log.save()
@@ -99,9 +99,9 @@ class TestPopulateStudentModuleExpand(TestCase):
             module_type='problem',
             grade=1,
             max_grade=1,
-            state=json.dumps({'attempts':1}),
+            state=json.dumps({'attempts': 1}),
         )
-        
+
         # Call command
         management.call_command(self.command, self.course_id)
 
@@ -114,7 +114,6 @@ class TestPopulateStudentModuleExpand(TestCase):
     def test_update_only_if_row_modified(self):
         """
         Test populate does not update a row if it is not necessary
-
         For example the problem may have a more recent modified date but the attempts value has not changed.
         """
 
@@ -139,7 +138,7 @@ class TestPopulateStudentModuleExpand(TestCase):
         sme1.save()
 
         # Touch the StudentModule row so it has a later modified time
-        sm1.state=json.dumps({'attempts':1})
+        sm1.state = json.dumps({'attempts': 1})
         sm1.save()
 
         # Create a StudentModule
@@ -149,7 +148,7 @@ class TestPopulateStudentModuleExpand(TestCase):
             module_state_key=2,
             grade=1,
             max_grade=1,
-            state=json.dumps({'attempts':2}),
+            state=json.dumps({'attempts': 2}),
         )
         # Create a StudentModuleExpand that has the same attempts value
         sme2 = StudentModuleExpand(
@@ -167,16 +166,11 @@ class TestPopulateStudentModuleExpand(TestCase):
         management.call_command(self.command, self.course_id)
 
         self.assertEqual(len(StudentModuleExpand.objects.filter(
-                    course_id__exact=self.course_id, module_state_key__exact=sme1.module_state_key
-                )), 1)
+                         course_id__exact=self.course_id, module_state_key__exact=sme1.module_state_key)), 1)
         self.assertEqual(len(StudentModuleExpand.objects.filter(
-                    course_id__exact=self.course_id, module_state_key__exact=sme2.module_state_key
-                )), 1)
+                         course_id__exact=self.course_id, module_state_key__exact=sme2.module_state_key)), 1)
 
         self.assertEqual(StudentModuleExpand.objects.filter(
-                course_id__exact=self.course_id, module_state_key__exact=sme1.module_state_key
-            )[0].attempts, 1)
+                         course_id__exact=self.course_id, module_state_key__exact=sme1.module_state_key)[0].attempts, 1)
         self.assertEqual(StudentModuleExpand.objects.filter(
-                course_id__exact=self.course_id, module_state_key__exact=sme2.module_state_key
-            )[0].attempts, 2)
-
+                         course_id__exact=self.course_id, module_state_key__exact=sme2.module_state_key)[0].attempts, 2)

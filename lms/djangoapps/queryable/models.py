@@ -1,3 +1,7 @@
+"""
+model file for queryable app
+"""
+
 from django.contrib.auth.models import User
 from django.db import models
 from courseware.models import StudentModule
@@ -24,6 +28,10 @@ class StudentModuleExpand(models.Model):
     course_id = models.CharField(max_length=255, db_index=True)
 
     class Meta:
+        """
+        Meta definitions
+        """
+        
         unique_together = (('student', 'module_state_key', 'course_id'),)
 
     grade = models.FloatField(null=True, blank=True, db_index=True)
@@ -45,6 +53,10 @@ class CourseGrade(models.Model):
     grade = models.CharField(max_length=32, db_index=True, null=True)
 
     class Meta:
+        """
+        Meta definitions
+        """
+        
         unique_together = (('user', 'course_id'), )
 
     created = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -63,6 +75,10 @@ class AssignmentTypeGrade(models.Model):
     percent = models.FloatField(db_index=True, null=True)
 
     class Meta:
+        """
+        Meta definitions
+        """
+        
         unique_together = (('user', 'course_id', 'category'), )
 
     created = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -83,6 +99,10 @@ class AssignmentGrade(models.Model):
     detail = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
+        """
+        Meta definitions
+        """
+        
         unique_together = (('user', 'course_id', 'label'), )
 
     created = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -100,5 +120,9 @@ class Log(models.Model):
     created = models.DateTimeField(null=True, db_index=True)
 
     class Meta:
+        """
+        Meta definitions
+        """
+        
         ordering = ["-created"]
         get_latest_by = "created"

@@ -135,7 +135,7 @@ class TestPopulateStudentGradesGetStudentProblems(TestCase):
 
 class TestPopulateStudentGradesAssignmentExistsAndHasProblems(TestCase):
     """
-    Tests the helper fuction assignment_exists_and_has_problems in the populate_studentgrades custom command
+    Tests the helper fuction assignment_exists_and_has_prob in the populate_studentgrades custom command
     """
 
     def setUp(self):
@@ -151,7 +151,7 @@ class TestPopulateStudentGradesAssignmentExistsAndHasProblems(TestCase):
         Test where assignment does exist and has problems
         """
 
-        self.assertTrue(populate_studentgrades.assignment_exists_and_has_problems(
+        self.assertTrue(populate_studentgrades.assignment_exists_and_has_prob(
                         self.assignment_problems_map,
                         self.category,
                         len(self.assignment_problems_map[self.category]) - 1, )
@@ -164,7 +164,7 @@ class TestPopulateStudentGradesAssignmentExistsAndHasProblems(TestCase):
 
         self.assignment_problems_map['Final'] = [[]]
 
-        self.assertFalse(populate_studentgrades.assignment_exists_and_has_problems(
+        self.assertFalse(populate_studentgrades.assignment_exists_and_has_prob(
                          self.assignment_problems_map, 'Final', 0)
                          )
 
@@ -173,23 +173,23 @@ class TestPopulateStudentGradesAssignmentExistsAndHasProblems(TestCase):
         Test handles negative indexes well by returning False
         """
 
-        self.assertFalse(populate_studentgrades.assignment_exists_and_has_problems({}, "", -1))
-        self.assertFalse(populate_studentgrades.assignment_exists_and_has_problems({}, "", -5))
+        self.assertFalse(populate_studentgrades.assignment_exists_and_has_prob({}, "", -1))
+        self.assertFalse(populate_studentgrades.assignment_exists_and_has_prob({}, "", -5))
 
     def test_non_existing_category(self):
         """
         Test handled a category that doesn't actually exist by returning False
         """
 
-        self.assertFalse(populate_studentgrades.assignment_exists_and_has_problems({}, "Foo", 0))
-        self.assertFalse(populate_studentgrades.assignment_exists_and_has_problems(self.assignment_problems_map, "Foo", 0))
+        self.assertFalse(populate_studentgrades.assignment_exists_and_has_prob({}, "Foo", 0))
+        self.assertFalse(populate_studentgrades.assignment_exists_and_has_prob(self.assignment_problems_map, "Foo", 0))
 
     def test_index_too_high(self):
         """
         Test that if the index is higher than the actual number of assignments
         """
 
-        self.assertFalse(populate_studentgrades.assignment_exists_and_has_problems(
+        self.assertFalse(populate_studentgrades.assignment_exists_and_has_prob(
                          self.assignment_problems_map, self.category, len(self.assignment_problems_map[self.category])))
 
 
@@ -305,7 +305,7 @@ class TestPopulateStudentGradesStoreCourseGradeIfNeed(TestCase):
 
 class TestPopulateStudentGradesStoreAssignmentTypeGradeIfNeed(TestCase):
     """
-    Tests the helper fuction store_assignment_type_grade_if_need in the populate_studentgrades custom command
+    Tests the helper fuction store_assignment_type_grade in the populate_studentgrades custom command
     """
 
     def setUp(self):
@@ -327,7 +327,7 @@ class TestPopulateStudentGradesStoreAssignmentTypeGradeIfNeed(TestCase):
         """
 
         self.assertEqual(len(AssignmentTypeGrade.objects.filter(course_id__exact=self.course_id)), 1)
-        return_value = populate_studentgrades.store_assignment_type_grade_if_need(
+        return_value = populate_studentgrades.store_assignment_type_grade(
             self.student, self.course_id, 'Foo 01', 1.0
         )
 
@@ -340,7 +340,7 @@ class TestPopulateStudentGradesStoreAssignmentTypeGradeIfNeed(TestCase):
         """
 
         new_percent = self.percent - 0.1
-        return_value = populate_studentgrades.store_assignment_type_grade_if_need(
+        return_value = populate_studentgrades.store_assignment_type_grade(
             self.student, self.course_id, self.category, new_percent
         )
 
@@ -360,7 +360,7 @@ class TestPopulateStudentGradesStoreAssignmentTypeGradeIfNeed(TestCase):
         """
         updated_time = self.assignment_type_grade.updated
 
-        return_value = populate_studentgrades.store_assignment_type_grade_if_need(
+        return_value = populate_studentgrades.store_assignment_type_grade(
             self.student, self.course_id, self.category, self.percent
         )
 
@@ -590,11 +590,11 @@ class TestPopulateStudentGradesCommand(ModuleStoreTestCase):
 
         self.assertEqual(mock_method.call_count, 1)
 
-    @patch('queryable.management.commands.populate_studentgrades.store_assignment_type_grade_if_need')
+    @patch('queryable.management.commands.populate_studentgrades.store_assignment_type_grade')
     @patch('courseware.grades.grade')
     def test_store_assignment_type_grade(self, mock_grade, mock_method):
         """
-        Calls store_assignment_type_grade_if_need when such a section exists
+        Calls store_assignment_type_grade when such a section exists
         """
         mock_grade.return_value = self.gradeset
 
@@ -639,7 +639,7 @@ class TestPopulateStudentGradesCommand(ModuleStoreTestCase):
         self.assertEqual(mock_method.call_count, 0)
 
     @patch('queryable.management.commands.populate_studentgrades.get_student_problems')
-    @patch('queryable.management.commands.populate_studentgrades.assignment_exists_and_has_problems')
+    @patch('queryable.management.commands.populate_studentgrades.assignment_exists_and_has_prob')
     @patch('queryable.util.get_assignment_to_problem_map')
     @patch('queryable.management.commands.populate_studentgrades.store_assignment_grade_if_need')
     @patch('courseware.grades.grade')
@@ -667,7 +667,7 @@ class TestPopulateStudentGradesCommand(ModuleStoreTestCase):
         self.assertEqual(mock_method.call_count, 0)
 
     @patch('queryable.management.commands.populate_studentgrades.get_student_problems')
-    @patch('queryable.management.commands.populate_studentgrades.assignment_exists_and_has_problems')
+    @patch('queryable.management.commands.populate_studentgrades.assignment_exists_and_has_prob')
     @patch('queryable.util.get_assignment_to_problem_map')
     @patch('queryable.management.commands.populate_studentgrades.store_assignment_grade_if_need')
     @patch('courseware.grades.grade')
