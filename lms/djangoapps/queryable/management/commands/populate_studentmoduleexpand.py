@@ -10,14 +10,13 @@ have a corresponding row, update the attempts value.
 
 import json
 
-from datetime import datetime
-from pytz import UTC
 from optparse import make_option
 from django.core.management.base import BaseCommand
 
 from courseware.models import StudentModule
 from queryable.models import Log
 from queryable.models import StudentModuleExpand
+from queryable.util import pre_run_command
 
 
 class Command(BaseCommand):
@@ -48,32 +47,7 @@ class Command(BaseCommand):
             print self.help
             return
 
-        print "--------------------------------------------------------------------------------"
-        print "Populating queryable.StudentModuleExpand table for course {0}".format(course_id)
-        print "--------------------------------------------------------------------------------"
-
-        # Grab when we start, to log later
-        tstart = datetime.now(UTC)
-
-        iterative_populate = True
-        if options['force']:
-            print "--------------------------------------------------------------------------------"
-            print "Full populate: Forced full populate"
-            print "--------------------------------------------------------------------------------"
-            iterative_populate = False
-
-        if iterative_populate:
-            # Get when this script was last run for this course
-            last_log_run = Log.objects.filter(script_id__exact=script_id, course_id__exact=course_id)
-
-            length = len(last_log_run)
-            print "--------------------------------------------------------------------------------"
-            if length > 0:
-                print "Iterative populate: Last log run", last_log_run[0].created
-            else:
-                print "Full populate: Can't find log of last run"
-                iterative_populate = False
-            print "--------------------------------------------------------------------------------"
+        iterative_populate, tstart, last_log_run = pre_run_command(script_id, options, course_id)
 
         # If iterative populate, get all the problems that students have submitted an answer to for this course,
         # since the last run

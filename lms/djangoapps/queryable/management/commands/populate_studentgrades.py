@@ -12,8 +12,6 @@ be storing.
 
 import re
 
-from datetime import datetime
-from pytz import UTC
 from optparse import make_option
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
@@ -201,7 +199,7 @@ class Command(BaseCommand):
     """
     populate_studentgrades command
     """
-    
+
     help = "Populates the queryable.StudentGrades table.\n"
     help += "Usage: populate_studentgrades course_id\n"
     help += "   course_id: course's ID, such as Medicine/HRP258/Statistics_in_Medicine\n"
@@ -227,32 +225,7 @@ class Command(BaseCommand):
 
         assignment_problems_map = util.get_assignment_to_problem_map(course_id)
 
-        print "--------------------------------------------------------------------------------"
-        print "Populating queryable.StudentGrades table for course {0}".format(course_id)
-        print "--------------------------------------------------------------------------------"
-
-        # Grab when we start, to log later
-        tstart = datetime.now(UTC)
-
-        iterative_populate = True
-        if options['force']:
-            print "--------------------------------------------------------------------------------"
-            print "Full populate: Forced full populate"
-            print "--------------------------------------------------------------------------------"
-            iterative_populate = False
-
-        if iterative_populate:
-            # Get when this script was last run for this course
-            last_log_run = Log.objects.filter(script_id__exact=script_id, course_id__exact=course_id)
-
-            length = len(last_log_run)
-            print "--------------------------------------------------------------------------------"
-            if length > 0:
-                print "Iterative populate: Last log run", last_log_run[0].created
-            else:
-                print "Full populate: Can't find log of last run"
-                iterative_populate = False
-            print "--------------------------------------------------------------------------------"
+        iterative_populate, tstart, last_log_run = util.pre_run_command(script_id, options, course_id)
 
         # If iterative populate get all students since last populate, otherwise get all students that fit the criteria.
         # Criteria: match course_id, module_type is 'problem', grade is not null because it means they have submitted an
@@ -276,7 +249,7 @@ class Command(BaseCommand):
             Code originally from lms/djangoapps/instructor/offline_gradecalc.py
             Copying instead of using that code so everything is self contained in this django app.
             """
-            
+
             META = {}
 
             def __init__(self):

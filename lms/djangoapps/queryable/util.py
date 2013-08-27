@@ -4,11 +4,15 @@ Utility functions to help with population
 
 from datetime import datetime
 from pytz import UTC
+import logging
 
 from xmodule.course_module import CourseDescriptor
 from xmodule.modulestore.django import modulestore
 from xmodule.modulestore.inheritance import own_metadata
 from queryable.models import Log
+
+log = logging.getLogger("mitx.queryable")
+
 
 def get_assignment_to_problem_map(course_id):
     """
@@ -47,10 +51,13 @@ def approx_equal(first, second, tolerance=0.0001):
 
 
 def pre_run_command(script_id, options, course_id):
-    
-    print "--------------------------------------------------------------------------------"
-    print "Populating queryable.{0} table for course {1}".format(script_id, course_id)
-    print "--------------------------------------------------------------------------------"
+    """
+    Common pre-run method for both populate_studentgrades and populate_studentmoduleexpand commands.
+    """
+
+    log.info("--------------------------------------------------------------------------------")
+    log.info("Populating queryable.{0} table for course {1}".format(script_id, course_id))
+    log.info("--------------------------------------------------------------------------------")
 
     # Grab when we start, to log later
     tstart = datetime.now(UTC)
@@ -58,9 +65,9 @@ def pre_run_command(script_id, options, course_id):
     iterative_populate = True
     last_log_run = {}
     if options['force']:
-        print "--------------------------------------------------------------------------------"
-        print "Full populate: Forced full populate"
-        print "--------------------------------------------------------------------------------"
+        log.info("--------------------------------------------------------------------------------")
+        log.info("Full populate: Forced full populate")
+        log.info("--------------------------------------------------------------------------------")
         iterative_populate = False
 
     if iterative_populate:
@@ -68,12 +75,12 @@ def pre_run_command(script_id, options, course_id):
         last_log_run = Log.objects.filter(script_id__exact=script_id, course_id__exact=course_id)
 
         length = len(last_log_run)
-        print "--------------------------------------------------------------------------------"
+        log.info("--------------------------------------------------------------------------------")
         if length > 0:
-            print "Iterative populate: Last log run", last_log_run[0].created
+            log.info("Iterative populate: Last log run %s", str(last_log_run[0].created))
         else:
-            print "Full populate: Can't find log of last run"
+            log.info("Full populate: Can't find log of last run")
             iterative_populate = False
-        print "--------------------------------------------------------------------------------"
-        
+        log.info("--------------------------------------------------------------------------------")
+
     return iterative_populate, tstart, last_log_run
