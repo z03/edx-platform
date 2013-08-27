@@ -32,6 +32,7 @@ class StudentModuleExpand(models.Model):
         Meta definitions
         """
 
+        db_table = "queryable_studentmoduleexpand"
         unique_together = (('student', 'module_state_key', 'course_id'),)
 
     grade = models.FloatField(null=True, blank=True, db_index=True)
@@ -57,6 +58,7 @@ class CourseGrade(models.Model):
         Meta definitions
         """
 
+        db_table = "queryable_coursegrade"
         unique_together = (('user', 'course_id'), )
 
     created = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -79,6 +81,7 @@ class AssignmentTypeGrade(models.Model):
         Meta definitions
         """
 
+        db_table = "queryable_assignmenttypegrade"
         unique_together = (('user', 'course_id', 'category'), )
 
     created = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -103,6 +106,7 @@ class AssignmentGrade(models.Model):
         Meta definitions
         """
 
+        db_table = "queryable_assignmentgrade"
         unique_together = (('user', 'course_id', 'label'), )
 
     created = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -124,5 +128,6 @@ class Log(models.Model):
         Meta definitions
         """
 
+        db_table = "queryable_log"
         ordering = ["-created"]
         get_latest_by = "created"

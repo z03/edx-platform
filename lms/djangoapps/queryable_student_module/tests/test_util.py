@@ -6,7 +6,7 @@ from xmodule.modulestore.django import modulestore
 from xmodule.modulestore.inheritance import own_metadata
 from courseware.tests.tests import TEST_DATA_MONGO_MODULESTORE
 
-from queryable import util
+from queryable_student_module import util
 
 
 class TestUtilApproxEqual(TestCase):

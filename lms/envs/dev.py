@@ -263,7 +263,7 @@ if SEGMENT_IO_LMS_KEY:
 EDX_API_KEY = None
 
 ########################## QUERYABLE TABLES ########################
-INSTALLED_APPS += ('queryable',)
+INSTALLED_APPS += ('queryable_student_module',)
 
 #####################################################################
 # Lastly, see if the developer has any local overrides.

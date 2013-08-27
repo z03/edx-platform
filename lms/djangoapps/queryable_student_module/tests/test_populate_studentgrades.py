@@ -14,8 +14,8 @@ from xmodule.modulestore.tests.django_utils import ModuleStoreTestCase
 from student.tests.factories import UserFactory as StudentUserFactory
 from xmodule.modulestore.tests.factories import CourseFactory, ItemFactory
 
-from queryable.models import Log, CourseGrade, AssignmentTypeGrade, AssignmentGrade
-from queryable.management.commands import populate_studentgrades
+from queryable_student_module.models import Log, CourseGrade, AssignmentTypeGrade, AssignmentGrade
+from queryable_student_module.management.commands import populate_studentgrades
 
 
 class TestPopulateStudentGradesUpdateCourseGrade(TestCase):
@@ -258,7 +258,7 @@ class TestPopulateStudentGradesStoreCourseGradeIfNeed(TestCase):
         self.assertTrue(return_value)
         self.assertEqual(len(CourseGrade.objects.filter(course_id__exact=self.course_id)), 2)
 
-    @patch('queryable.management.commands.populate_studentgrades.update_course_grade')
+    @patch('queryable_student_module.management.commands.populate_studentgrades.update_course_grade')
     def test_update_store(self, mock_update_course_grade):
         """
         Test stores because update_course_grade returns True
@@ -280,7 +280,7 @@ class TestPopulateStudentGradesStoreCourseGradeIfNeed(TestCase):
         self.assertEqual(len(course_grades), 1)
         self.assertNotEqual(updated_time, course_grades[0].updated)
 
-    @patch('queryable.management.commands.populate_studentgrades.update_course_grade')
+    @patch('queryable_student_module.management.commands.populate_studentgrades.update_course_grade')
     def test_no_update_no_store(self, mock_update_course_grade):
         """
         Test doesn't touch the row because it is not newly created and update_course_grade returns False
@@ -576,7 +576,7 @@ class TestPopulateStudentGradesCommand(ModuleStoreTestCase):
 
         self.assertEqual(mock_grade.call_count, 1)
 
-    @patch('queryable.management.commands.populate_studentgrades.store_course_grade_if_need')
+    @patch('queryable_student_module.management.commands.populate_studentgrades.store_course_grade_if_need')
     @patch('courseware.grades.grade')
     def test_store_course_grade(self, mock_grade, mock_method):
         """
@@ -590,7 +590,7 @@ class TestPopulateStudentGradesCommand(ModuleStoreTestCase):
 
         self.assertEqual(mock_method.call_count, 1)
 
-    @patch('queryable.management.commands.populate_studentgrades.store_assignment_type_grade')
+    @patch('queryable_student_module.management.commands.populate_studentgrades.store_assignment_type_grade')
     @patch('courseware.grades.grade')
     def test_store_assignment_type_grade(self, mock_grade, mock_method):
         """
@@ -604,7 +604,7 @@ class TestPopulateStudentGradesCommand(ModuleStoreTestCase):
 
         self.assertEqual(mock_method.call_count, 1)
 
-    @patch('queryable.management.commands.populate_studentgrades.store_assignment_grade_if_need')
+    @patch('queryable_student_module.management.commands.populate_studentgrades.store_assignment_grade_if_need')
     @patch('courseware.grades.grade')
     def test_store_assignment_grade_percent_not_zero(self, mock_grade, mock_method):
         """
@@ -618,8 +618,8 @@ class TestPopulateStudentGradesCommand(ModuleStoreTestCase):
 
         self.assertEqual(mock_method.call_count, 1)
 
-    @patch('queryable.management.commands.populate_studentgrades.get_assignment_index')
-    @patch('queryable.management.commands.populate_studentgrades.store_assignment_grade_if_need')
+    @patch('queryable_student_module.management.commands.populate_studentgrades.get_assignment_index')
+    @patch('queryable_student_module.management.commands.populate_studentgrades.store_assignment_grade_if_need')
     @patch('courseware.grades.grade')
     def test_assignment_grade_percent_zero_bad_index(self, mock_grade, mock_method, mock_assign_index):
         """
@@ -638,10 +638,10 @@ class TestPopulateStudentGradesCommand(ModuleStoreTestCase):
         self.assertEqual(mock_grade.call_count, 1)
         self.assertEqual(mock_method.call_count, 0)
 
-    @patch('queryable.management.commands.populate_studentgrades.get_student_problems')
-    @patch('queryable.management.commands.populate_studentgrades.assignment_exists_and_has_prob')
-    @patch('queryable.util.get_assignment_to_problem_map')
-    @patch('queryable.management.commands.populate_studentgrades.store_assignment_grade_if_need')
+    @patch('queryable_student_module.management.commands.populate_studentgrades.get_student_problems')
+    @patch('queryable_student_module.management.commands.populate_studentgrades.assignment_exists_and_has_prob')
+    @patch('queryable_student_module.util.get_assignment_to_problem_map')
+    @patch('queryable_student_module.management.commands.populate_studentgrades.store_assignment_grade_if_need')
     @patch('courseware.grades.grade')
     def test_assignment_grade_percent_zero_no_student_problems(self, mock_grade, mock_method, mock_assign_problem_map,
                                                                mock_assign_exists, mock_student_problems):
@@ -666,10 +666,10 @@ class TestPopulateStudentGradesCommand(ModuleStoreTestCase):
 
         self.assertEqual(mock_method.call_count, 0)
 
-    @patch('queryable.management.commands.populate_studentgrades.get_student_problems')
-    @patch('queryable.management.commands.populate_studentgrades.assignment_exists_and_has_prob')
-    @patch('queryable.util.get_assignment_to_problem_map')
-    @patch('queryable.management.commands.populate_studentgrades.store_assignment_grade_if_need')
+    @patch('queryable_student_module.management.commands.populate_studentgrades.get_student_problems')
+    @patch('queryable_student_module.management.commands.populate_studentgrades.assignment_exists_and_has_prob')
+    @patch('queryable_student_module.util.get_assignment_to_problem_map')
+    @patch('queryable_student_module.management.commands.populate_studentgrades.store_assignment_grade_if_need')
     @patch('courseware.grades.grade')
     def test_assignment_grade_percent_zero_has_student_problems(self, mock_grade, mock_method, mock_assign_problem_map,
                                                                 mock_assign_exists, mock_student_problems):

@@ -14,9 +14,8 @@ from optparse import make_option
 from django.core.management.base import BaseCommand
 
 from courseware.models import StudentModule
-from queryable.models import Log
-from queryable.models import StudentModuleExpand
-from queryable.util import pre_run_command
+from queryable_student_module.models import Log, StudentModuleExpand
+from queryable_student_module.util import pre_run_command
 
 
 class Command(BaseCommand):

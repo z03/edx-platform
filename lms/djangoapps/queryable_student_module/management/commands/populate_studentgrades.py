@@ -20,8 +20,8 @@ from courseware import grades
 from courseware.courses import get_course_by_id
 from courseware.models import StudentModule
 
-from queryable.models import Log, CourseGrade, AssignmentTypeGrade, AssignmentGrade
-from queryable import util
+from queryable_student_module.models import Log, CourseGrade, AssignmentTypeGrade, AssignmentGrade
+from queryable_student_module import util
 
 
 ################## Helper Functions ##################

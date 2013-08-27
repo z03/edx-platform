@@ -10,7 +10,7 @@ from django.core import management
 from courseware.tests.tests import TEST_DATA_MONGO_MODULESTORE
 
 from courseware.tests.factories import StudentModuleFactory
-from queryable.models import Log, StudentModuleExpand
+from queryable_student_module.models import Log, StudentModuleExpand
 
 
 @override_settings(MODULESTORE=TEST_DATA_MONGO_MODULESTORE)

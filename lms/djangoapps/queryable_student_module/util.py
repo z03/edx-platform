@@ -9,7 +9,7 @@ import logging
 from xmodule.course_module import CourseDescriptor
 from xmodule.modulestore.django import modulestore
 from xmodule.modulestore.inheritance import own_metadata
-from queryable.models import Log
+from queryable_student_module.models import Log
 
 log = logging.getLogger("mitx.queryable")
 
