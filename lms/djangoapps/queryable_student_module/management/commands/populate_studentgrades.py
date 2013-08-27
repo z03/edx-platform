@@ -12,7 +12,6 @@ be storing.
 
 import re
 
-from optparse import make_option
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 
@@ -204,13 +203,7 @@ class Command(BaseCommand):
     help += "Usage: populate_studentgrades course_id\n"
     help += "   course_id: course's ID, such as Medicine/HRP258/Statistics_in_Medicine\n"
 
-    option_list = BaseCommand.option_list + (
-        make_option('-f', '--force',
-                    action='store_true',
-                    dest='force',
-                    default=False,
-                    help='Forces a full populate for all students and rows, rather than iterative.'),
-    )
+    option_list = BaseCommand.option_list + (util.more_options(),)
 
     def handle(self, *args, **options):
         script_id = "studentgrades"

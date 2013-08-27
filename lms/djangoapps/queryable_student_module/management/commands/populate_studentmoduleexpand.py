@@ -10,12 +10,11 @@ have a corresponding row, update the attempts value.
 
 import json
 
-from optparse import make_option
 from django.core.management.base import BaseCommand
 
 from courseware.models import StudentModule
 from queryable_student_module.models import Log, StudentModuleExpand
-from queryable_student_module.util import pre_run_command
+from queryable_student_module.util import pre_run_command, more_options
 
 
 class Command(BaseCommand):
@@ -27,13 +26,7 @@ class Command(BaseCommand):
     help += "Usage: populate_studentmoduleexpand course_id\n"
     help += "   course_id: course's ID, such as Medicine/HRP258/Statistics_in_Medicine\n"
 
-    option_list = BaseCommand.option_list + (
-        make_option('-f', '--force',
-                    action='store_true',
-                    dest='force',
-                    default=False,
-                    help='Forces a full populate for all students and rows, rather than iterative.'),
-    )
+    option_list = BaseCommand.option_list + (more_options(),)
 
     def handle(self, *args, **options):
         script_id = "studentmoduleexpand"

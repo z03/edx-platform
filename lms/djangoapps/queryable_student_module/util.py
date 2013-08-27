@@ -5,6 +5,7 @@ Utility functions to help with population
 from datetime import datetime
 from pytz import UTC
 import logging
+from optparse import make_option
 
 from xmodule.course_module import CourseDescriptor
 from xmodule.modulestore.django import modulestore
@@ -84,3 +85,19 @@ def pre_run_command(script_id, options, course_id):
         log.info("--------------------------------------------------------------------------------")
 
     return iterative_populate, tstart, last_log_run
+
+
+def more_options():
+    """
+    Appends common options to options list
+    """
+
+    option_list =  make_option('-f', '--force',
+                               action='store_true',
+                               dest='force',
+                               default=False,
+                               help='Forces a full populate for all students and rows, rather than iterative.')
+    
+    return option_list
+
+        
