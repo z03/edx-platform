@@ -4,8 +4,7 @@ Computes the data to display on the Instructor Dashboard
 
 from courseware import models
 from django.db.models import Count
-from queryable.models import StudentModuleExpand
-from queryable.models import Log
+from queryable_student_module.models import StudentModuleExpand, Log
 
 from xmodule.course_module import CourseDescriptor
 from xmodule.modulestore.django import modulestore
