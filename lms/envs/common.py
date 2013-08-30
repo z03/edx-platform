@@ -162,7 +162,7 @@ MITX_FEATURES = {
     'STORE_BILLING_INFO': False,
 
     # Toggle search availability
-    'SEARCH': False,
+    'SEARCH': True,
 }
 
 # Used for A/B testing
