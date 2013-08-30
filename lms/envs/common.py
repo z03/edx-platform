@@ -159,7 +159,10 @@ MITX_FEATURES = {
     'ENABLE_SHOPPING_CART': False,
 
     # Toggle storing detailed billing information
-    'STORE_BILLING_INFO': False
+    'STORE_BILLING_INFO': False,
+
+    # Toggle search availability
+    'SEARCH': False,
 }
 
 # Used for A/B testing
