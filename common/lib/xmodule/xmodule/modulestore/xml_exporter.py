@@ -46,7 +46,7 @@ def export_to_xml(modulestore, contentstore, course_location, root_dir, course_d
         alongside the public content in the course.
     """
 
-    course = modulestore.get_item(course_location)
+    course = modulestore.get_instance(course_location.course_id, course_location, depth=4)
 
     fs = OSFS(root_dir)
     export_fs = fs.makeopendir(course_dir)
