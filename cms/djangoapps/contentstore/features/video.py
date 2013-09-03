@@ -1,7 +1,6 @@
 #pylint: disable=C0111
 
 from lettuce import world, step
-from terrain.steps import reload_the_page
 from xmodule.modulestore import Location
 from contentstore.utils import get_modulestore
 
@@ -19,7 +18,7 @@ def i_created_a_video_component(step):
 
 
 @step('I have created a Video component with subtitles$')
-def i_created_a_video_component(step):
+def i_created_a_video_component_subtitles(step):
     step.given('I have created a Video component')
 
     # Store the current URL so we can return here
@@ -30,6 +29,7 @@ def i_created_a_video_component(step):
 
     # Return to the video
     world.visit(video_url)
+    world.wait_for_xmodule()
 
 
 @step('I have uploaded subtitles')
@@ -58,6 +58,7 @@ def i_edit_the_component(_step):
 
 @step('I have (hidden|toggled) captions$')
 def hide_or_show_captions(step, shown):
+    world.wait_for_xmodule()
     button_css = 'a.hide-subtitles'
     if shown == 'hidden':
         world.css_click(button_css)

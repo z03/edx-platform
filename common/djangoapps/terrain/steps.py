@@ -33,6 +33,9 @@ REQUIREJS_WAIT = {
     re.compile('settings-advanced'): [
         "jquery", "js/models/course", "js/models/settings/advanced",
         "js/views/settings/advanced", "codemirror"],
+    re.compile('edit\/.+vertical'): [
+        "jquery", "js/models/course", "coffee/src/models/module",
+        "coffee/src/views/unit", "jquery.ui"],
 }
 
 

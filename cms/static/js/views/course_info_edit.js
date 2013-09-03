@@ -1,5 +1,5 @@
 define(["backbone", "js/views/course_info_update", "js/views/course_info_handout"],
-    function(Backbone, CourseInfoUpdateView, CourseInfoHandoutsView) {
+    function(Backbone, CourseInfoUpdateView, CourseInfoHandoutView) {
 /*  this view should own everything on the page which has controls effecting its operation
    generate other views for the individual editors.
    The render here adds views for each update/handout by delegating to their collections but does not
@@ -18,7 +18,7 @@ var CourseInfoEdit = Backbone.View.extend({
         base_asset_url: this.model.get('base_asset_url')
     });
 
-    new CourseInfoHandoutsView({
+    new CourseInfoHandoutView({
         el: this.$('#course-handouts-view'),
         model: this.model.get('handouts'),
         base_asset_url: this.model.get('base_asset_url')
@@ -26,7 +26,6 @@ var CourseInfoEdit = Backbone.View.extend({
     return this;
   }
 });
-
 return CourseInfoEdit;
 
 }); // end define()

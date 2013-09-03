@@ -33,6 +33,9 @@ def wait_for_xmodule():
     world.wait_for(xmodule_js_loaded)
 
 
+class RequireJSError(Exception): pass
+
+
 @world.absorb
 def wait_for_requirejs(dependencies=None):
     """
@@ -56,6 +59,7 @@ def wait_for_requirejs(dependencies=None):
     js = """
 var callback = arguments[arguments.length - 1];
 if(window.require) {{
+  requirejs.onError = callback;
   require({deps}, function($) {{
     $(document).ready(function() {{
       setTimeout(callback, 50);
@@ -65,7 +69,12 @@ if(window.require) {{
   callback(false);
 }}
     """.format(deps=json.dumps(dependencies))
-    world.browser.driver.execute_async_script(js)
+    result = world.browser.driver.execute_async_script(js)
+    if result not in (None, True, False):
+        # we got a requirejs error
+        err = RequireJSError("Error loading dependencies with requirejs: {}".format(result['requireType']))
+        err.error = result
+        raise err
 
 
 def ajax_complete(_driver):

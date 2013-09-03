@@ -231,7 +231,9 @@ def open_new_unit(step):
     step.given('I have opened a new course section in Studio')
     step.given('I have added a new subsection')
     step.given('I expand the first section')
+    old_url = world.browser.url
     world.css_click('a.new-unit-item')
+    world.wait_for(lambda x: world.browser.url != old_url)
 
 
 @step('the save button is disabled$')

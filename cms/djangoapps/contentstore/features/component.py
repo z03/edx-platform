@@ -9,6 +9,9 @@ DATA_LOCATION = 'i4x://edx/templates'
 
 @step(u'I am editing a new unit')
 def add_unit(step):
+    world.wait_for_requirejs([
+        "jquery", "js/models/course", "coffee/src/models/module",
+        "coffee/src/views/unit", "jquery.ui"])
     css_selectors = ['a.new-courseware-section-button', 'input.new-section-name-save', 'a.new-subsection-item',
                     'input.new-subsection-name-save', 'div.section-item a.expand-collapse-icon', 'a.new-unit-item']
     for selector in css_selectors:
@@ -33,6 +36,7 @@ def check_components(step):
 
 @step(u'I delete all components')
 def delete_all_components(step):
+    world.wait_for_xmodule()
     for _ in range(len(COMPONENT_DICTIONARY)):
         world.css_click('a.delete-button')
 
