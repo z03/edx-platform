@@ -1,4 +1,3 @@
-(function (requirejs, require, define) {
 define(
     ['logme', 'state', 'config_parser', 'container', 'base_image', 'scroller', 'draggables', 'targets', 'update_input'],
     function (logme, State, configParser, Container, BaseImage, Scroller, Draggables, Targets, updateInput) {
@@ -99,4 +98,3 @@ define(
         }());
     }
 }); // End-of: define(
-}(RequireJS.requirejs, RequireJS.require, RequireJS.define)); // End-of: (function (requirejs, require, define) {

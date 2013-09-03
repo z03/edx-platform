@@ -1,5 +1,4 @@
-<%! from django.utils.translation import ugettext as _ %>
-
+<%inherit file="main.html" />
 <%!
   from django.core.urlresolvers import reverse
   from courseware.courses import course_image_url, get_course_about_section
@@ -7,9 +6,8 @@
   from certificates.models import CertificateStatuses
   from xmodule.modulestore import MONGO_MODULESTORE_TYPE
   from xmodule.modulestore.django import modulestore
+  from django.utils.translation import ugettext as _
 %>
-<%inherit file="main.html" />
-
 <%namespace name='static' file='static_content.html'/>
 
 <%block name="title"><title>${_("Dashboard")}</title></%block>
@@ -101,7 +99,7 @@
         },
         error: function(xhr, textStatus, error) {
           if (xhr.status == 403) {
-            location.href = "${reverse('signin_user')}";          
+            location.href = "${reverse('signin_user')}";
           }
         }
       });

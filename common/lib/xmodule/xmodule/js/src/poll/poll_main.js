@@ -1,4 +1,3 @@
-(function (requirejs, require, define) {
 define('PollMain', ['logme'], function (logme) {
 
 PollMain.prototype = {
@@ -318,6 +317,3 @@ function PollMain(el) {
 } // End-of: function PollMain(el) {
 
 }); // End-of: define('PollMain', ['logme'], function (logme) {
-
-// End-of: (function (requirejs, require, define) {
-}(RequireJS.requirejs, RequireJS.require, RequireJS.define));

@@ -1,5 +1,3 @@
-(function (requirejs, require, define) {
-
 // VideoControl module.
 define(
 'video/04_video_control.js',
@@ -176,5 +174,3 @@ function () {
     }
 
 });
-
-}(RequireJS.requirejs, RequireJS.require, RequireJS.define));

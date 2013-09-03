@@ -1,4 +1,3 @@
-(function (requirejs, require, define) {
 define(['logme', 'draggable_events', 'draggable_logic'], function (logme, draggableEvents, draggableLogic) {
     return {
         'init': init
@@ -308,4 +307,3 @@ define(['logme', 'draggable_events', 'draggable_logic'], function (logme, dragga
         draggableObj.stateDraggablesIndex = state.draggables.push(draggableObj) - 1;
     }
 }); // End-of: define(['logme', 'draggable_events', 'draggable_logic'], function (logme, draggableEvents, draggableLogic) {
-}(RequireJS.requirejs, RequireJS.require, RequireJS.define)); // End-of: (function (requirejs, require, define) {

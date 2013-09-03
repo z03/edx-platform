@@ -1,5 +1,3 @@
-(function (requirejs, require, define) {
-
 /*
 "This is as true in everyday life as it is in battle: we are given one life
 and the decision is ours whether to wait for circumstances to make up our
@@ -100,5 +98,3 @@ function () {
     }
 
 });
-
-}(RequireJS.requirejs, RequireJS.require, RequireJS.define));

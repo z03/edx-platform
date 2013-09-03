@@ -545,7 +545,7 @@ courseware_js = (
 # 'js/vendor/RequireJS.js' - Require JS wrapper.
 # See https://edx-wiki.atlassian.net/wiki/display/LMS/Integration+of+Require+JS+into+the+system
 main_vendor_js = [
-    'js/vendor/RequireJS.js',
+    # 'js/vendor/RequireJS.js',
     'js/vendor/json2.js',
     'js/vendor/jquery.min.js',
     'js/vendor/jquery-ui.min.js',
@@ -594,8 +594,7 @@ PIPELINE_JS = {
 
         # Application will contain all paths not in courseware_only_js
         'source_filenames': sorted(
-            set(rooted_glob(COMMON_ROOT / 'static', 'coffee/src/**/*.js') +
-                rooted_glob(PROJECT_ROOT / 'static', 'coffee/src/**/*.js')) -
+            set(rooted_glob(PROJECT_ROOT / 'static', 'coffee/src/**/*.js')) -
             set(courseware_js + discussion_js + staff_grading_js + open_ended_js + notes_js)
         ) + [
             'js/form.ext.js',

@@ -1,4 +1,3 @@
-(function (requirejs, require, define) {
 define([], function () {
     return State;
 
@@ -92,4 +91,3 @@ define([], function () {
         }
     }
 }); // End-of: define([], function () {
-}(RequireJS.requirejs, RequireJS.require, RequireJS.define)); // End-of: (function (requirejs, require, define) {

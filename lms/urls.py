@@ -67,7 +67,7 @@ js_info_dict = {
 
 urlpatterns += (
     # Serve catalog of localized strings to be rendered by Javascript
-    url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
+    url(r'^i18n.js/$', 'django.views.i18n.javascript_catalog', js_info_dict),
 )
 
 #Semi-static views (these need to be rendered and have the login bar, but don't change)

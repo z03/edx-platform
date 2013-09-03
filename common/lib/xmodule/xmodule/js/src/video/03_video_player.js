@@ -1,5 +1,3 @@
-(function (requirejs, require, define) {
-
 // VideoPlayer module.
 define(
 'video/03_video_player.js',
@@ -449,5 +447,3 @@ function (HTML5Video) {
         this.videoPlayer.player.setVolume(volume);
     }
 });
-
-}(RequireJS.requirejs, RequireJS.require, RequireJS.define));

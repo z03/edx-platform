@@ -1,5 +1,3 @@
-(function (requirejs, require, define) {
-
 // VideoSpeedControl module.
 define(
 'video/08_video_speed_control.js',
@@ -283,5 +281,3 @@ function () {
     }
 
 });
-
-}(RequireJS.requirejs, RequireJS.require, RequireJS.define));

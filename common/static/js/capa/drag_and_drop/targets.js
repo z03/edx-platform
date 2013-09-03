@@ -1,4 +1,3 @@
-(function (requirejs, require, define) {
 define(['logme'], function (logme) {
     return {
         'initializeBaseTargets': initializeBaseTargets,
@@ -269,4 +268,3 @@ define(['logme'], function (logme) {
         }
     }
 }); // End-of: define(['logme'], function (logme) {
-}(RequireJS.requirejs, RequireJS.require, RequireJS.define)); // End-of: (function (requirejs, require, define) {

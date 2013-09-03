@@ -13,7 +13,6 @@
  *  @external d3, $, RequireJS
  */
 
-(function (requirejs, require, define) {
 define('WordCloudMain', ['logme'], function (logme) {
 
     /**
@@ -282,7 +281,7 @@ define('WordCloudMain', ['logme'], function (logme) {
             .attr('transform', function (d) {
                 return 'translate(' + [d.x, d.y] + ')rotate(' + d.rotate + ')scale(' + scale + ')';
             })
-            .text(function (d) {               
+            .text(function (d) {
                 return d.text;
             });
     }; // End-of: WordCloudMain.prototype.drawWordCloud = function (words, bounds) {
@@ -290,4 +289,3 @@ define('WordCloudMain', ['logme'], function (logme) {
     return WordCloudMain;
 
 }); // End-of: define('WordCloudMain', ['logme'], function (logme) {
-}(RequireJS.requirejs, RequireJS.require, RequireJS.define)); // End-of: (function (requirejs, require, define) {

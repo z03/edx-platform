@@ -1,5 +1,3 @@
-(function (requirejs, require, define) {
-
 // VideoQualityControl module.
 define(
 'video/05_video_quality_control.js',
@@ -90,5 +88,3 @@ function () {
     }
 
 });
-
-}(RequireJS.requirejs, RequireJS.require, RequireJS.define));

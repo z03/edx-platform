@@ -1,7 +1,3 @@
-// Wrapper for RequireJS. It will make the standard requirejs(), require(), and
-// define() functions from Require JS available inside the anonymous function.
-(function (requirejs, require, define) {
-
 define('State', ['logme'], function (logme) {
     var stateInst;
 
@@ -387,9 +383,3 @@ define('State', ['logme'], function (logme) {
         }
     } // End-of: function State
 });
-
-// End of wrapper for RequireJS. As you can see, we are passing
-// namespaced Require JS variables to an anonymous function. Within
-// it, you can use the standard requirejs(), require(), and define()
-// functions as if they were in the global namespace.
-}(RequireJS.requirejs, RequireJS.require, RequireJS.define)); // End-of: (function (requirejs, require, define)

@@ -1,5 +1,3 @@
-(function (requirejs, require, define) {
-
 // VideoCaption module.
 define(
 'video/09_video_caption.js',
@@ -529,5 +527,3 @@ function () {
         });
      }
 });
-
-}(RequireJS.requirejs, RequireJS.require, RequireJS.define));

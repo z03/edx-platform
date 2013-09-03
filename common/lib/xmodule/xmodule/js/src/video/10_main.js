@@ -1,5 +1,3 @@
-(function (requirejs, require, define) {
-
 // Main module.
 require(
 [
@@ -77,5 +75,3 @@ function (
         youtubeXhr = null;
     };
 });
-
-}(RequireJS.requirejs, RequireJS.require, RequireJS.define));

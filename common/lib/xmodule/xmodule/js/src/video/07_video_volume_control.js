@@ -1,5 +1,3 @@
-(function (requirejs, require, define) {
-
 // VideoVolumeControl module.
 define(
 'video/07_video_volume_control.js',
@@ -158,5 +156,3 @@ function () {
     }
 
 });
-
-}(RequireJS.requirejs, RequireJS.require, RequireJS.define));

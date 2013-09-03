@@ -9,8 +9,6 @@
  * @module Initialize
  */
 
-(function (requirejs, require, define) {
-
 define(
 'video/01_initialize.js',
 ['video/03_video_player.js'],
@@ -495,5 +493,3 @@ function (VideoPlayer) {
         return true;
     }
 });
-
-}(RequireJS.requirejs, RequireJS.require, RequireJS.define));

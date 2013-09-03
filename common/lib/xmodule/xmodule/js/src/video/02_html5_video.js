@@ -11,8 +11,6 @@
  * @module HTML5Video
  */
 
-(function (requirejs, require, define) {
-
 define(
 'video/02_html5_video.js',
 [],
@@ -319,5 +317,3 @@ function () {
     // HTML5Video object - what this module exports.
     return HTML5Video;
 })
-
-}(RequireJS.requirejs, RequireJS.require, RequireJS.define));

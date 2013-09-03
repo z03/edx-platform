@@ -1,4 +1,3 @@
-(function (requirejs, require, define) {
 define([], function () {
     var debugMode;
 
@@ -23,4 +22,3 @@ define([], function () {
         }
     }
 }); // End-of: define([], function () {
-}(RequireJS.requirejs, RequireJS.require, RequireJS.define)); // End-of: (function (requirejs, require, define) {

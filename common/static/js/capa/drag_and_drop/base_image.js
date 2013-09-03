@@ -1,4 +1,3 @@
-(function (requirejs, require, define) {
 define(['logme'], function (logme) {
     return BaseImage;
 
@@ -46,4 +45,3 @@ define(['logme'], function (logme) {
         });
     }
 }); // End-of: define(['logme'], function (logme) {
-}(RequireJS.requirejs, RequireJS.require, RequireJS.define)); // End-of: (function (requirejs, require, define) {
