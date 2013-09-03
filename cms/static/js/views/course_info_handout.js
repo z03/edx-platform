@@ -1,27 +1,8 @@
-define(["backbone", "underscore", "codemirror", "js/views/feedback_notification"],
-    function(Backbone, _, CodeMirror, NotificationView) {
-
-var editWithCodeMirror = function(model, contentName, baseAssetUrl, textArea) {
-    var content = rewriteStaticLinks(model.get(contentName), baseAssetUrl, '/static/');
-    model.set(contentName, content);
-    var $codeMirror = CodeMirror.fromTextArea(textArea, {
-        mode: "text/html",
-        lineNumbers: true,
-        lineWrapping: true
-    });
-    $codeMirror.setValue(content);
-    $codeMirror.clearHistory();
-    return $codeMirror;
-};
-
-var changeContentToPreview = function (model, contentName, baseAssetUrl) {
-    var content = rewriteStaticLinks(model.get(contentName), '/static/', baseAssetUrl);
-    model.set(contentName, content);
-    return content;
-};
+define(["backbone", "underscore", "codemirror", "js/views/feedback_notification", "js/views/course_info_helper"],
+    function(Backbone, _, CodeMirror, NotificationView, CourseInfoHelper) {
 
 // the handouts view is dumb right now; it needs tied to a model and all that jazz
-var ClassInfoHandoutsView = Backbone.View.extend({
+var CourseInfoHandoutsView = Backbone.View.extend({
     // collection is CourseUpdateCollection
     events: {
         "click .save-button" : "onSave",
@@ -41,7 +22,7 @@ var ClassInfoHandoutsView = Backbone.View.extend({
     },
 
     render: function () {
-        changeContentToPreview(this.model, 'data', this.options['base_asset_url']);
+        CourseInfoHelper['changeContentToPreview'](this.model, 'data', this.options['base_asset_url']);
 
         this.$el.html(
             $(this.template( {
@@ -62,7 +43,11 @@ var ClassInfoHandoutsView = Backbone.View.extend({
         this.$editor.val(this.$preview.html());
         this.$form.show();
 
-        this.$codeMirror = editWithCodeMirror(self.model, 'data', self.options['base_asset_url'], this.$editor.get(0));
+        this.$codeMirror = CourseInfoHelper['editWithCodeMirror'](
+            self.model,
+            'data',
+            self.options['base_asset_url'],
+            this.$editor.get(0));
 
         window.$modalCover.show();
         window.$modalCover.bind('click', function() {
@@ -104,5 +89,5 @@ var ClassInfoHandoutsView = Backbone.View.extend({
         this.$codeMirror = null;
     }
 });
-return ClassInfoHandoutsView;
+return CourseInfoHandoutsView;
 }); // end define()

@@ -50,6 +50,7 @@ lib_paths:
     - xmodule_js/src/xmodule.js
     - xmodule_js/common_static/js/test/add_ajax_prefix.js
     - xmodule_js/common_static/js/test/i18n.js
+    - xmodule_js/common_static/js/src/utility.js
 
 # Paths to source JavaScript files
 src_paths:

@@ -1,27 +1,8 @@
 define(["backbone", "underscore", "codemirror", "js/models/course_update",
-    "js/views/feedback_prompt", "js/views/feedback_notification", "utility"],
-    function(Backbone, _, CodeMirror, CourseUpdateModel, PromptView, NotificationView) {
+    "js/views/feedback_prompt", "js/views/feedback_notification", "js/views/course_info_helper"],
+    function(Backbone, _, CodeMirror, CourseUpdateModel, PromptView, NotificationView, CourseInfoHelper) {
 
-var editWithCodeMirror = function(model, contentName, baseAssetUrl, textArea) {
-    var content = rewriteStaticLinks(model.get(contentName), baseAssetUrl, '/static/');
-    model.set(contentName, content);
-    var $codeMirror = CodeMirror.fromTextArea(textArea, {
-        mode: "text/html",
-        lineNumbers: true,
-        lineWrapping: true
-    });
-    $codeMirror.setValue(content);
-    $codeMirror.clearHistory();
-    return $codeMirror;
-};
-
-var changeContentToPreview = function (model, contentName, baseAssetUrl) {
-    var content = rewriteStaticLinks(model.get(contentName), '/static/', baseAssetUrl);
-    model.set(contentName, content);
-    return content;
-};
-
-var ClassInfoUpdateView = Backbone.View.extend({
+var CourseInfoUpdateView = Backbone.View.extend({
     // collection is CourseUpdateCollection
     events: {
         "click .new-update-button" : "onNew",
@@ -46,7 +27,7 @@ var ClassInfoUpdateView = Backbone.View.extend({
           var self = this;
           this.collection.each(function (update) {
               try {
-                  changeContentToPreview(update, 'content', self.options['base_asset_url']);
+                  CourseInfoHelper['changeContentToPreview'](update, 'content', self.options['base_asset_url']);
                   var newEle = self.template({ updateModel : update });
                   $(updateEle).append(newEle);
             } catch (e) {
@@ -134,7 +115,11 @@ var ClassInfoUpdateView = Backbone.View.extend({
         $(this.editor(event)).show();
         var $textArea = this.$currentPost.find(".new-update-content").first();
         var targetModel = this.eventModel(event);
-        this.$codeMirror = editWithCodeMirror(targetModel, 'content', self.options['base_asset_url'], $textArea.get(0));
+        this.$codeMirror = CourseInfoHelper['editWithCodeMirror'](
+            targetModel,
+            'content',
+            self.options['base_asset_url'],
+            $textArea.get(0));
 
         window.$modalCover.show();
         window.$modalCover.bind('click', function() {
@@ -200,7 +185,7 @@ var ClassInfoUpdateView = Backbone.View.extend({
             this.$currentPost.find('.date-display').html(targetModel.get('date'));
             this.$currentPost.find('.date').val(targetModel.get('date'));
 
-            var content = changeContentToPreview(targetModel, 'content', this.options['base_asset_url'])
+            var content = CourseInfoHelper['changeContentToPreview'](targetModel, 'content', this.options['base_asset_url']);
             try {
                 // just in case the content causes an error (embedded js errors)
                 this.$currentPost.find('.update-contents').html(content);
@@ -250,5 +235,5 @@ var ClassInfoUpdateView = Backbone.View.extend({
     }
 
 });
-return ClassInfoUpdate;
+return CourseInfoUpdateView;
 }); // end define()
