@@ -27,6 +27,11 @@ require ["js/views/course_info_handout", "js/views/course_info_update", "js/mode
             setFixtures($("<script>", {id: "course_info_update-tpl", type: "text/template"}).text(courseInfoTemplate))
             appendSetFixtures courseInfoPage
 
+            courseUpdatesXhr = sinon.useFakeXMLHttpRequest()
+            @courseUpdatesRequests = requests = []
+            courseUpdatesXhr.onCreate = (xhr) -> requests.push(xhr)
+            @xhrRestore = courseUpdatesXhr.restore
+
             @collection = new CourseUpdateCollection()
             @courseInfoEdit = new CourseInfoUpdateView({
                 el: $('.course-updates'),
@@ -47,11 +52,6 @@ require ["js/views/course_info_handout", "js/views/course_info_update", "js/mode
                 spyOn(@courseInfoEdit.$codeMirror, 'getValue').andReturn('/static/image.jpg')
                 @courseInfoEdit.$el.find('.save-button').click()
 
-            courseUpdatesXhr = sinon.useFakeXMLHttpRequest()
-            @courseUpdatesRequests = requests = []
-            courseUpdatesXhr.onCreate = (xhr) -> requests.push(xhr)
-            @xhrRestore = courseUpdatesXhr.restore
-
         afterEach ->
             @xhrRestore
 
@@ -70,7 +70,7 @@ require ["js/views/course_info_handout", "js/views/course_info_update", "js/mode
             expect(model.save).toHaveBeenCalled()
 
             # Verify content sent to server does not have rewritten links.
-            contentSaved = JSON.parse(@courseUpdatesRequests[0].requestBody).content
+            contentSaved = JSON.parse(@courseUpdatesRequests[@courseUpdatesRequests.length - 1].requestBody).content
             expect(contentSaved).toEqual('/static/image.jpg')
 
         it "does rewrite links for preview", ->
@@ -126,7 +126,7 @@ require ["js/views/course_info_handout", "js/views/course_info_update", "js/mode
             @handoutsEdit.$el.find('.save-button').click()
             expect(@model.save).toHaveBeenCalled()
 
-            contentSaved = JSON.parse(@handoutsRequests[0].requestBody).data
+            contentSaved = JSON.parse(@handoutsRequests[@handoutsRequests.length - 1].requestBody).data
             expect(contentSaved).toEqual('/static/image.jpg')
 
         it "does rewrite links in initial content", ->
