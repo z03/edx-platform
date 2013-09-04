@@ -17,6 +17,7 @@ def i_am_an_activated_user(step):
 
 @step('I submit my credentials on the login form')
 def i_submit_my_credentials_on_the_login_form(step):
+    world.wait_for_requirejs(["jquery", "js/form.ext"])
     fill_in_the_login_form('email', 'robot@edx.org')
     fill_in_the_login_form('password', 'test')
 

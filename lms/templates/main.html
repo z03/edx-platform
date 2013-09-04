@@ -201,11 +201,11 @@ var require = {
 </script>
 <script type="text/javascript" src="/static/js/vendor/require.js"></script>
 <script type="text/javascript">
-require(["jquery", "underscore", "backbone"],
-  function($, _, Backbone) {
-    window.$ = $;
-    window._ = _;
-    window.Backbone = Backbone;
+require(["jquery", "js/form.ext"],
+  function($) {
+    if(!window.$) {
+      window.$ = $;
+    }
     window.RequireJS = {
         'requirejs': requirejs,
         'require': require,

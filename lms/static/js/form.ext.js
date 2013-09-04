@@ -1,4 +1,4 @@
-(function($, undefined) {
+define(["jquery", "jquery.cookie"], function($) {
   var form_ext;
   $.form_ext  = form_ext = {
     ajax: function(options) {
@@ -21,15 +21,15 @@
         error: function(xhr, status, error) {
           element.trigger("ajax:error", [xhr, status, error]);
         }
-      }
+      };
       if(url) { options.url = url; }
-      return form_ext.ajax(options)
+      return form_ext.ajax(options);
     },
     CSRFProtection: function(xhr) {
       var token = $.cookie('csrftoken');
       if (token) xhr.setRequestHeader('X-CSRFToken', token);
     }
-  }
+  };
   $.ajaxPrefilter(function(options, originalOptions, xhr){ if ( !options.crossDomain ) { form_ext.CSRFProtection(xhr); }});
   $(document).delegate('form', 'submit', function(e) {
     var form = $(this),
@@ -41,4 +41,5 @@
     }
 
   });
-})(jQuery);
+  return form_ext;
+});

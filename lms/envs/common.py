@@ -602,7 +602,6 @@ PIPELINE_JS = {
             set(courseware_js + discussion_js + staff_grading_js + open_ended_js
                 + notes_js + navigation_js)
         ) + [
-            'js/form.ext.js',
             'js/my_courses_dropdown.js',
             'js/toggle_login_modal.js',
             'js/sticky_filter.js',
