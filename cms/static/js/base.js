@@ -1,4 +1,4 @@
-require(["jquery", "underscore", "gettext", "js/views/feedback_notification", "js/views/feedback_prompt",
+define(["jquery", "underscore", "gettext", "js/views/feedback_notification", "js/views/feedback_prompt",
          "jquery.ui", "jquery.timepicker", "jquery.leanmodal", "jquery.form"],
     function($, _, gettext, NotificationView, PromptView) {
 
@@ -12,7 +12,7 @@ var $newComponentTypePicker;
 var $newComponentTemplatePickers;
 var $newComponentButton;
 
-$(document).ready(function() {
+var onReadyFunc = function() {
     $body = $('body');
     $modal = $('.history-modal');
     $modalCover = $('<div class="modal-cover">');
@@ -157,7 +157,8 @@ $(document).ready(function() {
     $('.edit-subsection-publish-settings').on('change', '.start-date, .start-time', function() {
         $('.edit-subsection-publish-settings').find('.save-button').show();
     });
-});
+};
+$(document).ready(onReadyFunc);
 
 function smoothScrollLink(e) {
     (e).preventDefault();
@@ -869,5 +870,14 @@ function saveSetSectionScheduleDate(e) {
         saving.hide();
     });
 }
+
+// return an object of references to these internal functions, so that we are
+// able to unit test them.
+return {
+    onReadyFunc: onReadyFunc,
+   saveSetSectionScheduleDate: saveSetSectionScheduleDate,
+   deleteSection: deleteSection,
+   _deleteItem: _deleteItem
+};
 
 }); // end require()

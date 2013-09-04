@@ -1,4 +1,5 @@
-require ["js/views/feedback_notification", "js/base"], (NotificationView) ->
+require ["jquery", "jquery.ui", "sinon", "js/views/feedback_notification", "js/base"],
+($, ui, sinon, NotificationView, base) ->
 
     describe "Course Overview", ->
 
@@ -42,11 +43,8 @@ require ["js/views/feedback_notification", "js/base"], (NotificationView) ->
               </section>
             """
 
-#            spyOn(window, 'saveSetSectionScheduleDate').andCallThrough()
-#            # Have to do this here, as it normally gets bound in document.ready()
-#            $('a.save-button').click(saveSetSectionScheduleDate)
-#            $('a.delete-section-button').click(deleteSection)
-            $(".edit-subsection-publish-settings .start-date").datepicker()
+            # spyOn(base, 'saveSetSectionScheduleDate').andCallThrough()
+            base.onReadyFunc()
 
             @notificationSpy = spyOn(NotificationView.Mini.prototype, 'show').andCallThrough()
             window.analytics = jasmine.createSpyObj('analytics', ['track'])
@@ -60,30 +58,30 @@ require ["js/views/feedback_notification", "js/base"], (NotificationView) ->
             delete window.course_location_analytics
             @notificationSpy.reset()
 
-#        it "should save model when save is clicked", ->
-#            $('a.edit-button').click()
-#            $('a.save-button').click()
-#            expect(saveSetSectionScheduleDate).toHaveBeenCalled()
+        # it "should save model when save is clicked", ->
+        #     $('a.edit-button').click()
+        #     $('a.save-button').click()
+        #     expect(base.saveSetSectionScheduleDate).toHaveBeenCalled()
 
         it "should show a confirmation on save", ->
             $('a.edit-button').click()
             $('a.save-button').click()
             expect(@notificationSpy).toHaveBeenCalled()
 
-#        it "should delete model when delete is clicked", ->
-#          deleteSpy = spyOn(window, '_deleteItem').andCallThrough()
-#          $('a.delete-section-button').click()
-#          $('a.action-primary').click()
-#          expect(deleteSpy).toHaveBeenCalled()
-#          expect(@requests[0].url).toEqual('/delete_item')
-#
-#        it "should not delete model when cancel is clicked", ->
-#          deleteSpy = spyOn(window, '_deleteItem').andCallThrough()
-#          $('a.delete-section-button').click()
-#          $('a.action-secondary').click()
-#          expect(@requests.length).toEqual(0)
+        # it "should delete model when delete is clicked", ->
+        #   deleteSpy = spyOn(base, '_deleteItem').andCallThrough()
+        #   $('a.delete-section-button').click()
+        #   $('a.action-primary').click()
+        #   expect(deleteSpy).toHaveBeenCalled()
+        #   expect(@requests[0].url).toEqual('/delete_item')
 
-#        it "should show a confirmation on delete", ->
-#          $('a.delete-section-button').click()
-#          $('a.action-primary').click()
-#          expect(@notificationSpy).toHaveBeenCalled()
+        it "should not delete model when cancel is clicked", ->
+          deleteSpy = spyOn(base, '_deleteItem').andCallThrough()
+          $('a.delete-section-button').click()
+          $('a.action-secondary').click()
+          expect(@requests.length).toEqual(0)
+
+        it "should show a confirmation on delete", ->
+          $('a.delete-section-button').click()
+          $('a.action-primary').click()
+          expect(@notificationSpy).toHaveBeenCalled()
