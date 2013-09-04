@@ -1,14 +1,12 @@
-<%! from django.utils.translation import ugettext as _ %>
-
 <%namespace name='static' file='static_content.html'/>
 <%inherit file="main.html" />
 <%!
     from django.core.urlresolvers import reverse
+    from django.utils.translation import ugettext as _
 %>
 
 <%block name="headextra">
     <%static:css group='course'/>
-    <%static:js group='courseware'/>
 <style type="text/css">
     blockquote {
         background:#f9f9f9;

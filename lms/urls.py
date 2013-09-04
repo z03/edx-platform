@@ -100,7 +100,7 @@ if not settings.MITX_FEATURES["USE_CUSTOM_THEME"]:
         (r'^favicon\.ico$', 'django.views.generic.simple.redirect_to', {'url': '/static/images/favicon.ico'}),
 
         url(r'^submit_feedback$', 'util.views.submit_feedback'),
-
+        url(r'^xmodule/', include('pipeline_js.urls')),
     )
 
 # Only enable URLs for those marketing links actually enabled in the

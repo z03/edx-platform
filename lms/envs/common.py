@@ -215,7 +215,9 @@ MAKO_TEMPLATES = {}
 MAKO_TEMPLATES['main'] = [PROJECT_ROOT / 'templates',
                           COMMON_ROOT / 'templates',
                           COMMON_ROOT / 'lib' / 'capa' / 'capa' / 'templates',
-                          COMMON_ROOT / 'djangoapps' / 'pipeline_mako' / 'templates']
+                          COMMON_ROOT / 'djangoapps' / 'pipeline_mako' / 'templates',
+                          COMMON_ROOT / 'djangoapps' / 'pipeline_js' / 'templates',
+                          ]
 
 # This is where Django Template lookup is defined. There are a few of these
 # still left lying around.
@@ -224,6 +226,7 @@ TEMPLATE_DIRS = [
     COMMON_ROOT / 'templates',
     COMMON_ROOT / 'lib' / 'capa' / 'capa' / 'templates',
     COMMON_ROOT / 'djangoapps' / 'pipeline_mako' / 'templates',
+    COMMON_ROOT / 'djangoapps' / 'pipeline_js' / 'templates',
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -562,6 +565,7 @@ discussion_js = sorted(rooted_glob(PROJECT_ROOT / 'static', 'coffee/src/discussi
 staff_grading_js = sorted(rooted_glob(PROJECT_ROOT / 'static', 'coffee/src/staff_grading/**/*.js'))
 open_ended_js = sorted(rooted_glob(PROJECT_ROOT / 'static', 'coffee/src/open_ended/**/*.js'))
 notes_js = sorted(rooted_glob(PROJECT_ROOT / 'static', 'coffee/src/notes/**/*.coffee'))
+navigation_js = [PROJECT_ROOT / 'static/coffee/src/navigation.js']
 
 PIPELINE_CSS = {
     'application': {
@@ -595,7 +599,8 @@ PIPELINE_JS = {
         # Application will contain all paths not in courseware_only_js
         'source_filenames': sorted(
             set(rooted_glob(PROJECT_ROOT / 'static', 'coffee/src/**/*.js')) -
-            set(courseware_js + discussion_js + staff_grading_js + open_ended_js + notes_js)
+            set(courseware_js + discussion_js + staff_grading_js + open_ended_js
+                + notes_js + navigation_js)
         ) + [
             'js/form.ext.js',
             'js/my_courses_dropdown.js',
@@ -748,6 +753,7 @@ INSTALLED_APPS = (
     # For asset pipelining
     'mitxmako',
     'pipeline',
+    'pipeline_js',
     'staticfiles',
     'static_replace',
 
