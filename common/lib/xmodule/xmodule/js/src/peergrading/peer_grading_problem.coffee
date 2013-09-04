@@ -510,6 +510,7 @@ class @PeerGradingProblem
     @error_container.hide()
 
     @submission_container.append(@make_paragraphs(response.student_response))
+    @feedback_area.val(@make_paragraphs(response.student_response))
     @prompt_container.html(response.prompt)
     @rubric_selection_container.html(response.rubric)
     @submission_key_input.val(response.submission_key)
