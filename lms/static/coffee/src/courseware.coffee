@@ -1,5 +1,5 @@
-define ["jquery", "xmodule", "coffee/src/navigation", "coffee/src/histogram", "coffee/src/logger"],
-($, XModule, Navigation, Histogram, Logger) ->
+define ["jquery", "xmodule", "coffee/src/navigation", "coffee/src/histogram"],
+($, XModule) ->
   class Courseware
     @prefix: ''
 

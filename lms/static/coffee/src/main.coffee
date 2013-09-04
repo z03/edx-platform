@@ -1,5 +1,5 @@
-require ["jquery", "coffee/src/ajax_prefix", "coffee/src/courseware", "jquery.cookie"],
-($, AjaxPrefix, Courseware) ->
+require ["jquery", "coffee/src/courseware", "coffee/src/feedback_form", "jquery.cookie"],
+($, Courseware, FeedbackForm) ->
   AjaxPrefix.addAjaxPrefix(jQuery, -> Courseware.prefix)
 
   $ ->

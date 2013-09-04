@@ -1,4 +1,4 @@
-define ["jquery", "flot"], ($) ->
+define ["jquery", "jquery.flot"], ($) ->
   class Histogram
     constructor: (@id, @rawData) ->
       @xTicks = []
