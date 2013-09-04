@@ -1,4 +1,4 @@
-require ["jquery", "underscore.string", "backbone", "coffee/src/ajax_prefix", "js/views/feedback_notification", "jquery.cookie"],
+define ["jquery", "underscore.string", "backbone", "coffee/src/ajax_prefix", "js/views/feedback_notification", "jquery.cookie"],
 ($, str, Backbone, AjaxPrefix, NotificationView) ->
   AjaxPrefix.addAjaxPrefix jQuery, ->
     $("meta[name='path_prefix']").attr('content')
@@ -8,7 +8,7 @@ require ["jquery", "underscore.string", "backbone", "coffee/src/ajax_prefix", "j
 
   _.extend CMS, Backbone.Events
 
-  $ ->
+  main = ->
     Backbone.emulateHTTP = true
 
     $.ajaxSetup
@@ -33,3 +33,5 @@ require ["jquery", "underscore.string", "backbone", "coffee/src/ajax_prefix", "j
 
     if navigator.userAgent.match /iPhone|iPod|iPad/i
       $('body').addClass 'touch-based-device'
+  $(main)
+  return main

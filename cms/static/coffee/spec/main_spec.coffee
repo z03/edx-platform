@@ -7,8 +7,9 @@ require ["jquery", "backbone", "coffee/src/main", "sinon"],
     describe "main helper", ->
         beforeEach ->
             @previousAjaxSettings = $.extend(true, {}, $.ajaxSettings)
-            window.stubCookies["csrftoken"] = "stubCSRFToken"
-            $(document).ready()
+            spyOn($, "cookie")
+            $.cookie.when("csrftoken").thenReturn("stubCSRFToken")
+            main()
 
         afterEach ->
             $.ajaxSettings = @previousAjaxSettings

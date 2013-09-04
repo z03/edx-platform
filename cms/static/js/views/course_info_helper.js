@@ -1,4 +1,4 @@
-define(["codemirror", "js/src/utility"],
+define(["codemirror", "utility"],
     function(CodeMirror) {
         var editWithCodeMirror = function(model, contentName, baseAssetUrl, textArea) {
             var content = rewriteStaticLinks(model.get(contentName), baseAssetUrl, '/static/');
