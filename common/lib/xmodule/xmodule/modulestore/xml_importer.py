@@ -3,6 +3,7 @@ import os
 import mimetypes
 from path import path
 
+from nose.tools import set_trace
 from xblock.core import Scope
 
 from .xml import XMLModuleStore, ImportSystem, ParentTracker
@@ -31,7 +32,7 @@ def import_static_content(modules, course_loc, course_data_path, static_content_
             try:
                 content_path = os.path.join(dirname, filename)
                 if verbose:
-                    log.debug('importing static content {0}...'.format(content_path.encode("utf-8")))
+                    log.debug('importing static content %s...', content_path.encode("utf-8"))
 
                 fullname_with_subpath = content_path.replace(static_dir, '')  # strip away leading path from the name
                 if fullname_with_subpath.startswith('/'):
