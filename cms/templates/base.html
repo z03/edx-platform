@@ -137,11 +137,13 @@ var require = {
         }
     },
     // load these automatically
-    deps: ["js/base", "coffee/src/main", "coffee/src/logger", "coffee/src/xproblem", "datepair"]
+    deps: ["js/base", "coffee/src/main", "coffee/src/xproblem", "datepair"]
     // we need "datepair" because it dynamically modifies the page when it is loaded -- yuck!
 };
 </script>
 <script type="text/javascript" src="/static/js/vendor/require.js"></script>
+<script type="text/javascript" src="/static/coffee/src/logger.js"></script>
+<script type="text/javascript" src="/static/coffee/src/ajax_prefix.js"></script>
 
 ## js templates
 <script id="system-feedback-tpl" type="text/template">

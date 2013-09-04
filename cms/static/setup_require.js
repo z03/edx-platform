@@ -13,7 +13,6 @@ var require = {
         "jquery.form": "xmodule_js/common_static/js/vendor/jquery.form",
         "jquery.inputnumber": "xmodule_js/common_static/js/vendor/html5-input-polyfills/number-polyfill",
         "sinon": "xmodule_js/common_static/js/vendor/sinon-1.7.1",
-        "coffee/src/ajax_prefix": "xmodule_js/common_static/coffee/src/ajax_prefix",
         "xmodule": "xmodule_js/src/xmodule",
         "gettext": "xmodule_js/common_static/js/test/i18n",
         "utility": "xmodule_js/common_static/js/src/utility",
@@ -65,5 +64,5 @@ var require = {
         }
     },
     // load these automatically
-    deps: ["coffee/src/main", 'xmodule_js/common_static/js/test/add_ajax_prefix']
+    deps: ["coffee/src/main"]
 };

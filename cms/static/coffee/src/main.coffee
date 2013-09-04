@@ -1,5 +1,5 @@
-define ["jquery", "underscore.string", "backbone", "coffee/src/ajax_prefix", "js/views/feedback_notification", "jquery.cookie"],
-($, str, Backbone, AjaxPrefix, NotificationView) ->
+define ["jquery", "underscore.string", "backbone", "js/views/feedback_notification", "jquery.cookie"],
+($, str, Backbone, NotificationView) ->
   AjaxPrefix.addAjaxPrefix jQuery, ->
     $("meta[name='path_prefix']").attr('content')
 
