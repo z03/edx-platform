@@ -37,13 +37,11 @@ lib_paths:
     - js/test/add_ajax_prefix.js
 
 # Paths to source JavaScript files
-# NOTE: these should only be files that are NOT using RequireJS.
 src_paths:
     - coffee/src
     - js/src
 
 # Paths to spec (test) JavaScript files
-# NOTE: these should only be specs for files that are NOT using RequireJS.
 spec_paths:
     - coffee/spec
     - js/spec
