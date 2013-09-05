@@ -1,4 +1,5 @@
-(function() {
+require(["video/10_main"],
+function(Video) {
   describe('VideoControl', function() {
     var state, videoControl, oldOTBD;
 
@@ -121,4 +122,4 @@
     });
   });
 
-}).call(this);
+});

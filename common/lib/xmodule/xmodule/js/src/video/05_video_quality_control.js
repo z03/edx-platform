@@ -1,6 +1,6 @@
 // VideoQualityControl module.
 define(
-'video/05_video_quality_control.js',
+'video/05_video_quality_control',
 [],
 function () {
 

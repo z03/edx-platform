@@ -10,8 +10,8 @@
  */
 
 define(
-'video/01_initialize.js',
-['video/03_video_player.js'],
+'video/01_initialize',
+['video/03_video_player'],
 function (VideoPlayer) {
 
     if (typeof(window.gettext) == "undefined") {

@@ -1,4 +1,5 @@
-(function() {
+require(["video/10_main"],
+function(Video) {
   describe('VideoCaption', function() {
     var state, videoPlayer, videoCaption, videoSpeedControl, oldOTBD;
 
@@ -545,4 +546,4 @@
     });
   });
 
-}).call(this);
+});

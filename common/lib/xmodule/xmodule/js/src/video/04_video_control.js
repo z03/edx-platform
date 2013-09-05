@@ -1,6 +1,6 @@
 // VideoControl module.
 define(
-'video/04_video_control.js',
+'video/04_video_control',
 [],
 function () {
 

@@ -1,4 +1,5 @@
-(function() {
+require(["video/10_main"],
+function(Video) {
   describe('VideoProgressSlider', function() {
     var state, videoPlayer, videoProgressSlider, oldOTBD;
 
@@ -170,4 +171,4 @@
     });
   });
 
-}).call(this);
+});

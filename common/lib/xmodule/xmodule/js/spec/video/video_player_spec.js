@@ -1,4 +1,5 @@
-(function() {
+require(["video/10_main"],
+function(Video) {
   describe('VideoPlayer', function() {
     var state, videoPlayer, player, videoControl, videoCaption, videoProgressSlider, videoSpeedControl, videoVolumeControl, oldOTBD;
 
@@ -689,4 +690,4 @@
     });
   });
 
-}).call(this);
+});

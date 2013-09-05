@@ -36,8 +36,9 @@ lib_paths:
     - common_static/coffee/src/ajax_prefix.js
     - common_static/coffee/src/logger.js
     - common_static/js/vendor/jasmine-jquery.js
+    - setup_require.js
     - common_static/js/vendor/require.js
-#    - RequireJS.js
+    - setup_require_libs.js
     - common_static/js/vendor/jquery.min.js
     - common_static/js/vendor/jquery-ui.min.js
     - common_static/js/vendor/jquery.ui.draggable.js
@@ -50,11 +51,17 @@ lib_paths:
     - common_static/js/vendor/tiny_mce/jquery.tinymce.js
     - common_static/js/vendor/tiny_mce/tiny_mce.js
     - common_static/js/vendor/mathjax-MathJax-c9db6ac/MathJax.js
+    - common_static/js/vendor/mathjax-MathJax-c9db6ac/extensions/*
     - common_static/js/vendor/jquery.timeago.js
     - common_static/js/vendor/sinon-1.7.1.js
     - common_static/js/vendor/analytics.js
     - common_static/js/test/add_ajax_prefix.js
     - common_static/js/src/utility.js
+
+exclude_from_page:
+    - setup_require_libs.js
+    - src/capa/display.js
+    - common_static/js/vendor/analytics.js
 
 # Paths to spec (test) JavaScript files
 spec_paths:

@@ -12,7 +12,7 @@
  */
 
 define(
-'video/02_html5_video.js',
+'video/02_html5_video',
 [],
 function () {
     var HTML5Video = {};

@@ -1760,14 +1760,14 @@ require.register("yields-prevent/index.js", function(exports, require, module){
 
 /**
  * prevent default on the given `e`.
- * 
+ *
  * examples:
- * 
+ *
  *      anchor.onclick = prevent;
  *      anchor.onclick = function(e){
  *        if (something) return prevent(e);
  *      };
- * 
+ *
  * @param {Event} e
  */
 

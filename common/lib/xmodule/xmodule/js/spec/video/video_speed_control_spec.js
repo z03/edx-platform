@@ -1,4 +1,5 @@
-(function() {
+require(["video/10_main"],
+function(Video) {
   describe('VideoSpeedControl', function() {
     var state, videoPlayer, videoControl, videoSpeedControl;
 
@@ -123,4 +124,4 @@
     });
   });
 
-}).call(this);
+});

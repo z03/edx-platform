@@ -1,13 +1,13 @@
 // Main module.
-require(
+define("video/10_main",
 [
-    'video/01_initialize.js',
-    'video/04_video_control.js',
-    'video/05_video_quality_control.js',
-    'video/06_video_progress_slider.js',
-    'video/07_video_volume_control.js',
-    'video/08_video_speed_control.js',
-    'video/09_video_caption.js'
+    'video/01_initialize',
+    'video/04_video_control',
+    'video/05_video_quality_control',
+    'video/06_video_progress_slider',
+    'video/07_video_volume_control',
+    'video/08_video_speed_control',
+    'video/09_video_caption'
 ],
 function (
     Initialize,
@@ -74,4 +74,6 @@ function (
     window.Video.clearYoutubeXhr = function () {
         youtubeXhr = null;
     };
+
+    return Video;
 });

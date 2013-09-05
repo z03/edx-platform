@@ -1,6 +1,6 @@
 // VideoSpeedControl module.
 define(
-'video/08_video_speed_control.js',
+'video/08_video_speed_control',
 [],
 function () {
 

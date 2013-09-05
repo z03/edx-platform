@@ -1,4 +1,5 @@
-(function () {
+require(["video/10_main"],
+function(Video) {
     describe('Video', function () {
         var oldOTBD;
 
@@ -25,7 +26,7 @@
 
                 describe('by default', function () {
                     beforeEach(function () {
-                        this.state = new window.Video('#example');
+                        this.state = new Video('#example');
                     });
 
                     it('check videoType', function () {
@@ -288,4 +289,4 @@
             });
         });
     });
-}).call(this);
+});

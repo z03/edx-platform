@@ -7,7 +7,7 @@ mind, or whether to act, and in acting, to live."
 
 // VideoProgressSlider module.
 define(
-'video/06_video_progress_slider.js',
+'video/06_video_progress_slider',
 [],
 function () {
 

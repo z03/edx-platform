@@ -1,7 +1,7 @@
 // VideoPlayer module.
 define(
-'video/03_video_player.js',
-['video/02_html5_video.js'],
+'video/03_video_player',
+['video/02_html5_video'],
 function (HTML5Video) {
 
     // VideoPlayer() function - what this module "exports".

@@ -1,6 +1,6 @@
 // VideoCaption module.
 define(
-'video/09_video_caption.js',
+'video/09_video_caption',
 [],
 function () {
 
