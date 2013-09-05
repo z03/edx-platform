@@ -1,4 +1,4 @@
-require ["coffee/src/calculator"], (Calculator) ->
+require ["coffee/src/calculator", "jquery"], (Calculator, $) ->
     describe 'Calculator', ->
       beforeEach ->
         loadFixtures 'calculator.html'
