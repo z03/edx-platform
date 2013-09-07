@@ -3,6 +3,8 @@
 ===============
 
 The following is an inventory of all LMS event types. 
+This inventory is comprised of a table of Common Fields that appear in all events, a table of Student Event Types which lists all interaction with the LMS outside of the Instructor Dashboard, 
+and a table of Instructor Event Types of all interaction with the Instructor Dashboard.
 
 Common Fields
 =============
@@ -38,15 +40,24 @@ This section contains a table of fields common to all events.
 
 Event Types
 ===========
+There are two event type tables -- one for student events, and one for instructor events.
+Table columns describe what each event type represents, which component it originates from, what scripting language was used to fire the event, and what ``event`` fields are associated with it.
+The ``event_source`` field from the "Common Fields" table above distinguishes between events that originated in the browser (in javascript) and events that originated on the server (during the processing of a request). 
 
-This table lists the different event types logged on the edX platform, and describes what each event type represents, which component it originates from, and what ``event`` fields are associated with it.
+Event types with several different historical names are enumerated by forward slashes. 
+Rows identical after the second column have been combined, with the corresponding event types enumerated by commas.
 
-Note that there are two main categories of events: events that originated in the browser (in javascript) and events that originated on the server (during the processing of a request). The ``event_source`` field distinguishes between the two.
+
+
+Student Event Types
+-------------------
+
+The Student Event Type table lists the event types logged for interaction with the LMS outside the Instructor Dashboard.
 
 
 +-----------------------------------+-------------------------------+---------------------+-----------------+---------------------+---------------+---------------------------------------------------------------------+
 | Event Type                        | Description                   | Component           | Language        | ``event`` Fields    | Type          | Details                                                             |
-+-----------------------------------+-------------------------------+---------------------+-----------------+---------------------+---------------+---------------------------------------------------------------------+
++===================================+===============================+=====================+=================+=====================+===============+=====================================================================+
 | ``seq_goto``                      | Fired when a user jumps       | Sequence            | CoffeeScript/JS | ``old``             | integer       | Index of the unit being jumped from.                                |
 |                                   | between units in              |                     |                 +---------------------+---------------+---------------------------------------------------------------------+
 |                                   | a sequence.                   |                     |                 | ``new``             | integer       | Index of the unit being jumped to.                                  |
@@ -241,25 +252,80 @@ Note that there are two main categories of events: events that originated in the
 
 
 
+Instructor Event Types
+----------------------
 
 
+The Instructor Event Type table lists the event types logged for course team interaction with the Instructor Dashboard in the LMS.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
++----------------------------------------+-------------------------------+----------------------+-----------------+---------------------+---------------+---------------------------------------------------------------------+
+| Event Type                             | Description                   | Component            | Language        | ``event`` Fields    | Type          | Details                                                             |
++========================================+===============================+======================+=================+=====================+===============+=====================================================================+
+| ``git-pull``,                          | Only applies if               | Instructor Dashboard | Python          | ``directory``       | string        |                                                                     |
+| ``reload``                             | ENABLE_MANUAL_GIT_RELOAD      |                      |                 |                     |               |                                                                     |
+|                                        | feature flag is on.           |                      |                 |                     |               |                                                                     |
++----------------------------------------+-------------------------------+----------------------+-----------------+---------------------+---------------+---------------------------------------------------------------------+
+| ``list-students``,                     |                               | Instructor Dashboard | Python          |                     |               |                                                                     |
+| ``dump-grades``,                       |                               |                      |                 |                     |               |                                                                     |
+| ``dump-grades-raw``,                   |                               |                      |                 |                     |               |                                                                     |
+| ``dump-grades-csv``,                   |                               |                      |                 |                     |               |                                                                     |
+| ``dump-grades-csv-raw``,               |                               |                      |                 |                     |               |                                                                     |
+| ``dump-answer-dist-csv``,              |                               |                      |                 |                     |               |                                                                     |
+| ``dump-graded-assignments-config``     |                               |                      |                 |                     |               |                                                                     |
++----------------------------------------+-------------------------------+----------------------+-----------------+---------------------+---------------+---------------------------------------------------------------------+
+| ``rescore-all-submissions``,           |                               | Instructor Dashboard | Python          | ``problem``         | string        |                                                                     |
+| ``reset-all-attempts``                 |                               |                      |                 +---------------------+---------------+---------------------------------------------------------------------+
+|                                        |                               |                      |                 | ``course``          | string        |                                                                     |
++----------------------------------------+-------------------------------+----------------------+-----------------+---------------------+---------------+---------------------------------------------------------------------+
+| ``delete-student-module-state``,       |                               | Instructor Dashboard | Python          | ``problem``         | string        |                                                                     |
+| ``rescore-student-submission``         |                               |                      |                 +---------------------+---------------+---------------------------------------------------------------------+
+|                                        |                               |                      |                 | ``student``         | string        |                                                                     |
+|                                        |                               |                      |                 +---------------------+---------------+---------------------------------------------------------------------+
+|                                        |                               |                      |                 | ``course``          | string        |                                                                     |
++----------------------------------------+-------------------------------+----------------------+-----------------+---------------------+---------------+---------------------------------------------------------------------+
+| ``reset-student-attempts``             |                               | Instructor Dashboard | Python          | ``old_attempts``    | string        |                                                                     |
+|                                        |                               |                      |                 +---------------------+---------------+---------------------------------------------------------------------+
+|                                        |                               |                      |                 | ``student``         | string        |                                                                     |
+|                                        |                               |                      |                 +---------------------+---------------+---------------------------------------------------------------------+
+|                                        |                               |                      |                 | ``problem``         | string        |                                                                     |
+|                                        |                               |                      |                 +---------------------+---------------+---------------------------------------------------------------------+
+|                                        |                               |                      |                 | ``instructor``      | string        |                                                                     |
+|                                        |                               |                      |                 +---------------------+---------------+---------------------------------------------------------------------+
+|                                        |                               |                      |                 | ``course``          | string        |                                                                     |
++----------------------------------------+-------------------------------+----------------------+-----------------+---------------------+---------------+---------------------------------------------------------------------+
+| ``get-student-progress-page``          |                               | Instructor Dashboard | Python          | ``student``         | string        |                                                                     |
+|                                        |                               |                      |                 +---------------------+---------------+---------------------------------------------------------------------+
+|                                        |                               |                      |                 | ``instructor``      | string        |                                                                     |
+|                                        |                               |                      |                 +---------------------+---------------+---------------------------------------------------------------------+
+|                                        |                               |                      |                 | ``course``          | string        |                                                                     |
++----------------------------------------+-------------------------------+----------------------+-----------------+---------------------+---------------+---------------------------------------------------------------------+
+| ``list-staff``,                        |                               | Instructor Dashboard | Python          |                     |               |                                                                     |
+| ``list-instructors``,                  |                               |                      |                 |                     |               |                                                                     |
+| ``list-beta-testers``                  |                               |                      |                 |                     |               |                                                                     |
++----------------------------------------+-------------------------------+----------------------+-----------------+---------------------+---------------+---------------------------------------------------------------------+
+| ``add-instructor``,                    |                               | Instructor Dashboard | Python          | ``instructor``      | string        |                                                                     |
+| ``remove-instructor``                  |                               |                      |                 |                     |               |                                                                     |
+|                                        |                               |                      |                 |                     |               |                                                                     |
++----------------------------------------+-------------------------------+----------------------+-----------------+---------------------+---------------+---------------------------------------------------------------------+
+| ``list-forum-admins``,                 |                               | Instructor Dashboard | Python          | ``course``          | string        |                                                                     |
+| ``list-forum-mods``,                   |                               |                      |                 |                     |               |                                                                     |
+| ``list-forum-community-TAs``           |                               |                      |                 |                     |               |                                                                     |
++----------------------------------------+-------------------------------+----------------------+-----------------+---------------------+---------------+---------------------------------------------------------------------+
+| ``remove-forum-admin``,                |                               | Instructor Dashboard | Python          | ``username``        | string        |                                                                     |
+| ``add-forum-admin``,                   |                               |                      |                 |                     |               |                                                                     |
+| ``remove-forum-mod``,                  |                               |                      |                 |                     |               |                                                                     |
+| ``add-forum-mod``,                     |                               |                      |                 +---------------------+---------------+---------------------------------------------------------------------+
+| ``remove-forum-community-TA``,         |                               |                      |                 | ``course``          | string        |                                                                     |
+| ``add-forum-community-TA``             |                               |                      |                 |                     |               |                                                                     |
++----------------------------------------+-------------------------------+----------------------+-----------------+---------------------+---------------+---------------------------------------------------------------------+
+| ``psychometrics-histogram-generation`` |                               | Instructor Dashboard | Python          | ``problem``         | string        |                                                                     |
+|                                        |                               |                      |                 |                     |               |                                                                     |
+|                                        |                               |                      |                 |                     |               |                                                                     |
++----------------------------------------+-------------------------------+----------------------+-----------------+---------------------+---------------+---------------------------------------------------------------------+
+| ``add-or-remove-user-group``           |                               | Instructor Dashboard |     Python      | ``event_name``      | string        |                                                                     |
+|                                        |                               |                      |                 +---------------------+---------------+---------------------------------------------------------------------+
+|                                        |                               |                      |                 | ``user``            | string        |                                                                     |
+|                                        |                               |                      |                 +---------------------+---------------+---------------------------------------------------------------------+
+|                                        |                               |                      |                 | ``event``           | string        |                                                                     |
++----------------------------------------+-------------------------------+----------------------+-----------------+---------------------+---------------+---------------------------------------------------------------------+
