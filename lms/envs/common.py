@@ -758,6 +758,7 @@ INSTALLED_APPS = (
 
     # Monitor the status of services
     'service_status',
+    'datadog',
 
     # For asset pipelining
     'mitxmako',
@@ -787,7 +788,7 @@ INSTALLED_APPS = (
     'external_auth',
     'django_openid_auth',
 
-    #For the wiki
+    # For the wiki
     'wiki',  # The new django-wiki from benjaoming
     'django_notify',
     'course_wiki',  # Our customizations

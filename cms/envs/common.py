@@ -344,6 +344,7 @@ INSTALLED_APPS = (
 
     # Monitor the status of services
     'service_status',
+    'datadog',
 
     # Testing
     'django_nose',
