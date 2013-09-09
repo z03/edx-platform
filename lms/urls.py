@@ -2,6 +2,7 @@ from django.conf import settings
 from django.conf.urls import patterns, include, url
 from ratelimitbackend import admin
 from django.conf.urls.static import static
+import waffle
 
 import django.contrib.auth.views
 
@@ -59,6 +60,7 @@ urlpatterns = ('',  # nopep8
 
     url(r'^user_api/', include('user_api.urls')),
 
+    url(r'^', include('waffle.urls')),
 )
 
 # if settings.MITX_FEATURES.get("MULTIPLE_ENROLLMENT_ROLES"):
